@@ -1,12 +1,5 @@
-import { Sequelize } from 'sequelize';
+import { PrismaClient } from '@prisma/client';
 
-const connection = new Sequelize({
-  dialect: 'mariadb',
-  host: 'localhost',
-  username: 'root',
-  password: 'root',
-  database: 'sequelize',
-  logging: false,
-});
+let prisma = new PrismaClient();
 
-export default connection;
+export default prisma;

@@ -20,16 +20,18 @@ model Session {
 }
 
 model User {
-  id              Int              @id
-  email           String           @unique
-  name            String
-  password        String
-  role            Role             @relation(fields: [role_id], references: [id])
-  role_id         Int
-  Session         Session[]
-  Event_Organizer Event_Organizer?
-  Participant     Participant?
-  EventComment    EventComment[]
+  id                 Int                  @id
+  email              String               @unique
+  name               String
+  password           String
+  role               Role                 @relation(fields: [role_id], references: [id])
+  role_id            Int
+  Session            Session[]
+  Event_Organizer    Event_Organizer?
+  Participant        Participant?
+  EventComment       EventComment[]
+  Notification       Notification[]
+  NotificationChange NotificationChange[]
 }
 
 model Role {
@@ -124,8 +126,34 @@ model EventComment {
 }
 
 model EntityType {
-  id          Int    @id
-  entity      Int    @unique
-  description String
-  status      String
+  id                 Int                  @id
+  entity             Int                  @unique
+  description        String
+  status             String
+  NotificationObject NotificationObject[]
+}
+
+model NotificationObject {
+  id                 Int                  @id
+  entity_type        EntityType           @relation(fields: [entity_type_id], references: [id])
+  entity_type_id     Int
+  Notification       Notification[]
+  NotificationChange NotificationChange[]
+}
+
+model Notification {
+  id                     Int                @id
+  notification_object    NotificationObject @relation(fields: [notification_object_id], references: [id])
+  notification_object_id Int
+  notifier               User               @relation(fields: [notifier_id], references: [id])
+  notifier_id            Int
+  is_read                Boolean            @default(false)
+}
+
+model NotificationChange {
+  id                     Int                @id
+  notification_object    NotificationObject @relation(fields: [notification_object_id], references: [id])
+  notification_object_id Int
+  actor                  User               @relation(fields: [actor_id], references: [id])
+  actor_id               Int
 }

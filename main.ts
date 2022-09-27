@@ -2,6 +2,7 @@ import express, { Application } from 'express';
 import dotenv from 'dotenv-safe';
 import { Service } from './src/httpsvc/httpsvc';
 import { UserController } from './src/controller/user.controller';
+import prisma from './src/database/connection';
 
 dotenv.config();
 const app: Application = express();
@@ -12,7 +13,5 @@ const httpSvc = new Service(app, userController);
 httpSvc.init();
 
 app.listen(port, () => {
-  console.log(
-    `Connected successfully on port ${port}, Hello ${process.env.TEST}`,
-  );
+  console.log(`Connected successfully on port ${port}`);
 });
