@@ -1,0 +1,159 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Session {
+  id                       Int      @id
+  access_token             String
+  refresh_token            String
+  refresh_token_expired_at DateTime
+  user                     User     @relation(fields: [user_id], references: [id])
+  user_id                  Int
+}
+
+model User {
+  id                 Int                  @id
+  email              String               @unique
+  name               String
+  password           String
+  role               Role                 @relation(fields: [role_id], references: [id])
+  role_id            Int
+  Session            Session[]
+  Event_Organizer    Event_Organizer?
+  Participant        Participant?
+  EventComment       EventComment[]
+  Notification       Notification[]
+  NotificationChange NotificationChange[]
+}
+
+model Role {
+  id   Int    @id
+  name String
+  User User[]
+}
+
+model Event_Organizer {
+  id                           Int                           @id
+  user                         User                          @relation(fields: [user_id], references: [id])
+  user_id                      Int                           @unique
+  photo                        String
+  description                  String
+  is_verified                  Boolean                       @default(false)
+  Event_Organizer_Precondition Event_Organizer_Precondition?
+  Event                        Event[]
+}
+
+model Event_Organizer_Precondition {
+  id                 Int             @id
+  event_organizer    Event_Organizer @relation(fields: [event_organizer_id], references: [id])
+  event_organizer_id Int             @unique
+}
+
+model Participant {
+  id               Int                @id
+  user             User               @relation(fields: [user_id], references: [id])
+  user_id          Int                @unique
+  phone_number     String             @unique
+  gender           String
+  birth_date       DateTime
+  photo            String
+  status           String
+  EventParticipant EventParticipant[]
+}
+
+model Category {
+  id          Int     @id
+  name        String  @unique
+  description String
+  Event       Event[]
+}
+
+model Eligibility {
+  id          Int     @id
+  name        String  @unique
+  description String
+  Event       Event[]
+}
+
+model Event {
+  id                 Int                @id
+  event_organizer    Event_Organizer    @relation(fields: [event_organizer_id], references: [id])
+  event_organizer_id Int
+  name               String
+  date_time          DateTime
+  photo              String
+  category           Category           @relation(fields: [category_id], references: [id])
+  category_id        Int
+  eligibility        Eligibility        @relation(fields: [eligibility_id], references: [id])
+  eligibility_id     Int
+  EventParticipant   EventParticipant[]
+  EventComment       EventComment[]
+}
+
+model EventParticipant {
+  id                Int                 @id
+  participant       Participant         @relation(fields: [participant_id], references: [id])
+  participant_id    Int
+  event             Event               @relation(fields: [event_id], references: [id])
+  event_id          Int
+  EventPrecondition EventPrecondition[]
+}
+
+model EventPrecondition {
+  id                   Int              @id
+  event_participant    EventParticipant @relation(fields: [event_participant_id], references: [id])
+  event_participant_id Int
+  screenshot           String
+}
+
+model EventComment {
+  id             Int    @id
+  user           User   @relation(fields: [user_id], references: [id])
+  user_id        Int
+  event          Event  @relation(fields: [event_id], references: [id])
+  event_id       Int
+  comment        String
+  parent_id      Int
+  mentioned_user String
+}
+
+model EntityType {
+  id                 Int                  @id
+  entity             Int                  @unique
+  description        String
+  status             String
+  NotificationObject NotificationObject[]
+}
+
+model NotificationObject {
+  id                 Int                  @id
+  entity_type        EntityType           @relation(fields: [entity_type_id], references: [id])
+  entity_type_id     Int
+  Notification       Notification[]
+  NotificationChange NotificationChange[]
+}
+
+model Notification {
+  id                     Int                @id
+  notification_object    NotificationObject @relation(fields: [notification_object_id], references: [id])
+  notification_object_id Int
+  notifier               User               @relation(fields: [notifier_id], references: [id])
+  notifier_id            Int
+  is_read                Boolean            @default(false)
+}
+
+model NotificationChange {
+  id                     Int                @id
+  notification_object    NotificationObject @relation(fields: [notification_object_id], references: [id])
+  notification_object_id Int
+  actor                  User               @relation(fields: [actor_id], references: [id])
+  actor_id               Int
+}
