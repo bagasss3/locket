@@ -10,6 +10,7 @@ export const ERROR = {
   TokenNotExist: 'Token not exist',
   VerificationFailed: 'Verification Failed',
   NotAllowed: 'NotAllowed',
+  EONotVerified: 'Account Is Not Verified',
 };
 
 export const SUCCESS = {

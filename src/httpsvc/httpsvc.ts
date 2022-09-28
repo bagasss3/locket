@@ -3,6 +3,8 @@ import { UserController } from '../controller/user.controller';
 import { ParticipantController } from '../controller/participant.controller';
 import { EventOrganizerController } from '../controller/event_organizer.controller';
 import { VerifyController } from '../controller/verify.controller';
+import { AuthController } from '../controller/auth.controller';
+import { SessionController } from '../controller/session.controller';
 
 export class Service {
   app: Application;
@@ -10,6 +12,8 @@ export class Service {
   participantController: ParticipantController;
   eventOrganizerController: EventOrganizerController;
   verifyController: VerifyController;
+  authController: AuthController;
+  sessionController: SessionController;
 
   constructor(
     app: Application,
@@ -17,12 +21,16 @@ export class Service {
     participantController: ParticipantController,
     eventOrganizerController: EventOrganizerController,
     verifyController: VerifyController,
+    authController: AuthController,
+    sessionController: SessionController,
   ) {
     this.app = app;
     this.userController = userController;
     this.participantController = participantController;
     this.eventOrganizerController = eventOrganizerController;
     this.verifyController = verifyController;
+    this.authController = authController;
+    this.sessionController = sessionController;
   }
   init() {
     this.api();
@@ -42,14 +50,18 @@ export class Service {
 
     // Verification Route
     this.app.get(
-      '/participant/verification/:token',
+      '/verification/:token',
       this.verifyController.verifyEmailParticipant,
     );
 
     this.app.get(
-      '/eventorganizer/verification/:token',
+      '/verification/:token',
       this.verifyController.verifyEmailEventOrganizer,
     );
+
+    // Authentication Route
+    this.app.post('/login', this.authController.login);
+    this.app.post('/refresh-token', this.sessionController.refreshToken);
   }
 
   web() {}

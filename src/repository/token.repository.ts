@@ -6,6 +6,7 @@ export class TokenRepository {
     this.prisma = prisma;
     this.store = this.store.bind(this);
     this.find = this.find.bind(this);
+    this.deleteWithTransaction = this.deleteWithTransaction.bind(this);
   }
 
   store(payload: any) {
