@@ -2,7 +2,8 @@
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
+  previewFeatures = ["interactiveTransactions"]
 }
 
 datasource db {
@@ -12,11 +13,13 @@ datasource db {
 
 model Session {
   id                       Int      @id
-  access_token             String
-  refresh_token            String
+  access_token             String   @db.Text
+  refresh_token            String   @db.Text
   refresh_token_expired_at DateTime
   user                     User     @relation(fields: [user_id], references: [id])
   user_id                  Int
+  createdAt                DateTime @default(now())
+  updatedAt                DateTime @updatedAt
 }
 
 model User {
@@ -32,6 +35,8 @@ model User {
   EventComment       EventComment[]
   Notification       Notification[]
   NotificationChange NotificationChange[]
+  createdAt          DateTime             @default(now())
+  updatedAt          DateTime             @updatedAt
 }
 
 model Role {
@@ -44,17 +49,21 @@ model Event_Organizer {
   id                           Int                           @id
   user                         User                          @relation(fields: [user_id], references: [id])
   user_id                      Int                           @unique
-  photo                        String
-  description                  String
+  photo                        String?                       @db.Text
+  description                  String?                       @db.Text
   is_verified                  Boolean                       @default(false)
   Event_Organizer_Precondition Event_Organizer_Precondition?
   Event                        Event[]
+  createdAt                    DateTime                      @default(now())
+  updatedAt                    DateTime                      @updatedAt
 }
 
 model Event_Organizer_Precondition {
   id                 Int             @id
   event_organizer    Event_Organizer @relation(fields: [event_organizer_id], references: [id])
   event_organizer_id Int             @unique
+  createdAt          DateTime        @default(now())
+  updatedAt          DateTime        @updatedAt
 }
 
 model Participant {
@@ -62,11 +71,13 @@ model Participant {
   user             User               @relation(fields: [user_id], references: [id])
   user_id          Int                @unique
   phone_number     String             @unique
-  gender           String
-  birth_date       DateTime
-  photo            String
-  status           String
+  gender           String?
+  birth_date       DateTime?
+  photo            String?            @db.Text
+  status           String?
   EventParticipant EventParticipant[]
+  createdAt        DateTime           @default(now())
+  updatedAt        DateTime           @updatedAt
 }
 
 model Category {
@@ -89,13 +100,16 @@ model Event {
   event_organizer_id Int
   name               String
   date_time          DateTime
-  photo              String
+  photo              String             @db.Text
+  description        String             @db.Text
   category           Category           @relation(fields: [category_id], references: [id])
   category_id        Int
   eligibility        Eligibility        @relation(fields: [eligibility_id], references: [id])
   eligibility_id     Int
   EventParticipant   EventParticipant[]
   EventComment       EventComment[]
+  createdAt          DateTime           @default(now())
+  updatedAt          DateTime           @updatedAt
 }
 
 model EventParticipant {
@@ -105,24 +119,30 @@ model EventParticipant {
   event             Event               @relation(fields: [event_id], references: [id])
   event_id          Int
   EventPrecondition EventPrecondition[]
+  createdAt         DateTime            @default(now())
+  updatedAt         DateTime            @updatedAt
 }
 
 model EventPrecondition {
   id                   Int              @id
   event_participant    EventParticipant @relation(fields: [event_participant_id], references: [id])
   event_participant_id Int
-  screenshot           String
+  screenshot           String           @db.Text
+  createdAt            DateTime         @default(now())
+  updatedAt            DateTime         @updatedAt
 }
 
 model EventComment {
-  id             Int    @id
-  user           User   @relation(fields: [user_id], references: [id])
+  id             Int      @id
+  user           User     @relation(fields: [user_id], references: [id])
   user_id        Int
-  event          Event  @relation(fields: [event_id], references: [id])
+  event          Event    @relation(fields: [event_id], references: [id])
   event_id       Int
-  comment        String
+  comment        String   @db.VarChar(255)
   parent_id      Int
   mentioned_user String
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
 }
 
 model EntityType {
@@ -131,6 +151,8 @@ model EntityType {
   description        String
   status             String
   NotificationObject NotificationObject[]
+  createdAt          DateTime             @default(now())
+  updatedAt          DateTime             @updatedAt
 }
 
 model NotificationObject {
@@ -139,6 +161,8 @@ model NotificationObject {
   entity_type_id     Int
   Notification       Notification[]
   NotificationChange NotificationChange[]
+  createdAt          DateTime             @default(now())
+  updatedAt          DateTime             @updatedAt
 }
 
 model Notification {
@@ -148,6 +172,8 @@ model Notification {
   notifier               User               @relation(fields: [notifier_id], references: [id])
   notifier_id            Int
   is_read                Boolean            @default(false)
+  createdAt              DateTime           @default(now())
+  updatedAt              DateTime           @updatedAt
 }
 
 model NotificationChange {
@@ -156,4 +182,15 @@ model NotificationChange {
   notification_object_id Int
   actor                  User               @relation(fields: [actor_id], references: [id])
   actor_id               Int
+  createdAt              DateTime           @default(now())
+  updatedAt              DateTime           @updatedAt
+}
+
+model Token {
+  id         Int      @id
+  email      String
+  token      String   @db.Text
+  expired_at DateTime
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
 }
