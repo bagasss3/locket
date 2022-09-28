@@ -9,7 +9,6 @@ import { Res } from '../helper/response';
 import { SUCCESS, ERROR, ROLE } from '../helper/constant';
 import { generateID } from '../helper/vegenerate';
 import { decodeToken } from '../helper/token';
-import { Jwt } from 'jsonwebtoken';
 
 export class VerifyController {
   prisma: PrismaClient;

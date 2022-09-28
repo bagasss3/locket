@@ -2,15 +2,21 @@ import express, { Application, Request, Response, NextFunction } from 'express';
 import dotenv from 'dotenv-safe';
 import cors from 'cors';
 import helmet from 'helmet';
+import passport from 'passport';
+
 import { Service } from './src/httpsvc/httpsvc';
 import { ParticipantRepository } from './src/repository/participant.repository';
 import { TokenRepository } from './src/repository/token.repository';
 import { EventOrganizerRepository } from './src/repository/event_organizer.repository';
 import { UserRepository } from './src/repository/user.repository';
+import { SessionRepository } from './src/repository/session.repository';
 import { UserController } from './src/controller/user.controller';
 import { ParticipantController } from './src/controller/participant.controller';
 import { EventOrganizerController } from './src/controller/event_organizer.controller';
 import { VerifyController } from './src/controller/verify.controller';
+import { AuthController } from './src/controller/auth.controller';
+import { SessionController } from './src/controller/session.controller';
+import { passportInit } from './src/helper/passport';
 import prisma from './src/database/connection';
 
 dotenv.config();
@@ -23,6 +29,7 @@ const app: Application = express();
 app.use(cors());
 app.use(helmet());
 app.use(express.json());
+app.use(passport.initialize());
 app.use((req: Request, res: Response, next: NextFunction) => {
   const apiKey = req.headers['x-api-key'];
   if (apiKey !== process.env.API_KEY) {
@@ -39,6 +46,7 @@ const tokenRepository = new TokenRepository(prisma);
 const userRepository = new UserRepository(prisma);
 const participantRepository = new ParticipantRepository(prisma);
 const eventOrganizerRepository = new EventOrganizerRepository(prisma);
+const sessionRepository = new SessionRepository(prisma);
 
 const participantController = new ParticipantController(
   participantRepository,
@@ -57,6 +65,15 @@ const verifyController = new VerifyController(
   eventOrganizerRepository,
   tokenRepository,
 );
+const authController = new AuthController(
+  userRepository,
+  sessionRepository,
+  eventOrganizerRepository,
+);
+const sessionController = new SessionController(
+  userRepository,
+  sessionRepository,
+);
 
 const httpSvc = new Service(
   app,
@@ -64,7 +81,10 @@ const httpSvc = new Service(
   participantController,
   eventOrganizerController,
   verifyController,
+  authController,
+  sessionController,
 );
+passportInit(passport, userRepository);
 httpSvc.init();
 
 // Not found middleware
