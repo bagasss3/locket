@@ -42,8 +42,13 @@ export class Service {
 
     // Verification Route
     this.app.get(
-      '/verification/:token',
+      '/participant/verification/:token',
       this.verifyController.verifyEmailParticipant,
+    );
+
+    this.app.get(
+      '/eventorganizer/verification/:token',
+      this.verifyController.verifyEmailEventOrganizer,
     );
   }
 
