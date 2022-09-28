@@ -1,6 +1,6 @@
 import { Prisma, PrismaClient } from '@prisma/client';
 
-export class UserRepository {
+export class ParticipantRepository {
   prisma: PrismaClient;
   constructor(prisma: PrismaClient) {
     this.prisma = prisma;
@@ -9,12 +9,12 @@ export class UserRepository {
   }
 
   storeWithTransaction(tx: Prisma.TransactionClient, payload: any) {
-    const newUser = tx.user.create(payload);
-    return newUser;
+    const newParticipant = tx.participant.create(payload);
+    return newParticipant;
   }
 
   find(condition: any) {
-    const user = this.prisma.user.findFirst(condition);
-    return user;
+    const participant = this.prisma.participant.findFirst(condition);
+    return participant;
   }
 }
