@@ -11,6 +11,9 @@ export const ERROR = {
   VerificationFailed: 'Verification Failed',
   NotAllowed: 'NotAllowed',
   EONotVerified: 'Account Is Not Verified',
+  EmailDoesNotExist: 'Email does not exist',
+  AlreadySendResetPasswordRequest: 'Already send reset password request',
+  TokenExpired: 'Token already expired',
 };
 
 export const SUCCESS = {
@@ -19,6 +22,8 @@ export const SUCCESS = {
   RegisterOrmawa: 'Success create ormawa',
   RefreshToken: 'Success Refresh Token',
   Verification: 'Success Verification Account',
+  ForgotPassword: 'Success send reset password request',
+  ResetPassword: 'Success Reset Password',
 };
 
 export const ROLE = {

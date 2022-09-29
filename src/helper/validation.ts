@@ -19,3 +19,12 @@ export const valLogin = Joi.object({
   email: Joi.string().email().required(),
   password: Joi.string().min(6).required(),
 });
+
+export const valForgotPassword = Joi.object({
+  email: Joi.string().email().required(),
+});
+
+export const valResetPassword = Joi.object({
+  password: Joi.string().min(6).required(),
+  repassword: Joi.string().min(6).required(),
+});

@@ -62,6 +62,8 @@ export class Service {
     // Authentication Route
     this.app.post('/login', this.authController.login);
     this.app.post('/refresh-token', this.sessionController.refreshToken);
+    this.app.post('/forgot-password', this.authController.forgotPassword);
+    this.app.post('/reset-password/:token', this.authController.resetPassword);
   }
 
   web() {}

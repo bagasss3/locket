@@ -17,4 +17,9 @@ export class UserRepository {
     const user = this.prisma.user.findFirst(condition);
     return user;
   }
+
+  updateWithTransaction(tx: Prisma.TransactionClient, payload: any) {
+    const updateUser = tx.user.update(payload);
+    return updateUser;
+  }
 }

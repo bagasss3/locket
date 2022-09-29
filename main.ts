@@ -66,9 +66,11 @@ const verifyController = new VerifyController(
   tokenRepository,
 );
 const authController = new AuthController(
+  prisma,
   userRepository,
   sessionRepository,
   eventOrganizerRepository,
+  tokenRepository,
 );
 const sessionController = new SessionController(
   userRepository,
