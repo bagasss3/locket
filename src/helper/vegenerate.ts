@@ -10,3 +10,10 @@ export const expiredDate = (numOfMinutes: number) => {
   date.setMinutes(date.getMinutes() + numOfMinutes);
   return date;
 };
+
+export const isTokenExpired = (date: Date) => {
+  if (new Date() > date) {
+    return true;
+  }
+  return false;
+};

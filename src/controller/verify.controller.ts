@@ -7,7 +7,7 @@ import { EventOrganizerRepository } from '../repository/event_organizer.reposito
 import { TokenRepository } from '../repository/token.repository';
 import { Res } from '../helper/response';
 import { SUCCESS, ERROR, ROLE } from '../helper/constant';
-import { generateID } from '../helper/vegenerate';
+import { generateID, isTokenExpired } from '../helper/vegenerate';
 import { decodeToken } from '../helper/token';
 
 export class VerifyController {
@@ -42,6 +42,11 @@ export class VerifyController {
       });
       if (!findToken) {
         return Res.error(res, ERROR.TokenNotExist);
+      }
+
+      const checkExpiredToken = isTokenExpired(findToken.expired_at);
+      if (checkExpiredToken) {
+        return Res.error(res, ERROR.TokenExpired);
       }
 
       const decode: any = await decodeToken(
@@ -113,6 +118,11 @@ export class VerifyController {
       });
       if (!findToken) {
         return Res.error(res, ERROR.TokenNotExist);
+      }
+
+      const checkExpiredToken = isTokenExpired(findToken.expired_at);
+      if (checkExpiredToken) {
+        return Res.error(res, ERROR.TokenExpired);
       }
 
       const decode: any = await decodeToken(
