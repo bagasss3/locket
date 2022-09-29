@@ -9,6 +9,7 @@ import { Res } from '../helper/response';
 import { ERROR, SUCCESS } from '../helper/constant';
 import { createToken } from '../helper/token';
 import { generateID, expiredDate } from '../helper/vegenerate';
+import { sendMail } from '../service/mail';
 
 export class ParticipantController {
   participantRepository: ParticipantRepository;
@@ -86,6 +87,26 @@ export class ParticipantController {
         return Res.error(res, ERROR.InternalServer);
       }
 
+      if (process.env.SEND_MAIL) {
+        const subjectEmail = 'Register Participant';
+        const message = `
+        <h1>Registrasi berhasil!</h1>
+        <p>Silahkan melakukan verifikasi melalui link berikut:</p>
+        <p style="font-size: 24px;">Link verification: <strong>${process.env.LINK_VERIFICATION}${newToken.token}</strong></p>
+    `;
+
+        switch (process.env.NODE_ENV) {
+          case 'development':
+            await sendMail(
+              <string>process.env.TEST_EMAIL,
+              subjectEmail,
+              message,
+            );
+            break;
+          default:
+            await sendMail(email, subjectEmail, message);
+        }
+      }
       return Res.success(res, SUCCESS.Register, newToken);
     } catch (err) {
       return Res.error(res, err);
