@@ -31,6 +31,9 @@ export const SUCCESS = {
   CreateEvent: 'Success Create Event',
   CreateCategory: 'Success Create Category',
   CreateEligibility: 'Success Create Eligibility',
+  GetAllEvents: 'Success Get All Events',
+  GetAllCategories: 'Success Get All Categories',
+  GetAllEligibility: 'Success Get All Eligibility',
 };
 
 export const ROLE = {

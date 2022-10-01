@@ -10,6 +10,7 @@ export class CategoryController {
   constructor(categoryRepository: CategoryRepository) {
     this.categoryRepository = categoryRepository;
     this.create = this.create.bind(this);
+    this.getAll = this.getAll.bind(this);
   }
 
   async create(req: Request, res: Response) {
@@ -41,6 +42,15 @@ export class CategoryController {
       }
 
       return Res.success(res, SUCCESS.CreateCategory, createCategory);
+    } catch (err) {
+      return Res.error(res, err);
+    }
+  }
+
+  async getAll(req: Request, res: Response) {
+    try {
+      const categories = await this.categoryRepository.findAll();
+      return Res.success(res, SUCCESS.GetAllCategories, categories);
     } catch (err) {
       return Res.error(res, err);
     }

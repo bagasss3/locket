@@ -6,6 +6,7 @@ export class EligibilityRepository {
     this.prisma = prisma;
     this.store = this.store.bind(this);
     this.find = this.find.bind(this);
+    this.findAll = this.findAll.bind(this);
   }
 
   store(payload: any) {
@@ -16,5 +17,10 @@ export class EligibilityRepository {
   find(condition: any) {
     const eligibility = this.prisma.eligibility.findFirst(condition);
     return eligibility;
+  }
+
+  findAll() {
+    const eligibilities = this.prisma.eligibility.findMany();
+    return eligibilities;
   }
 }

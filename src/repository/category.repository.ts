@@ -6,6 +6,7 @@ export class CategoryRepository {
     this.prisma = prisma;
     this.store = this.store.bind(this);
     this.find = this.find.bind(this);
+    this.findAll = this.findAll.bind(this);
   }
 
   store(payload: any) {
@@ -16,5 +17,10 @@ export class CategoryRepository {
   find(condition: any) {
     const category = this.prisma.category.findFirst(condition);
     return category;
+  }
+
+  findAll() {
+    const categories = this.prisma.category.findMany();
+    return categories;
   }
 }
