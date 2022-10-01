@@ -14,10 +14,20 @@ export const passportInit = (
       },
       async (jwtPayload, done) => {
         try {
-          const user = await userRepository.find({ email: jwtPayload.email });
-          if (!user) {
+          const findUser = await userRepository.find({
+            where: {
+              email: jwtPayload.email,
+            },
+          });
+          if (!findUser) {
             return done(null, false);
           }
+          const user = {
+            id: findUser.id,
+            email: findUser.email,
+            name: findUser.name,
+            role_id: findUser.role_id,
+          };
           return done(null, user);
         } catch (err) {
           return done(err, false);

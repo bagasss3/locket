@@ -28,3 +28,22 @@ export const valResetPassword = Joi.object({
   password: Joi.string().min(6).required(),
   repassword: Joi.string().min(6).required(),
 });
+
+export const valCreateEvent = Joi.object({
+  name: Joi.string().min(3).required(),
+  date_time: Joi.date().required(),
+  photo: Joi.string().required(),
+  category_id: Joi.number().required(),
+  eligibility_id: Joi.number().required(),
+  description: Joi.string().min(3).required(),
+});
+
+export const valCreateCategory = Joi.object({
+  name: Joi.string().min(3).required(),
+  description: Joi.string().min(3).max(50).required(),
+});
+
+export const valCreateEligibility = Joi.object({
+  name: Joi.string().min(1).required(),
+  description: Joi.string().min(3).max(50).required(),
+});

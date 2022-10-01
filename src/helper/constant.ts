@@ -14,6 +14,10 @@ export const ERROR = {
   EmailDoesNotExist: 'Email does not exist',
   AlreadySendResetPasswordRequest: 'Already send reset password request',
   TokenExpired: 'Token already expired',
+  ResourceNotAllowed: 'Resource Not Allowed',
+  CategoryOrEligibilityDoesNotExist: 'Category or Eligibility Does Not Exist',
+  CategoryAlreadyExist: 'Category Already Exist',
+  EligibilityAlreadyExist: 'Eligibility Already Exist',
 };
 
 export const SUCCESS = {
@@ -24,6 +28,9 @@ export const SUCCESS = {
   Verification: 'Success Verification Account',
   ForgotPassword: 'Success send reset password request',
   ResetPassword: 'Success Reset Password',
+  CreateEvent: 'Success Create Event',
+  CreateCategory: 'Success Create Category',
+  CreateEligibility: 'Success Create Eligibility',
 };
 
 export const ROLE = {

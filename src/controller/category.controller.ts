@@ -1,0 +1,48 @@
+import { Request, Response } from 'express';
+import { CategoryRepository } from '../repository/category.repository';
+import { Res } from '../helper/response';
+import { ERROR, SUCCESS } from '../helper/constant';
+import { valCreateCategory } from '../helper/validation';
+import { generateID } from '../helper/vegenerate';
+
+export class CategoryController {
+  categoryRepository: CategoryRepository;
+  constructor(categoryRepository: CategoryRepository) {
+    this.categoryRepository = categoryRepository;
+    this.create = this.create.bind(this);
+  }
+
+  async create(req: Request, res: Response) {
+    try {
+      const { name, description } = req.body;
+      const result = valCreateCategory.validate(req.body);
+      if (result.error) {
+        return Res.error(res, result.error.details[0].message);
+      }
+
+      const findCategory = await this.categoryRepository.find({
+        where: {
+          name,
+        },
+      });
+      if (findCategory) {
+        return Res.error(res, ERROR.CategoryAlreadyExist);
+      }
+
+      const createCategory = await this.categoryRepository.store({
+        data: {
+          id: generateID(),
+          name,
+          description,
+        },
+      });
+      if (!createCategory) {
+        return Res.error(res, ERROR.InternalServer);
+      }
+
+      return Res.success(res, SUCCESS.CreateCategory, createCategory);
+    } catch (err) {
+      return Res.error(res, err);
+    }
+  }
+}
