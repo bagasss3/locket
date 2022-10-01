@@ -17,7 +17,7 @@ export const sendMail = async (
   try {
     const accessToken = await oAuth2Client.getAccessToken();
     const transporter = nodemailer.createTransport({
-      service: 'gmail',
+      service: process.env.EMAIL_TRANSPORTER_SERVICE,
       auth: {
         type: 'OAuth2',
         user: process.env.GOOGLE_GMAIL_ACCOUNT,
@@ -28,7 +28,7 @@ export const sendMail = async (
       },
     });
     transporter.sendMail({
-      from: 'SIM-U',
+      from: process.env.EMAIL_TRANSPORTER_FROM,
       to: email,
       subject,
       html: text,

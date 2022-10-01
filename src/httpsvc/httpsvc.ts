@@ -5,39 +5,73 @@ import { EventOrganizerController } from '../controller/event_organizer.controll
 import { VerifyController } from '../controller/verify.controller';
 import { AuthController } from '../controller/auth.controller';
 import { SessionController } from '../controller/session.controller';
-
+import { EventController } from '../controller/event.controller';
+import { CategoryController } from '../controller/category.controller';
+import { EligibilityController } from '../controller/eligibility.controller';
+import { AuthMiddleware } from '../middleware/auth.middleware';
 export class Service {
   app: Application;
+  authMiddleware: AuthMiddleware;
   userController: UserController;
   participantController: ParticipantController;
   eventOrganizerController: EventOrganizerController;
   verifyController: VerifyController;
   authController: AuthController;
   sessionController: SessionController;
+  eventController: EventController;
+  categoryController: CategoryController;
+  eligibilityController: EligibilityController;
 
   constructor(
     app: Application,
+    authMiddleware: AuthMiddleware,
     userController: UserController,
     participantController: ParticipantController,
     eventOrganizerController: EventOrganizerController,
     verifyController: VerifyController,
     authController: AuthController,
     sessionController: SessionController,
+    eventController: EventController,
+    categoryController: CategoryController,
+    eligibilityController: EligibilityController,
   ) {
     this.app = app;
+    this.authMiddleware = authMiddleware;
     this.userController = userController;
     this.participantController = participantController;
     this.eventOrganizerController = eventOrganizerController;
     this.verifyController = verifyController;
     this.authController = authController;
     this.sessionController = sessionController;
+    this.eventController = eventController;
+    this.categoryController = categoryController;
+    this.eligibilityController = eligibilityController;
   }
   init() {
     this.api();
   }
 
   api() {
-    this.app.get('/', this.userController.test);
+    this.app.get(
+      '/',
+      this.authMiddleware.userAuth,
+      this.authMiddleware.eventOrganizerAuth,
+      this.userController.test,
+    );
+
+    // Category Route
+    this.app.post(
+      '/admin/category',
+      this.authMiddleware.userAuth,
+      this.categoryController.create,
+    );
+
+    // Eligibility Route
+    this.app.post(
+      '/admin/eligibility',
+      this.authMiddleware.userAuth,
+      this.eligibilityController.create,
+    );
 
     // Participant Route
     this.app.post('/participant/register', this.participantController.register);
@@ -53,7 +87,6 @@ export class Service {
       '/verification/:token',
       this.verifyController.verifyEmailParticipant,
     );
-
     this.app.get(
       '/verification/:token',
       this.verifyController.verifyEmailEventOrganizer,
@@ -64,6 +97,14 @@ export class Service {
     this.app.post('/refresh-token', this.sessionController.refreshToken);
     this.app.post('/forgot-password', this.authController.forgotPassword);
     this.app.post('/reset-password/:token', this.authController.resetPassword);
+
+    // Event Route
+    this.app.post(
+      '/eventorganizer/event',
+      this.authMiddleware.userAuth,
+      this.authMiddleware.eventOrganizerAuth,
+      this.eventController.create,
+    );
   }
 
   web() {}
