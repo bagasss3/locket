@@ -10,7 +10,7 @@ export class EligibilityController {
   constructor(eligibilityRepository: EligibilityRepository) {
     this.eligibilityRepository = eligibilityRepository;
     this.create = this.create.bind(this);
-    this.getAll = this.getAll.bind(this);
+    this.findAll = this.findAll.bind(this);
   }
 
   async create(req: Request, res: Response) {
@@ -30,24 +30,24 @@ export class EligibilityController {
         return Res.error(res, ERROR.EligibilityAlreadyExist);
       }
 
-      const createEligibility = await this.eligibilityRepository.store({
+      const storeEligibility = await this.eligibilityRepository.store({
         data: {
           id: generateID(),
           name,
           description,
         },
       });
-      if (!createEligibility) {
+      if (!storeEligibility) {
         return Res.error(res, ERROR.InternalServer);
       }
 
-      return Res.success(res, SUCCESS.CreateEligibility, createEligibility);
+      return Res.success(res, SUCCESS.CreateEligibility, storeEligibility);
     } catch (err) {
       return Res.error(res, err);
     }
   }
 
-  async getAll(req: Request, res: Response) {
+  async findAll(req: Request, res: Response) {
     try {
       const eligibilities = await this.eligibilityRepository.findAll();
       return Res.success(res, SUCCESS.GetAllEligibility, eligibilities);

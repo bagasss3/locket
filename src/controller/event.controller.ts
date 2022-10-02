@@ -24,8 +24,8 @@ export class EventController {
     this.categoryRepository = categoryRepository;
     this.eligibilityRepository = eligibilityRepository;
     this.create = this.create.bind(this);
-    this.getAll = this.getAll.bind(this);
-    this.getByID = this.getByID.bind(this);
+    this.findAll = this.findAll.bind(this);
+    this.findByID = this.findByID.bind(this);
   }
 
   async create(req: Request, res: Response) {
@@ -60,7 +60,7 @@ export class EventController {
         return Res.error(res, ERROR.CategoryOrEligibilityDoesNotExist);
       }
 
-      const createEvent = await this.eventRepository.store({
+      const storeEvent = await this.eventRepository.store({
         data: {
           id: generateID(),
           name,
@@ -72,17 +72,17 @@ export class EventController {
           description,
         },
       });
-      if (!createEvent) {
+      if (!storeEvent) {
         return Res.error(res, ERROR.InternalServer);
       }
 
-      return Res.success(res, SUCCESS.CreateEvent, createEvent);
+      return Res.success(res, SUCCESS.CreateEvent, storeEvent);
     } catch (err) {
       return Res.error(res, err);
     }
   }
 
-  async getAll(req: Request, res: Response) {
+  async findAll(req: Request, res: Response) {
     try {
       const events = await this.eventRepository.findAll();
       return Res.success(res, SUCCESS.GetAllEvents, events);
@@ -91,7 +91,7 @@ export class EventController {
     }
   }
 
-  async getByID(req: Request, res: Response) {
+  async findByID(req: Request, res: Response) {
     try {
       const { id } = req.params;
       const event = await this.eventRepository.find({

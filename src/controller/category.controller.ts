@@ -10,7 +10,7 @@ export class CategoryController {
   constructor(categoryRepository: CategoryRepository) {
     this.categoryRepository = categoryRepository;
     this.create = this.create.bind(this);
-    this.getAll = this.getAll.bind(this);
+    this.findAll = this.findAll.bind(this);
   }
 
   async create(req: Request, res: Response) {
@@ -30,24 +30,24 @@ export class CategoryController {
         return Res.error(res, ERROR.CategoryAlreadyExist);
       }
 
-      const createCategory = await this.categoryRepository.store({
+      const storeCategory = await this.categoryRepository.store({
         data: {
           id: generateID(),
           name,
           description,
         },
       });
-      if (!createCategory) {
+      if (!storeCategory) {
         return Res.error(res, ERROR.InternalServer);
       }
 
-      return Res.success(res, SUCCESS.CreateCategory, createCategory);
+      return Res.success(res, SUCCESS.CreateCategory, storeCategory);
     } catch (err) {
       return Res.error(res, err);
     }
   }
 
-  async getAll(req: Request, res: Response) {
+  async findAll(req: Request, res: Response) {
     try {
       const categories = await this.categoryRepository.findAll();
       return Res.success(res, SUCCESS.GetAllCategories, categories);
