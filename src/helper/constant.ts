@@ -18,6 +18,7 @@ export const ERROR = {
   CategoryOrEligibilityDoesNotExist: 'Category or Eligibility Does Not Exist',
   CategoryAlreadyExist: 'Category Already Exist',
   EligibilityAlreadyExist: 'Eligibility Already Exist',
+  EventDoesNotExist: 'Event Does Not Exist',
 };
 
 export const SUCCESS = {
@@ -34,6 +35,7 @@ export const SUCCESS = {
   GetAllEvents: 'Success Get All Events',
   GetAllCategories: 'Success Get All Categories',
   GetAllEligibility: 'Success Get All Eligibility',
+  GetEvent: 'Success Get Event',
 };
 
 export const ROLE = {
