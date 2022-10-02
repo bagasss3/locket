@@ -19,6 +19,9 @@ export const ERROR = {
   CategoryAlreadyExist: 'Category Already Exist',
   EligibilityAlreadyExist: 'Eligibility Already Exist',
   EventDoesNotExist: 'Event Does Not Exist',
+  FileEmpty: 'File Empty',
+  UploadTypeEmpty: 'Upload Type Empty',
+  DataDoesNotExist: 'Data Does Not Exist',
 };
 
 export const SUCCESS = {
@@ -36,10 +39,21 @@ export const SUCCESS = {
   GetAllCategories: 'Success Get All Categories',
   GetAllEligibility: 'Success Get All Eligibility',
   GetEvent: 'Success Get Event',
+  UploadFile: 'Success Upload File',
+  GetAllImages: 'Success Get All Images',
+  GetImage: 'Success Get Image',
 };
 
 export const ROLE = {
   ADMIN: 1,
   EVENT_ORGANIZER: 2,
   PARTICIPANT: 3,
+};
+
+export const CLOUDINARY_FOLDER = {
+  EVENT_ORGANIZER: 'eo',
+  PARTICIPANT: 'participant',
+  EO_PRECONDITION: 'eo-precondition',
+  EVENT: 'event',
+  EVENT_PRECONDITION: 'event-precondition',
 };
