@@ -14,6 +14,7 @@ import { SessionRepository } from './src/repository/session.repository';
 import { CategoryRepository } from './src/repository/category.repository';
 import { EligibilityRepository } from './src/repository/eligibility.repository';
 import { EventRepository } from './src/repository/event.repository';
+import { ImageRepository } from 'src/repository/image.repository';
 
 import { UserController } from './src/controller/user.controller';
 import { ParticipantController } from './src/controller/participant.controller';
@@ -24,6 +25,7 @@ import { SessionController } from './src/controller/session.controller';
 import { CategoryController } from './src/controller/category.controller';
 import { EligibilityController } from './src/controller/eligibility.controller';
 import { EventController } from './src/controller/event.controller';
+import { ImageController } from 'src/controller/image.controller';
 
 import { AuthMiddleware } from './src/middleware/auth.middleware';
 import { passportInit } from './src/helper/passport';
@@ -61,6 +63,7 @@ const sessionRepository = new SessionRepository(prisma);
 const eventRepository = new EventRepository(prisma);
 const categoryRepository = new CategoryRepository(prisma);
 const eligibilityRepository = new EligibilityRepository(prisma);
+const imageRepository = new ImageRepository(prisma);
 
 // Controller
 const participantController = new ParticipantController(
@@ -96,10 +99,11 @@ const eventController = new EventController(
   eventOrganizerRepository,
   categoryRepository,
   eligibilityRepository,
+  imageRepository,
 );
 const categoryController = new CategoryController(categoryRepository);
 const eligibilityController = new EligibilityController(eligibilityRepository);
-
+const imageController = new ImageController(imageRepository);
 // Middleware
 const authMiddleware = new AuthMiddleware(passport);
 
@@ -116,6 +120,7 @@ const httpSvc = new Service(
   eventController,
   categoryController,
   eligibilityController,
+  imageController,
 );
 passportInit(passport, userRepository);
 httpSvc.init();

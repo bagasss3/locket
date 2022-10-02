@@ -45,11 +45,30 @@ model Role {
   User User[]
 }
 
+model Image {
+  id              Int               @id
+  public_id       String
+  width           Int
+  height          Int
+  version         Int
+  format          String
+  etag            String
+  url             String
+  secure_url      String
+  signature       String
+  createdAt       DateTime          @default(now())
+  updatedAt       DateTime          @updatedAt
+  Event_Organizer Event_Organizer[]
+  Participant     Participant[]
+  Event           Event[]
+}
+
 model Event_Organizer {
   id                           Int                           @id
   user                         User                          @relation(fields: [user_id], references: [id])
   user_id                      Int                           @unique
-  photo                        String?                       @db.Text
+  image                        Image?                        @relation(fields: [image_id], references: [id])
+  image_id                     Int?
   description                  String?                       @db.Text
   is_verified                  Boolean                       @default(false)
   Event_Organizer_Precondition Event_Organizer_Precondition?
@@ -73,7 +92,8 @@ model Participant {
   phone_number     String             @unique
   gender           String?
   birth_date       DateTime?
-  photo            String?            @db.Text
+  image            Image?             @relation(fields: [image_id], references: [id])
+  image_id         Int?
   status           String?
   EventParticipant EventParticipant[]
   createdAt        DateTime           @default(now())
@@ -100,7 +120,8 @@ model Event {
   event_organizer_id Int
   name               String
   date_time          DateTime
-  photo              String             @db.Text
+  image              Image?             @relation(fields: [image_id], references: [id])
+  image_id           Int?
   description        String             @db.Text
   category           Category           @relation(fields: [category_id], references: [id])
   category_id        Int

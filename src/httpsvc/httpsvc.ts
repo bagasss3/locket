@@ -9,6 +9,9 @@ import { EventController } from '../controller/event.controller';
 import { CategoryController } from '../controller/category.controller';
 import { EligibilityController } from '../controller/eligibility.controller';
 import { AuthMiddleware } from '../middleware/auth.middleware';
+import { ImageController } from 'src/controller/image.controller';
+import multer from 'src/helper/multer';
+
 export class Service {
   app: Application;
   authMiddleware: AuthMiddleware;
@@ -21,6 +24,7 @@ export class Service {
   eventController: EventController;
   categoryController: CategoryController;
   eligibilityController: EligibilityController;
+  imageController: ImageController;
 
   constructor(
     app: Application,
@@ -34,6 +38,7 @@ export class Service {
     eventController: EventController,
     categoryController: CategoryController,
     eligibilityController: EligibilityController,
+    imageController: ImageController,
   ) {
     this.app = app;
     this.authMiddleware = authMiddleware;
@@ -46,6 +51,7 @@ export class Service {
     this.eventController = eventController;
     this.categoryController = categoryController;
     this.eligibilityController = eligibilityController;
+    this.imageController = imageController;
   }
   init() {
     this.api();
@@ -111,6 +117,15 @@ export class Service {
     );
     this.app.get('/event', this.eventController.findAll);
     this.app.get('/event/:id', this.eventController.findByID);
+
+    // Image Route
+    this.app.post(
+      '/image',
+      multer.single('image'),
+      this.imageController.create,
+    );
+    this.app.get('/image', this.imageController.findAll);
+    this.app.get('/image/:id', this.imageController.find);
   }
 
   web() {}
