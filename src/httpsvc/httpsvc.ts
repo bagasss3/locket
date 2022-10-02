@@ -117,6 +117,12 @@ export class Service {
     );
     this.app.get('/event', this.eventController.findAll);
     this.app.get('/event/:id', this.eventController.findByID);
+    this.app.put(
+      '/event/:id',
+      this.authMiddleware.userAuth,
+      this.authMiddleware.eventOrganizerAuth,
+      this.eventController.update,
+    );
 
     // Image Route
     this.app.post(
