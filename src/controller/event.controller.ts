@@ -31,6 +31,7 @@ export class EventController {
     this.findAll = this.findAll.bind(this);
     this.findByID = this.findByID.bind(this);
     this.update = this.update.bind(this);
+    this.delete = this.delete.bind(this);
   }
 
   async create(req: Request, res: Response) {
@@ -183,6 +184,42 @@ export class EventController {
       }
 
       return Res.success(res, SUCCESS.UpdateData, updateEvent);
+    } catch (err) {
+      return Res.error(res, err);
+    }
+  }
+
+  async delete(req: Request, res: Response) {
+    try {
+      const { id } = req.params;
+      const findEO = await this.eventOrganizerRepository.find({
+        where: {
+          user_id: req.user?.id,
+        },
+      });
+      if (!findEO) {
+        return Res.error(res, ERROR.UserNotFound);
+      }
+
+      const findEvent = await this.eventRepository.find({
+        where: {
+          id: Number(id),
+          event_organizer_id: findEO.id,
+        },
+      });
+      if (!findEvent) {
+        return Res.error(res, ERROR.EventDoesNotExist);
+      }
+
+      const deleteEvent = await this.eventRepository.delete({
+        where: {
+          id: findEvent.id,
+        },
+      });
+      if (!deleteEvent) {
+        return Res.error(res, ERROR.InternalServer);
+      }
+      return Res.success(res, SUCCESS.DeleteData, {});
     } catch (err) {
       return Res.error(res, err);
     }

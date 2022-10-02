@@ -46,6 +46,7 @@ export const SUCCESS = {
   GetAllImages: 'Success Get All Images',
   GetImage: 'Success Get Image',
   UpdateData: 'Success Update Data',
+  DeleteData: 'Success Delete Data',
 };
 
 export const ROLE = {
