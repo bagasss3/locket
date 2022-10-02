@@ -66,7 +66,7 @@ export class Service {
       this.authMiddleware.adminAuth,
       this.categoryController.create,
     );
-    this.app.get('/category', this.categoryController.getAll);
+    this.app.get('/category', this.categoryController.findAll);
 
     // Eligibility Route
     this.app.post(
@@ -75,7 +75,7 @@ export class Service {
       this.authMiddleware.adminAuth,
       this.eligibilityController.create,
     );
-    this.app.get('/eligibility', this.eligibilityController.getAll);
+    this.app.get('/eligibility', this.eligibilityController.findAll);
 
     // Participant Route
     this.app.post('/participant/register', this.participantController.register);
@@ -109,8 +109,8 @@ export class Service {
       this.authMiddleware.eventOrganizerAuth,
       this.eventController.create,
     );
-    this.app.get('/event', this.eventController.getAll);
-    this.app.get('/event/:id', this.eventController.getByID);
+    this.app.get('/event', this.eventController.findAll);
+    this.app.get('/event/:id', this.eventController.findByID);
   }
 
   web() {}
