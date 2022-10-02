@@ -63,15 +63,19 @@ export class Service {
     this.app.post(
       '/admin/category',
       this.authMiddleware.userAuth,
+      this.authMiddleware.adminAuth,
       this.categoryController.create,
     );
+    this.app.get('/category', this.categoryController.getAll);
 
     // Eligibility Route
     this.app.post(
       '/admin/eligibility',
       this.authMiddleware.userAuth,
+      this.authMiddleware.adminAuth,
       this.eligibilityController.create,
     );
+    this.app.get('/eligibility', this.eligibilityController.getAll);
 
     // Participant Route
     this.app.post('/participant/register', this.participantController.register);
@@ -84,11 +88,11 @@ export class Service {
 
     // Verification Route
     this.app.get(
-      '/verification/:token',
+      '/verification-participant/:token',
       this.verifyController.verifyEmailParticipant,
     );
     this.app.get(
-      '/verification/:token',
+      '/verification-eo/:token',
       this.verifyController.verifyEmailEventOrganizer,
     );
 
@@ -105,6 +109,7 @@ export class Service {
       this.authMiddleware.eventOrganizerAuth,
       this.eventController.create,
     );
+    this.app.get('/event', this.eventController.getAll);
   }
 
   web() {}

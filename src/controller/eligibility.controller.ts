@@ -10,6 +10,7 @@ export class EligibilityController {
   constructor(eligibilityRepository: EligibilityRepository) {
     this.eligibilityRepository = eligibilityRepository;
     this.create = this.create.bind(this);
+    this.getAll = this.getAll.bind(this);
   }
 
   async create(req: Request, res: Response) {
@@ -41,6 +42,15 @@ export class EligibilityController {
       }
 
       return Res.success(res, SUCCESS.CreateEligibility, createEligibility);
+    } catch (err) {
+      return Res.error(res, err);
+    }
+  }
+
+  async getAll(req: Request, res: Response) {
+    try {
+      const eligibilities = await this.eligibilityRepository.findAll();
+      return Res.success(res, SUCCESS.GetAllEligibility, eligibilities);
     } catch (err) {
       return Res.error(res, err);
     }
