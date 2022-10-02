@@ -61,9 +61,10 @@ export class EventController {
         category_id,
         eligibility_id,
         image_id,
+        date_time,
       );
-      if (!checkEventCondition) {
-        return Res.error(res, ERROR.CategoryOrEligibilityDoesNotExist);
+      if (checkEventCondition) {
+        return Res.error(res, checkEventCondition);
       }
 
       const storeEvent = await this.eventRepository.store({
@@ -121,15 +122,67 @@ export class EventController {
   async update(req: Request, res: Response) {
     try {
       const { id } = req.params;
+      const {
+        name,
+        date_time,
+        image_id,
+        category_id,
+        eligibility_id,
+        description,
+      } = req.body;
+
+      const result = valCreateEvent.validate(req.body);
+      if (result.error) {
+        return Res.error(res, result.error.details[0].message);
+      }
+
+      const findEO = await this.eventOrganizerRepository.find({
+        where: {
+          user_id: req.user?.id,
+        },
+      });
+      if (!findEO) {
+        return Res.error(res, ERROR.UserNotFound);
+      }
 
       const findEvent = await this.eventRepository.find({
         where: {
           id: Number(id),
+          event_organizer_id: findEO.id,
         },
       });
       if (!findEvent) {
         return Res.error(res, ERROR.EventDoesNotExist);
       }
+
+      const checkEventCondition = await this.isEventValid(
+        category_id,
+        eligibility_id,
+        image_id,
+        date_time,
+      );
+      if (checkEventCondition) {
+        return Res.error(res, checkEventCondition);
+      }
+
+      const updateEvent = await this.eventRepository.update({
+        where: {
+          id: findEvent.id,
+        },
+        data: {
+          name,
+          date_time,
+          image_id,
+          category_id,
+          eligibility_id,
+          description,
+        },
+      });
+      if (!updateEvent) {
+        return Res.error(res, ERROR.InternalServer);
+      }
+
+      return Res.success(res, SUCCESS.UpdateData, updateEvent);
     } catch (err) {
       return Res.error(res, err);
     }
@@ -139,14 +192,19 @@ export class EventController {
     category_id: number,
     eligibility_id: number,
     image_id: number,
+    date_time: Date,
   ) {
+    if (new Date(date_time).getTime() < new Date().getTime()) {
+      return ERROR.DateTimeNotValid;
+    }
+
     const findCategory = await this.categoryRepository.find({
       where: {
         id: category_id,
       },
     });
     if (!findCategory) {
-      return false;
+      return ERROR.CategoryNotFound;
     }
 
     const findEligibility = await this.eligibilityRepository.find({
@@ -155,7 +213,7 @@ export class EventController {
       },
     });
     if (!findEligibility) {
-      return false;
+      return ERROR.EligibilityNotFound;
     }
 
     const findImage = await this.imageRepository.find({
@@ -164,8 +222,8 @@ export class EventController {
       },
     });
     if (!findImage) {
-      return false;
+      return ERROR.ImageNotFound;
     }
-    return true;
+    return null;
   }
 }

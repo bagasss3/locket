@@ -15,13 +15,16 @@ export const ERROR = {
   AlreadySendResetPasswordRequest: 'Already send reset password request',
   TokenExpired: 'Token already expired',
   ResourceNotAllowed: 'Resource Not Allowed',
-  CategoryOrEligibilityDoesNotExist: 'Category or Eligibility Does Not Exist',
   CategoryAlreadyExist: 'Category Already Exist',
   EligibilityAlreadyExist: 'Eligibility Already Exist',
   EventDoesNotExist: 'Event Does Not Exist',
   FileEmpty: 'File Empty',
   UploadTypeEmpty: 'Upload Type Empty',
   DataDoesNotExist: 'Data Does Not Exist',
+  ImageNotFound: 'Image Not Found',
+  DateTimeNotValid: 'Date Is Less Than Date Now',
+  CategoryNotFound: 'Category Not Found',
+  EligibilityNotFound: 'Eligibility Not Found',
 };
 
 export const SUCCESS = {
@@ -42,6 +45,7 @@ export const SUCCESS = {
   UploadFile: 'Success Upload File',
   GetAllImages: 'Success Get All Images',
   GetImage: 'Success Get Image',
+  UpdateData: 'Success Update Data',
 };
 
 export const ROLE = {
