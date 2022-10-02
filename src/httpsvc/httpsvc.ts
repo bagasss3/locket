@@ -110,6 +110,7 @@ export class Service {
       this.eventController.create,
     );
     this.app.get('/event', this.eventController.getAll);
+    this.app.get('/event/:id', this.eventController.getByID);
   }
 
   web() {}

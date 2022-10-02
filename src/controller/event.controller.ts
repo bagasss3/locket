@@ -25,6 +25,7 @@ export class EventController {
     this.eligibilityRepository = eligibilityRepository;
     this.create = this.create.bind(this);
     this.getAll = this.getAll.bind(this);
+    this.getByID = this.getByID.bind(this);
   }
 
   async create(req: Request, res: Response) {
@@ -86,6 +87,28 @@ export class EventController {
       const events = await this.eventRepository.findAll();
       return Res.success(res, SUCCESS.GetAllEvents, events);
     } catch (err) {
+      return Res.error(res, err);
+    }
+  }
+
+  async getByID(req: Request, res: Response) {
+    try {
+      const { id } = req.params;
+      const event = await this.eventRepository.find({
+        where: {
+          id: Number(id),
+        },
+        include: {
+          eligibility: true,
+          category: true,
+        },
+      });
+      if (!event) {
+        return Res.error(res, ERROR.EventDoesNotExist);
+      }
+      return Res.success(res, SUCCESS.GetEvent, event);
+    } catch (err) {
+      console.log(err);
       return Res.error(res, err);
     }
   }

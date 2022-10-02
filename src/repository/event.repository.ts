@@ -6,6 +6,7 @@ export class EventRepository {
     this.prisma = prisma;
     this.store = this.store.bind(this);
     this.findAll = this.findAll.bind(this);
+    this.find = this.find.bind(this);
   }
 
   store(payload: any) {
@@ -16,5 +17,10 @@ export class EventRepository {
   findAll() {
     const allEvents = this.prisma.event.findMany();
     return allEvents;
+  }
+
+  find(condition: any) {
+    const event = this.prisma.event.findFirst(condition);
+    return event;
   }
 }
