@@ -123,6 +123,12 @@ export class Service {
       this.authMiddleware.eventOrganizerAuth,
       this.eventController.update,
     );
+    this.app.delete(
+      '/event/:id',
+      this.authMiddleware.userAuth,
+      this.authMiddleware.eventOrganizerAuth,
+      this.eventController.delete,
+    );
 
     // Image Route
     this.app.post(

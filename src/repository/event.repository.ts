@@ -8,6 +8,7 @@ export class EventRepository {
     this.findAll = this.findAll.bind(this);
     this.find = this.find.bind(this);
     this.update = this.update.bind(this);
+    this.delete = this.delete.bind(this);
   }
 
   store(payload: any) {
@@ -28,5 +29,10 @@ export class EventRepository {
   update(condition: any) {
     const updateEvent = this.prisma.event.update(condition);
     return updateEvent;
+  }
+
+  delete(condition: any) {
+    const deleteEvent = this.prisma.event.delete(condition);
+    return deleteEvent;
   }
 }
