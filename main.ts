@@ -1,8 +1,9 @@
-import express, { Application, Request, Response, NextFunction } from 'express';
+import express, { Application, Request, Response } from 'express';
 import dotenv from 'dotenv-safe';
 import cors from 'cors';
 import helmet from 'helmet';
 import passport from 'passport';
+import expressLayouts from 'express-ejs-layouts';
 
 import { Service } from './src/httpsvc/httpsvc';
 
@@ -26,6 +27,7 @@ import { CategoryController } from './src/controller/category.controller';
 import { EligibilityController } from './src/controller/eligibility.controller';
 import { EventController } from './src/controller/event.controller';
 import { ImageController } from 'src/controller/image.controller';
+import { RenderController } from 'src/views/render.controller';
 
 import { AuthMiddleware } from './src/middleware/auth.middleware';
 import { passportInit } from './src/helper/passport';
@@ -41,17 +43,20 @@ const app: Application = express();
 app.use(cors());
 app.use(helmet());
 app.use(express.json());
+app.use(expressLayouts);
 app.use(passport.initialize());
-app.use((req: Request, res: Response, next: NextFunction) => {
-  const apiKey = req.headers['x-api-key'];
-  if (apiKey !== process.env.API_KEY) {
-    return res.status(403).json({
-      success: false,
-      message: 'Not allowed to access this resource',
-    });
-  }
-  return next();
-});
+
+// Static Files
+app.use(express.static('./src/public'));
+app.use('/css', express.static(__dirname + 'public/css'));
+app.use('/js', express.static(__dirname + 'public/js'));
+app.use('/img', express.static(__dirname + 'public/img'));
+app.use('/icon', express.static(__dirname + 'public/icon'));
+app.use('/plugin', express.static(__dirname + 'public/plugin'));
+
+// Set Views
+app.set('views', './src/views');
+app.set('view engine', 'ejs');
 
 // Depedency Injection
 // Repository
@@ -66,6 +71,7 @@ const eligibilityRepository = new EligibilityRepository(prisma);
 const imageRepository = new ImageRepository(prisma);
 
 // Controller
+const renderController = new RenderController();
 const participantController = new ParticipantController(
   participantRepository,
   userRepository,
@@ -104,13 +110,17 @@ const eventController = new EventController(
 const categoryController = new CategoryController(categoryRepository);
 const eligibilityController = new EligibilityController(eligibilityRepository);
 const imageController = new ImageController(imageRepository);
+
 // Middleware
 const authMiddleware = new AuthMiddleware(passport);
 
 // HTTP Service
+const router = express.Router();
 const httpSvc = new Service(
   app,
+  router,
   authMiddleware,
+  renderController,
   userController,
   participantController,
   eventOrganizerController,

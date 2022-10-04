@@ -1,4 +1,5 @@
-import { Application, Router } from 'express';
+import { Application, Request, Response, NextFunction, Router } from 'express';
+import { RenderController } from 'src/views/render.controller';
 import { UserController } from '../controller/user.controller';
 import { ParticipantController } from '../controller/participant.controller';
 import { EventOrganizerController } from '../controller/event_organizer.controller';
@@ -14,7 +15,9 @@ import multer from 'src/helper/multer';
 
 export class Service {
   app: Application;
+  router: Router;
   authMiddleware: AuthMiddleware;
+  renderController: RenderController;
   userController: UserController;
   participantController: ParticipantController;
   eventOrganizerController: EventOrganizerController;
@@ -28,7 +31,9 @@ export class Service {
 
   constructor(
     app: Application,
+    router: Router,
     authMiddleware: AuthMiddleware,
+    renderController: RenderController,
     userController: UserController,
     participantController: ParticipantController,
     eventOrganizerController: EventOrganizerController,
@@ -41,7 +46,9 @@ export class Service {
     imageController: ImageController,
   ) {
     this.app = app;
+    this.router = router;
     this.authMiddleware = authMiddleware;
+    this.renderController = renderController;
     this.userController = userController;
     this.participantController = participantController;
     this.eventOrganizerController = eventOrganizerController;
@@ -54,11 +61,12 @@ export class Service {
     this.imageController = imageController;
   }
   init() {
-    this.api();
+    this.app.use('/api', this.authMiddleware.apiAuth, this.api());
+    this.app.use('/', this.web());
   }
 
   api() {
-    this.app.get(
+    this.router.get(
       '/',
       this.authMiddleware.userAuth,
       this.authMiddleware.eventOrganizerAuth,
@@ -66,64 +74,70 @@ export class Service {
     );
 
     // Category Route
-    this.app.post(
+    this.router.post(
       '/admin/category',
       this.authMiddleware.userAuth,
       this.authMiddleware.adminAuth,
       this.categoryController.create,
     );
-    this.app.get('/category', this.categoryController.findAll);
+    this.router.get('/category', this.categoryController.findAll);
 
     // Eligibility Route
-    this.app.post(
+    this.router.post(
       '/admin/eligibility',
       this.authMiddleware.userAuth,
       this.authMiddleware.adminAuth,
       this.eligibilityController.create,
     );
-    this.app.get('/eligibility', this.eligibilityController.findAll);
+    this.router.get('/eligibility', this.eligibilityController.findAll);
 
     // Participant Route
-    this.app.post('/participant/register', this.participantController.register);
+    this.router.post(
+      '/participant/register',
+      this.participantController.register,
+    );
 
     // Event Organizer Route
-    this.app.post(
+    this.router.post(
       '/eventorganizer/register',
       this.eventOrganizerController.register,
     );
 
     // Verification Route
-    this.app.get(
+    this.router.get(
       '/verification-participant/:token',
       this.verifyController.verifyEmailParticipant,
     );
-    this.app.get(
+    this.router.get(
       '/verification-eo/:token',
       this.verifyController.verifyEmailEventOrganizer,
     );
 
     // Authentication Route
-    this.app.post('/login', this.authController.login);
-    this.app.post('/refresh-token', this.sessionController.refreshToken);
-    this.app.post('/forgot-password', this.authController.forgotPassword);
-    this.app.post('/reset-password/:token', this.authController.resetPassword);
+    this.router.post('/login', this.authController.login);
+    this.router.post('/refresh-token', this.sessionController.refreshToken);
+    this.router.post('/forgot-password', this.authController.forgotPassword);
+    this.router.post(
+      '/reset-password/:token',
+      this.authController.resetPassword,
+    );
 
     // Event Route
-    this.app.post(
+    this.router.post(
       '/eventorganizer/event',
       this.authMiddleware.userAuth,
       this.authMiddleware.eventOrganizerAuth,
       this.eventController.create,
     );
-    this.app.get('/event', this.eventController.findAll);
-    this.app.get('/event/:id', this.eventController.findByID);
-    this.app.put(
+    this.router.get('/event', this.eventController.findAll);
+    this.router.get('/event/:id', this.eventController.findByID);
+    this.router.put(
       '/event/:id',
       this.authMiddleware.userAuth,
       this.authMiddleware.eventOrganizerAuth,
       this.eventController.update,
     );
-    this.app.delete(
+    this.router.delete(
       '/event/:id',
       this.authMiddleware.userAuth,
       this.authMiddleware.eventOrganizerAuth,
@@ -131,14 +145,18 @@ export class Service {
     );
 
     // Image Route
-    this.app.post(
+    this.router.post(
       '/image',
       multer.single('image'),
       this.imageController.create,
     );
-    this.app.get('/image', this.imageController.findAll);
-    this.app.get('/image/:id', this.imageController.find);
+    this.router.get('/image', this.imageController.findAll);
+    this.router.get('/image/:id', this.imageController.find);
+    return this.router;
   }
 
-  web() {}
+  web() {
+    this.router.get('/home', this.renderController.home);
+    return this.router;
+  }
 }

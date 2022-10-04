@@ -8,7 +8,9 @@ export class AuthMiddleware {
   constructor(passport: PassportStatic) {
     this.passport = passport;
     this.userAuth = this.userAuth.bind(this);
+    this.adminAuth = this.adminAuth.bind(this);
     this.eventOrganizerAuth = this.eventOrganizerAuth.bind(this);
+    this.apiAuth = this.apiAuth.bind(this);
   }
 
   userAuth(req: Request, res: Response, next: NextFunction) {
@@ -44,6 +46,17 @@ export class AuthMiddleware {
     }
     if (user.role_id !== ROLE.EVENT_ORGANIZER) {
       return Res.error(res, ERROR.ResourceNotAllowed);
+    }
+    return next();
+  }
+
+  apiAuth(req: Request, res: Response, next: NextFunction) {
+    const apiKey = req.headers['x-api-key'];
+    if (apiKey !== process.env.API_KEY) {
+      return res.status(403).json({
+        success: false,
+        message: 'Not allowed to access this resource',
+      });
     }
     return next();
   }
