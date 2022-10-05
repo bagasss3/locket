@@ -11,6 +11,7 @@ import { CategoryController } from '../controller/category.controller';
 import { EligibilityController } from '../controller/eligibility.controller';
 import { AuthMiddleware } from '../middleware/auth.middleware';
 import { ImageController } from 'src/controller/image.controller';
+import { EventParticipantController } from 'src/controller/event_participant.controller';
 import multer from 'src/helper/multer';
 
 export class Service {
@@ -28,6 +29,7 @@ export class Service {
   categoryController: CategoryController;
   eligibilityController: EligibilityController;
   imageController: ImageController;
+  eventParticipantController: EventParticipantController;
 
   constructor(
     app: Application,
@@ -44,6 +46,7 @@ export class Service {
     categoryController: CategoryController,
     eligibilityController: EligibilityController,
     imageController: ImageController,
+    eventParticipantController: EventParticipantController,
   ) {
     this.app = app;
     this.router = router;
@@ -59,6 +62,7 @@ export class Service {
     this.categoryController = categoryController;
     this.eligibilityController = eligibilityController;
     this.imageController = imageController;
+    this.eventParticipantController = eventParticipantController;
   }
   init() {
     this.app.use('/api', this.authMiddleware.apiAuth, this.api());
@@ -70,7 +74,7 @@ export class Service {
       '/',
       this.authMiddleware.userAuth,
       this.authMiddleware.eventOrganizerAuth,
-      this.userController.test,
+      this.userController.profile,
     );
 
     // Category Route
@@ -152,6 +156,15 @@ export class Service {
     );
     this.router.get('/image', this.imageController.findAll);
     this.router.get('/image/:id', this.imageController.find);
+
+    // Event Participant Route
+    this.router.post(
+      '/register-event',
+      this.authMiddleware.userAuth,
+      this.authMiddleware.participantAuth,
+      this.eventParticipantController.registerEvent,
+    );
+
     return this.router;
   }
 

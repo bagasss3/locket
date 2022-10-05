@@ -16,6 +16,7 @@ import { CategoryRepository } from './src/repository/category.repository';
 import { EligibilityRepository } from './src/repository/eligibility.repository';
 import { EventRepository } from './src/repository/event.repository';
 import { ImageRepository } from 'src/repository/image.repository';
+import { EventParticipantRepository } from 'src/repository/event_participant.repository';
 
 import { UserController } from './src/controller/user.controller';
 import { ParticipantController } from './src/controller/participant.controller';
@@ -27,6 +28,7 @@ import { CategoryController } from './src/controller/category.controller';
 import { EligibilityController } from './src/controller/eligibility.controller';
 import { EventController } from './src/controller/event.controller';
 import { ImageController } from 'src/controller/image.controller';
+import { EventParticipantController } from 'src/controller/event_participant.controller';
 import { RenderController } from 'src/views/render.controller';
 
 import { AuthMiddleware } from './src/middleware/auth.middleware';
@@ -69,6 +71,7 @@ const eventRepository = new EventRepository(prisma);
 const categoryRepository = new CategoryRepository(prisma);
 const eligibilityRepository = new EligibilityRepository(prisma);
 const imageRepository = new ImageRepository(prisma);
+const eventParticipantRepository = new EventParticipantRepository(prisma);
 
 // Controller
 const renderController = new RenderController();
@@ -110,6 +113,11 @@ const eventController = new EventController(
 const categoryController = new CategoryController(categoryRepository);
 const eligibilityController = new EligibilityController(eligibilityRepository);
 const imageController = new ImageController(imageRepository);
+const eventParticipantController = new EventParticipantController(
+  participantRepository,
+  eventRepository,
+  eventParticipantRepository,
+);
 
 // Middleware
 const authMiddleware = new AuthMiddleware(passport);
@@ -131,6 +139,7 @@ const httpSvc = new Service(
   categoryController,
   eligibilityController,
   imageController,
+  eventParticipantController,
 );
 passportInit(passport, userRepository);
 httpSvc.init();

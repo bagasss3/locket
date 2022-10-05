@@ -2,10 +2,10 @@ import { Request, Response } from 'express';
 
 export class UserController {
   constructor() {
-    this.test = this.test.bind(this);
+    this.profile = this.profile.bind(this);
   }
 
-  test(req: Request, res: Response) {
+  profile(req: Request, res: Response) {
     return res.send('Ini dari controller user');
   }
 }

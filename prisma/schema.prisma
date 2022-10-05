@@ -46,21 +46,22 @@ model Role {
 }
 
 model Image {
-  id              Int               @id
-  public_id       String
-  width           Int
-  height          Int
-  version         Int
-  format          String
-  etag            String
-  url             String
-  secure_url      String
-  signature       String
-  createdAt       DateTime          @default(now())
-  updatedAt       DateTime          @updatedAt
-  Event_Organizer Event_Organizer[]
-  Participant     Participant[]
-  Event           Event[]
+  id                Int                 @id
+  public_id         String
+  width             Int
+  height            Int
+  version           Int
+  format            String
+  etag              String
+  url               String
+  secure_url        String
+  signature         String
+  createdAt         DateTime            @default(now())
+  updatedAt         DateTime            @updatedAt
+  Event_Organizer   Event_Organizer[]
+  Participant       Participant[]
+  Event             Event[]
+  EventPrecondition EventPrecondition[]
 }
 
 model Event_Organizer {
@@ -123,6 +124,8 @@ model Event {
   image              Image?             @relation(fields: [image_id], references: [id])
   image_id           Int?
   description        String             @db.Text
+  precondition       Int                @default(0)
+  is_verified        Boolean            @default(false)
   category           Category           @relation(fields: [category_id], references: [id])
   category_id        Int
   eligibility        Eligibility        @relation(fields: [eligibility_id], references: [id])
@@ -148,7 +151,8 @@ model EventPrecondition {
   id                   Int              @id
   event_participant    EventParticipant @relation(fields: [event_participant_id], references: [id])
   event_participant_id Int
-  screenshot           String           @db.Text
+  image                Image            @relation(fields: [image_id], references: [id])
+  image_id             Int
   createdAt            DateTime         @default(now())
   updatedAt            DateTime         @updatedAt
 }
