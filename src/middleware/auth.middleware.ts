@@ -10,6 +10,7 @@ export class AuthMiddleware {
     this.userAuth = this.userAuth.bind(this);
     this.adminAuth = this.adminAuth.bind(this);
     this.eventOrganizerAuth = this.eventOrganizerAuth.bind(this);
+    this.participantAuth = this.participantAuth.bind(this);
     this.apiAuth = this.apiAuth.bind(this);
   }
 
@@ -45,6 +46,18 @@ export class AuthMiddleware {
       return Res.error(res, ERROR.LoginRequired);
     }
     if (user.role_id !== ROLE.EVENT_ORGANIZER) {
+      return Res.error(res, ERROR.ResourceNotAllowed);
+    }
+    return next();
+  }
+
+  participantAuth(req: Request, res: Response, next: NextFunction) {
+    const user = req.user;
+
+    if (!user) {
+      return Res.error(res, ERROR.LoginRequired);
+    }
+    if (user.role_id !== ROLE.PARTICIPANT) {
       return Res.error(res, ERROR.ResourceNotAllowed);
     }
     return next();

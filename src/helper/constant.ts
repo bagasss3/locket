@@ -25,6 +25,7 @@ export const ERROR = {
   DateTimeNotValid: 'Date Is Less Than Date Now',
   CategoryNotFound: 'Category Not Found',
   EligibilityNotFound: 'Eligibility Not Found',
+  EventNotVerified: 'Event Is Not Verified Yet',
 };
 
 export const SUCCESS = {
@@ -47,6 +48,7 @@ export const SUCCESS = {
   GetImage: 'Success Get Image',
   UpdateData: 'Success Update Data',
   DeleteData: 'Success Delete Data',
+  RegisterEvent: 'Success Register Event',
 };
 
 export const ROLE = {

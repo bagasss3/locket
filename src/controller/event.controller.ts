@@ -39,6 +39,7 @@ export class EventController {
       const {
         name,
         date_time,
+        precondition,
         image_id,
         category_id,
         eligibility_id,
@@ -74,10 +75,12 @@ export class EventController {
           name,
           event_organizer_id: findEO.id,
           date_time,
+          precondition,
           image_id,
           category_id,
           eligibility_id,
           description,
+          is_verified: false,
         },
       });
       if (!storeEvent) {
@@ -126,6 +129,7 @@ export class EventController {
       const {
         name,
         date_time,
+        precondition,
         image_id,
         category_id,
         eligibility_id,
@@ -173,6 +177,7 @@ export class EventController {
         data: {
           name,
           date_time,
+          precondition,
           image_id,
           category_id,
           eligibility_id,

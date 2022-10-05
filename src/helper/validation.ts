@@ -32,6 +32,7 @@ export const valResetPassword = Joi.object({
 export const valCreateEvent = Joi.object({
   name: Joi.string().min(3).required(),
   date_time: Joi.date().required(),
+  precondition: Joi.number().min(0).max(3).required(),
   image_id: Joi.number().required(),
   category_id: Joi.number().required(),
   eligibility_id: Joi.number().required(),
