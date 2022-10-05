@@ -84,7 +84,11 @@ const eventOrganizerController = new EventOrganizerController(
   userRepository,
   tokenRepository,
 );
-const userController = new UserController();
+const userController = new UserController(
+  userRepository,
+  participantRepository,
+  eventOrganizerRepository,
+);
 const verifyController = new VerifyController(
   prisma,
   userRepository,

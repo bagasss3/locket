@@ -71,9 +71,8 @@ export class Service {
 
   api() {
     this.router.get(
-      '/',
+      '/profile',
       this.authMiddleware.userAuth,
-      this.authMiddleware.eventOrganizerAuth,
       this.userController.profile,
     );
 
