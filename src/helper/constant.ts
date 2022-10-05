@@ -49,6 +49,7 @@ export const SUCCESS = {
   UpdateData: 'Success Update Data',
   DeleteData: 'Success Delete Data',
   RegisterEvent: 'Success Register Event',
+  Profile: 'Success Load Profile',
 };
 
 export const ROLE = {
