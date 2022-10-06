@@ -9,17 +9,31 @@ import { ERROR, SUCCESS } from '../helper/constant';
 import { createToken } from '../helper/token';
 import { generateID, expiredDate } from '../helper/vegenerate';
 import { sendMail } from '../service/mail';
+import { ImageRepository } from 'src/repository/image.repository';
+import { EventOrganizerPreconditionRepository } from 'src/repository/event_organizer_precondition.repository';
+import { EventOrganizerRepository } from 'src/repository/event_organizer.repository';
 
 export class EventOrganizerController {
   userRepository: UserRepository;
   tokenRepository: TokenRepository;
+  imageRepository: ImageRepository;
+  eventOrganizerRepository: EventOrganizerRepository;
+  eventOrganizerPreconditionRepository: EventOrganizerPreconditionRepository;
   constructor(
     userRepository: UserRepository,
     tokenRepository: TokenRepository,
+    imageRepository: ImageRepository,
+    eventOrganizerRepository: EventOrganizerRepository,
+    eventOrganizerPreconditionRepository: EventOrganizerPreconditionRepository,
   ) {
     this.userRepository = userRepository;
     this.tokenRepository = tokenRepository;
+    this.imageRepository = imageRepository;
+    this.eventOrganizerRepository = eventOrganizerRepository;
+    this.eventOrganizerPreconditionRepository =
+      eventOrganizerPreconditionRepository;
     this.register = this.register.bind(this);
+    this.createPrecondition = this.createPrecondition.bind(this);
   }
 
   async register(req: Request, res: Response) {
@@ -94,6 +108,62 @@ export class EventOrganizerController {
         }
       }
       return Res.success(res, SUCCESS.Register, newToken);
+    } catch (err) {
+      return Res.error(res, err);
+    }
+  }
+
+  async createPrecondition(req: Request, res: Response) {
+    try {
+      const { user } = req;
+      const { image_id } = req.body;
+      if (!user) {
+        return Res.error(res, ERROR.UserNotFound);
+      }
+
+      const findEO = await this.eventOrganizerRepository.find({
+        where: {
+          user_id: user.id,
+        },
+      });
+      if (!findEO) {
+        return Res.error(res, ERROR.UserNotFound);
+      }
+
+      const checkPrecondition =
+        await this.eventOrganizerPreconditionRepository.find({
+          where: {
+            event_organizer_id: findEO.id,
+          },
+        });
+      if (checkPrecondition) {
+        return Res.error(res, ERROR.AlreadyHaPrecondition);
+      }
+      const findImage = await this.imageRepository.find({
+        where: {
+          id: Number(image_id),
+        },
+      });
+      if (!findImage) {
+        return Res.error(res, ERROR.ImageNotFound);
+      }
+
+      const createEOPrecondition =
+        await this.eventOrganizerPreconditionRepository.store({
+          data: {
+            id: generateID(),
+            event_organizer_id: findEO.id,
+            image_id: Number(image_id),
+          },
+        });
+      if (!createEOPrecondition) {
+        return Res.error(res, ERROR.InternalServer);
+      }
+      return Res.success(
+        res,
+        SUCCESS.CreateEOPrecondition,
+        createEOPrecondition,
+      );
     } catch (err) {
       return Res.error(res, err);
     }

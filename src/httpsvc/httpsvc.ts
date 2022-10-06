@@ -13,6 +13,7 @@ import { AuthMiddleware } from '../middleware/auth.middleware';
 import { ImageController } from 'src/controller/image.controller';
 import { EventParticipantController } from 'src/controller/event_participant.controller';
 import multer from 'src/helper/multer';
+import { AdminController } from 'src/controller/admin.controller';
 
 export class Service {
   app: Application;
@@ -30,6 +31,7 @@ export class Service {
   eligibilityController: EligibilityController;
   imageController: ImageController;
   eventParticipantController: EventParticipantController;
+  adminController: AdminController;
 
   constructor(
     app: Application,
@@ -47,6 +49,7 @@ export class Service {
     eligibilityController: EligibilityController,
     imageController: ImageController,
     eventParticipantController: EventParticipantController,
+    adminController: AdminController,
   ) {
     this.app = app;
     this.router = router;
@@ -63,6 +66,7 @@ export class Service {
     this.eligibilityController = eligibilityController;
     this.imageController = imageController;
     this.eventParticipantController = eventParticipantController;
+    this.adminController = adminController;
   }
   init() {
     this.app.use('/api', this.authMiddleware.apiAuth, this.api());
@@ -104,6 +108,12 @@ export class Service {
     this.router.post(
       '/eventorganizer/register',
       this.eventOrganizerController.register,
+    );
+    this.router.post(
+      '/eventorganizer/verify-precondition',
+      this.authMiddleware.userAuth,
+      this.authMiddleware.eventOrganizerAuth,
+      this.eventOrganizerController.createPrecondition,
     );
 
     // Verification Route
@@ -162,6 +172,26 @@ export class Service {
       this.authMiddleware.userAuth,
       this.authMiddleware.participantAuth,
       this.eventParticipantController.registerEvent,
+    );
+
+    // Admin Route
+    this.router.get(
+      '/admin/event-organizers',
+      this.authMiddleware.userAuth,
+      this.authMiddleware.adminAuth,
+      this.adminController.findNotVerifiedEventOrganizer,
+    );
+    this.router.get(
+      '/admin/event-organizers/:id',
+      this.authMiddleware.userAuth,
+      this.authMiddleware.adminAuth,
+      this.adminController.findEventOrganizerPrecondition,
+    );
+    this.router.put(
+      '/admin/event-organizers/:id',
+      this.authMiddleware.userAuth,
+      this.authMiddleware.adminAuth,
+      this.adminController.verifyEventOrganizer,
     );
 
     return this.router;

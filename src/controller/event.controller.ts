@@ -58,6 +58,9 @@ export class EventController {
       if (!findEO) {
         return Res.error(res, ERROR.UserNotFound);
       }
+      if (!findEO.is_verified) {
+        return Res.error(res, ERROR.EONotVerified);
+      }
 
       const checkEventCondition = await this.isEventValid(
         category_id,

@@ -68,9 +68,6 @@ export class AuthController {
         if (!checkEO) {
           return Res.error(res, ERROR.WrongEmailorPassword);
         }
-        if (!checkEO.is_verified) {
-          return Res.error(res, ERROR.EONotVerified);
-        }
       }
 
       const comparePassword = await bcrypt.compare(password, findUser.password);

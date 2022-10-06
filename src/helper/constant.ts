@@ -26,6 +26,10 @@ export const ERROR = {
   CategoryNotFound: 'Category Not Found',
   EligibilityNotFound: 'Eligibility Not Found',
   EventNotVerified: 'Event Is Not Verified Yet',
+  DataEmpty: 'Data is empty',
+  EOPreconditionNotFound: 'Event Organizer Precondition Not Found',
+  AlreadyHaPrecondition: 'Precondition Has Already Exist',
+  EOIsVerified: 'Event Organizer is Already Verified',
 };
 
 export const SUCCESS = {
@@ -50,6 +54,10 @@ export const SUCCESS = {
   DeleteData: 'Success Delete Data',
   RegisterEvent: 'Success Register Event',
   Profile: 'Success Load Profile',
+  GetAllEO: 'Success Get EO',
+  VerifyEO: 'Success Verify EO',
+  GetEOPrecondition: 'Success Load EO Precondition',
+  CreateEOPrecondition: 'Success Create EO Precondition',
 };
 
 export const ROLE = {
