@@ -6,8 +6,6 @@ export class RenderController {
   }
 
   async home(req: Request, res: Response) {
-    return res.render('base', {
-      layout: 'layout/base-layout',
-    });
+    return res.render('base');
   }
 }

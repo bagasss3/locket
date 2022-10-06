@@ -35,6 +35,8 @@ export class AdminController {
     this.findNotVerifiedEventOrganizer =
       this.findNotVerifiedEventOrganizer.bind(this);
     this.verifyEventOrganizer = this.verifyEventOrganizer.bind(this);
+    this.verifyEvent = this.verifyEvent.bind(this);
+    this.findUnverifiedEvents = this.findUnverifiedEvents.bind(this);
   }
 
   async findNotVerifiedEventOrganizer(req: Request, res: Response) {
@@ -135,6 +137,52 @@ export class AdminController {
         return Res.error(res, ERROR.EOPreconditionNotFound);
       }
       return Res.success(res, SUCCESS.GetEOPrecondition, findEOPrecondition);
+    } catch (err) {
+      return Res.error(res, err);
+    }
+  }
+
+  async findUnverifiedEvents(req: Request, res: Response) {
+    try {
+      const findEvents = await this.eventRepository.findAll({
+        where: {
+          is_verified: false,
+        },
+      });
+      return Res.success(res, SUCCESS.GetAllEvents, findEvents);
+    } catch (err) {
+      return Res.error(res, err);
+    }
+  }
+
+  async verifyEvent(req: Request, res: Response) {
+    try {
+      const { id } = req.params;
+      const findEvent = await this.eventRepository.find({
+        where: {
+          id: Number(id),
+        },
+      });
+      if (!findEvent) {
+        return Res.error(res, ERROR.EventDoesNotExist);
+      }
+      if (findEvent.is_verified) {
+        return Res.error(res, ERROR.EventIsVerified);
+      }
+
+      const verifyEvent = await this.eventRepository.update({
+        where: {
+          id: findEvent.id,
+        },
+        data: {
+          is_verified: true,
+        },
+      });
+      if (!verifyEvent) {
+        return Res.error(res, ERROR.InternalServer);
+      }
+
+      return Res.success(res, SUCCESS.VerifyEvent, verifyEvent);
     } catch (err) {
       return Res.error(res, err);
     }

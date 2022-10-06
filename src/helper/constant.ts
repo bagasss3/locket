@@ -30,6 +30,7 @@ export const ERROR = {
   EOPreconditionNotFound: 'Event Organizer Precondition Not Found',
   AlreadyHaPrecondition: 'Precondition Has Already Exist',
   EOIsVerified: 'Event Organizer is Already Verified',
+  EventIsVerified: 'Event is Already Verified',
 };
 
 export const SUCCESS = {
@@ -58,6 +59,7 @@ export const SUCCESS = {
   VerifyEO: 'Success Verify EO',
   GetEOPrecondition: 'Success Load EO Precondition',
   CreateEOPrecondition: 'Success Create EO Precondition',
+  VerifyEvent: 'Success Verify Event',
 };
 
 export const ROLE = {

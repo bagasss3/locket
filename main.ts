@@ -3,7 +3,6 @@ import dotenv from 'dotenv-safe';
 import cors from 'cors';
 import helmet from 'helmet';
 import passport from 'passport';
-import expressLayouts from 'express-ejs-layouts';
 
 import { Service } from './src/httpsvc/httpsvc';
 
@@ -47,7 +46,6 @@ const app: Application = express();
 app.use(cors());
 app.use(helmet());
 app.use(express.json());
-app.use(expressLayouts);
 app.use(passport.initialize());
 
 // Static Files

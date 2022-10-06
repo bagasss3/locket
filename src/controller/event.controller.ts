@@ -98,7 +98,11 @@ export class EventController {
 
   async findAll(req: Request, res: Response) {
     try {
-      const events = await this.eventRepository.findAll();
+      const events = await this.eventRepository.findAll({
+        where: {
+          is_verified: true,
+        },
+      });
       return Res.success(res, SUCCESS.GetAllEvents, events);
     } catch (err) {
       return Res.error(res, err);
