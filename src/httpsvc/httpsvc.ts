@@ -193,6 +193,18 @@ export class Service {
       this.authMiddleware.adminAuth,
       this.adminController.verifyEventOrganizer,
     );
+    this.router.put(
+      '/admin/event/:id',
+      this.authMiddleware.userAuth,
+      this.authMiddleware.adminAuth,
+      this.adminController.verifyEvent,
+    );
+    this.router.get(
+      '/admin/event',
+      this.authMiddleware.userAuth,
+      this.authMiddleware.adminAuth,
+      this.adminController.findUnverifiedEvents,
+    );
 
     return this.router;
   }

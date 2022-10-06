@@ -16,8 +16,8 @@ export class EventRepository {
     return newEvent;
   }
 
-  findAll() {
-    const allEvents = this.prisma.event.findMany();
+  findAll(condition: any) {
+    const allEvents = this.prisma.event.findMany(condition);
     return allEvents;
   }
 
