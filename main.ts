@@ -17,6 +17,7 @@ import { EligibilityRepository } from './src/repository/eligibility.repository';
 import { EventRepository } from './src/repository/event.repository';
 import { ImageRepository } from 'src/repository/image.repository';
 import { EventParticipantRepository } from 'src/repository/event_participant.repository';
+import { EventOrganizerPreconditionRepository } from 'src/repository/event_organizer_precondition.repository';
 
 import { UserController } from './src/controller/user.controller';
 import { ParticipantController } from './src/controller/participant.controller';
@@ -29,6 +30,7 @@ import { EligibilityController } from './src/controller/eligibility.controller';
 import { EventController } from './src/controller/event.controller';
 import { ImageController } from 'src/controller/image.controller';
 import { EventParticipantController } from 'src/controller/event_participant.controller';
+import { AdminController } from 'src/controller/admin.controller';
 import { RenderController } from 'src/views/render.controller';
 
 import { AuthMiddleware } from './src/middleware/auth.middleware';
@@ -72,6 +74,8 @@ const categoryRepository = new CategoryRepository(prisma);
 const eligibilityRepository = new EligibilityRepository(prisma);
 const imageRepository = new ImageRepository(prisma);
 const eventParticipantRepository = new EventParticipantRepository(prisma);
+const eventOrganizerPreconditionRepository =
+  new EventOrganizerPreconditionRepository(prisma);
 
 // Controller
 const renderController = new RenderController();
@@ -83,6 +87,9 @@ const participantController = new ParticipantController(
 const eventOrganizerController = new EventOrganizerController(
   userRepository,
   tokenRepository,
+  imageRepository,
+  eventOrganizerRepository,
+  eventOrganizerPreconditionRepository,
 );
 const userController = new UserController(
   userRepository,
@@ -122,6 +129,14 @@ const eventParticipantController = new EventParticipantController(
   eventRepository,
   eventParticipantRepository,
 );
+const adminController = new AdminController(
+  prisma,
+  userRepository,
+  participantRepository,
+  eventOrganizerRepository,
+  eventRepository,
+  eventOrganizerPreconditionRepository,
+);
 
 // Middleware
 const authMiddleware = new AuthMiddleware(passport);
@@ -144,6 +159,7 @@ const httpSvc = new Service(
   eligibilityController,
   imageController,
   eventParticipantController,
+  adminController,
 );
 passportInit(passport, userRepository);
 httpSvc.init();

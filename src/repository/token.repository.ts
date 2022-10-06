@@ -20,7 +20,7 @@ export class TokenRepository {
   }
 
   deleteWithTransaction(tx: Prisma.TransactionClient, condition: any) {
-    const token = this.prisma.token.delete(condition);
+    const token = tx.token.delete(condition);
     return token;
   }
 }

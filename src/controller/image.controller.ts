@@ -55,6 +55,9 @@ export class ImageController {
         req.file.path,
         options,
       );
+      if (!cloudinary) {
+        return Res.error(res, ERROR.InternalServer);
+      }
 
       const storeImage = await this.imageRepository.store({
         data: {
