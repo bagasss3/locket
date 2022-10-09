@@ -205,6 +205,12 @@ export class Service {
       this.authMiddleware.adminAuth,
       this.adminController.findUnverifiedEvents,
     );
+    this.router.post(
+      '/admin/report',
+      this.authMiddleware.userAuth,
+      this.authMiddleware.adminAuth,
+      this.adminController.notifyEO,
+    );
 
     return this.router;
   }

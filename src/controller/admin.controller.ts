@@ -1,12 +1,14 @@
+import { Request, Response } from 'express';
 import { PrismaClient } from '@prisma/client';
 import { EventRepository } from 'src/repository/event.repository';
 import { ParticipantRepository } from 'src/repository/participant.repository';
 import { UserRepository } from 'src/repository/user.repository';
 import { EventOrganizerRepository } from 'src/repository/event_organizer.repository';
-import { Request, Response } from 'express';
+import { EventOrganizerPreconditionRepository } from 'src/repository/event_organizer_precondition.repository';
 import { Res } from 'src/helper/response';
 import { SUCCESS, ERROR } from 'src/helper/constant';
-import { EventOrganizerPreconditionRepository } from 'src/repository/event_organizer_precondition.repository';
+import { sendMail } from 'src/service/mail';
+import { valNotifyEO } from 'src/helper/validation';
 
 export class AdminController {
   prisma: PrismaClient;
@@ -37,6 +39,7 @@ export class AdminController {
     this.verifyEventOrganizer = this.verifyEventOrganizer.bind(this);
     this.verifyEvent = this.verifyEvent.bind(this);
     this.findUnverifiedEvents = this.findUnverifiedEvents.bind(this);
+    this.notifyEO = this.notifyEO.bind(this);
   }
 
   async findNotVerifiedEventOrganizer(req: Request, res: Response) {
@@ -183,6 +186,56 @@ export class AdminController {
       }
 
       return Res.success(res, SUCCESS.VerifyEvent, verifyEvent);
+    } catch (err) {
+      return Res.error(res, err);
+    }
+  }
+
+  async notifyEO(req: Request, res: Response) {
+    try {
+      const { event_organizer_id, report_message } = req.body;
+      const validate = valNotifyEO.validate(req.body);
+      if (validate.error) {
+        return Res.error(res, validate.error.details[0].message);
+      }
+
+      const findEO = await this.eventOrganizerRepository.find({
+        where: {
+          id: event_organizer_id,
+        },
+      });
+      if (!findEO) {
+        return Res.error(res, ERROR.UserNotFound);
+      }
+
+      const findUser = await this.userRepository.find({
+        where: {
+          id: findEO.user_id,
+        },
+      });
+      if (!findUser) {
+        return Res.error(res, ERROR.UserNotFound);
+      }
+
+      if (process.env.SEND_MAIL) {
+        const subjectEmail = 'Notification Warning';
+        const message = `
+        <h1>Notification from admin</h1>
+        <p>${report_message}</p>`;
+
+        switch (process.env.NODE_ENV) {
+          case 'development':
+            await sendMail(
+              <string>process.env.TEST_EMAIL,
+              subjectEmail,
+              message,
+            );
+            break;
+          default:
+            await sendMail(findUser.email, subjectEmail, message);
+        }
+      }
+      return Res.success(res, SUCCESS.SendReport, report_message);
     } catch (err) {
       return Res.error(res, err);
     }

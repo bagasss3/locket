@@ -60,6 +60,7 @@ export const SUCCESS = {
   GetEOPrecondition: 'Success Load EO Precondition',
   CreateEOPrecondition: 'Success Create EO Precondition',
   VerifyEvent: 'Success Verify Event',
+  SendReport: 'Success Send Report',
 };
 
 export const ROLE = {
