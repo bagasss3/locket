@@ -48,3 +48,8 @@ export const valCreateEligibility = Joi.object({
   name: Joi.string().min(1).required(),
   description: Joi.string().min(3).max(50).required(),
 });
+
+export const valNotifyEO = Joi.object({
+  event_organizer_id: Joi.number().required(),
+  report_message: Joi.string().min(6).max(255).required(),
+});
