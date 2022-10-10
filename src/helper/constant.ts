@@ -61,6 +61,8 @@ export const SUCCESS = {
   CreateEOPrecondition: 'Success Create EO Precondition',
   VerifyEvent: 'Success Verify Event',
   SendReport: 'Success Send Report',
+  SendFeedback: 'Success Send Feedback',
+  GetAllFeedback: 'Success Get All Feedback',
 };
 
 export const ROLE = {
@@ -68,6 +70,11 @@ export const ROLE = {
   EVENT_ORGANIZER: 2,
   PARTICIPANT: 3,
 };
+
+export const ADMIN_ALLOWED_ROLES = [ROLE.ADMIN];
+export const NON_ADMIN_ALLOWED_ROLES = [ROLE.EVENT_ORGANIZER, ROLE.PARTICIPANT];
+export const EO_ALLOWED_ROLES = [ROLE.EVENT_ORGANIZER];
+export const PARTICIPANT_ALLOWED_ROLES = [ROLE.PARTICIPANT];
 
 export const CLOUDINARY_FOLDER = {
   EVENT_ORGANIZER: 'eo',
