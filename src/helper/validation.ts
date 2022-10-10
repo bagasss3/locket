@@ -53,3 +53,8 @@ export const valNotifyEO = Joi.object({
   event_organizer_id: Joi.number().required(),
   report_message: Joi.string().min(6).max(255).required(),
 });
+
+export const valFeedbackMsg = Joi.object({
+  feedback_message: Joi.string().min(3).max(255),
+  rating_stars: Joi.number().min(1).max(5).required(),
+});
