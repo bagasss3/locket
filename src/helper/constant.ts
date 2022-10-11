@@ -68,6 +68,7 @@ export const SUCCESS = {
   CreateComment: 'Success Create Comment',
   GetAllComment: 'Success Get All Comment',
   GetComment: 'Success Get Comment',
+  UpdateComment: 'Success Update Comment',
 };
 
 export const ROLE = {

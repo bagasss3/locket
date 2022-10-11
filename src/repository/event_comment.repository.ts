@@ -23,4 +23,9 @@ export class EventCommentRepository {
     const comments = this.prisma.eventComment.findMany(condition);
     return comments;
   }
+
+  update(payload: any) {
+    const updateComment = this.prisma.eventComment.update(payload);
+    return updateComment;
+  }
 }
