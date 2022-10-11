@@ -249,6 +249,10 @@ export class Service {
       this.eventCommentController.findAllParentCommentsByEventID,
     );
 
+    this.router.get(
+      '/child/comment/:parent_comment_id',
+      this.eventCommentController.findAllChildCommentsByParentCommentID,
+    );
     return this.router;
   }
 
