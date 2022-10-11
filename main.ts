@@ -143,6 +143,7 @@ const adminController = new AdminController(
 );
 const feedbackController = new FeedbackController(feedbackRepository);
 const eventCommentController = new EventCommentController(
+  prisma,
   eventCommentRepository,
   eventRepository,
   userRepository,
