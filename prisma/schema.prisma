@@ -168,8 +168,8 @@ model EventComment {
   event          Event    @relation(fields: [event_id], references: [id])
   event_id       Int
   comment        String   @db.VarChar(255)
-  parent_id      Int
-  mentioned_user String
+  parent_id      Int?
+  mentioned_user String?
   createdAt      DateTime @default(now())
   updatedAt      DateTime @updatedAt
 }

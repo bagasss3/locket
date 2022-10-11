@@ -58,3 +58,10 @@ export const valFeedbackMsg = Joi.object({
   feedback_message: Joi.string().min(3).max(255),
   rating_stars: Joi.number().min(1).max(5).required(),
 });
+
+export const valCreateComment = Joi.object({
+  comment: Joi.string().min(1).max(255).required(),
+  event_id: Joi.number().required(),
+  parent_id: Joi.number(),
+  mentioned_user: Joi.number(),
+});

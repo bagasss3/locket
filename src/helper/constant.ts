@@ -31,6 +31,7 @@ export const ERROR = {
   AlreadyHaPrecondition: 'Precondition Has Already Exist',
   EOIsVerified: 'Event Organizer is Already Verified',
   EventIsVerified: 'Event is Already Verified',
+  NotFound: 'Error Not Found',
 };
 
 export const SUCCESS = {
@@ -63,6 +64,7 @@ export const SUCCESS = {
   SendReport: 'Success Send Report',
   SendFeedback: 'Success Send Feedback',
   GetAllFeedback: 'Success Get All Feedback',
+  CreateComment: 'Success Create Comment',
 };
 
 export const ROLE = {
@@ -71,6 +73,11 @@ export const ROLE = {
   PARTICIPANT: 3,
 };
 
+export const DEFAULT_ALLOWED_ROLES = [
+  ROLE.ADMIN,
+  ROLE.EVENT_ORGANIZER,
+  ROLE.PARTICIPANT,
+];
 export const ADMIN_ALLOWED_ROLES = [ROLE.ADMIN];
 export const NON_ADMIN_ALLOWED_ROLES = [ROLE.EVENT_ORGANIZER, ROLE.PARTICIPANT];
 export const EO_ALLOWED_ROLES = [ROLE.EVENT_ORGANIZER];
