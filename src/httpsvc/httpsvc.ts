@@ -248,10 +248,13 @@ export class Service {
       '/parent/comment/:event_id',
       this.eventCommentController.findAllParentCommentsByEventID,
     );
-
     this.router.get(
       '/child/comment/:parent_comment_id',
       this.eventCommentController.findAllChildCommentsByParentCommentID,
+    );
+    this.router.get(
+      '/comment/:comment_id',
+      this.eventCommentController.findByID,
     );
     return this.router;
   }
