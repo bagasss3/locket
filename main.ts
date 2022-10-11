@@ -18,6 +18,7 @@ import { ImageRepository } from 'src/repository/image.repository';
 import { EventParticipantRepository } from 'src/repository/event_participant.repository';
 import { EventOrganizerPreconditionRepository } from 'src/repository/event_organizer_precondition.repository';
 import { FeedbackRepository } from 'src/repository/feedback.repository';
+import { EventCommentRepository } from 'src/repository/event_comment.repository';
 
 import { UserController } from './src/controller/user.controller';
 import { ParticipantController } from './src/controller/participant.controller';
@@ -32,6 +33,7 @@ import { ImageController } from 'src/controller/image.controller';
 import { EventParticipantController } from 'src/controller/event_participant.controller';
 import { AdminController } from 'src/controller/admin.controller';
 import { FeedbackController } from 'src/controller/feedback.controller';
+import { EventCommentController } from 'src/controller/event_comment.controller';
 import { RenderController } from 'src/views/render.controller';
 
 import { AuthMiddleware } from './src/middleware/auth.middleware';
@@ -77,6 +79,7 @@ const eventParticipantRepository = new EventParticipantRepository(prisma);
 const eventOrganizerPreconditionRepository =
   new EventOrganizerPreconditionRepository(prisma);
 const feedbackRepository = new FeedbackRepository(prisma);
+const eventCommentRepository = new EventCommentRepository(prisma);
 
 // Controller
 const renderController = new RenderController();
@@ -139,6 +142,11 @@ const adminController = new AdminController(
   eventOrganizerPreconditionRepository,
 );
 const feedbackController = new FeedbackController(feedbackRepository);
+const eventCommentController = new EventCommentController(
+  eventCommentRepository,
+  eventRepository,
+  userRepository,
+);
 
 // Middleware
 const authMiddleware = new AuthMiddleware(passport);
@@ -163,6 +171,7 @@ const httpSvc = new Service(
   eventParticipantController,
   adminController,
   feedbackController,
+  eventCommentController,
 );
 passportInit(passport, userRepository);
 httpSvc.init();

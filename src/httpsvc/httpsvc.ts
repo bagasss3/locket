@@ -15,12 +15,14 @@ import { EventParticipantController } from 'src/controller/event_participant.con
 import multer from 'src/helper/multer';
 import { AdminController } from 'src/controller/admin.controller';
 import {
+  DEFAULT_ALLOWED_ROLES,
   ADMIN_ALLOWED_ROLES,
   EO_ALLOWED_ROLES,
   NON_ADMIN_ALLOWED_ROLES,
   PARTICIPANT_ALLOWED_ROLES,
 } from 'src/helper/constant';
 import { FeedbackController } from 'src/controller/feedback.controller';
+import { EventCommentController } from 'src/controller/event_comment.controller';
 
 export class Service {
   app: Application;
@@ -40,6 +42,7 @@ export class Service {
   eventParticipantController: EventParticipantController;
   adminController: AdminController;
   feedbackController: FeedbackController;
+  eventCommentController: EventCommentController;
 
   constructor(
     app: Application,
@@ -59,6 +62,7 @@ export class Service {
     eventParticipantController: EventParticipantController,
     adminController: AdminController,
     feedbackController: FeedbackController,
+    eventCommentController: EventCommentController,
   ) {
     this.app = app;
     this.router = router;
@@ -77,6 +81,7 @@ export class Service {
     this.eventParticipantController = eventParticipantController;
     this.adminController = adminController;
     this.feedbackController = feedbackController;
+    this.eventCommentController = eventCommentController;
   }
   init() {
     this.app.use('/api', this.authMiddleware.apiAuth, this.api());
@@ -84,10 +89,76 @@ export class Service {
   }
 
   api() {
+    // Authentication Route
+    this.router.post('/login', this.authController.login);
+    this.router.post('/refresh-token', this.sessionController.refreshToken);
+    this.router.post('/forgot-password', this.authController.forgotPassword);
+    this.router.post(
+      '/reset-password/:token',
+      this.authController.resetPassword,
+    );
+
+    // User Route
     this.router.get(
       '/profile',
       this.authMiddleware.userAuth,
       this.userController.profile,
+    );
+
+    // Admin Route
+    this.router.get(
+      '/admin/event-organizers',
+      this.authMiddleware.userAuth,
+      this.authMiddleware.roleChecker(ADMIN_ALLOWED_ROLES),
+      this.adminController.findNotVerifiedEventOrganizer,
+    );
+    this.router.get(
+      '/admin/event-organizers/:id',
+      this.authMiddleware.userAuth,
+      this.authMiddleware.roleChecker(ADMIN_ALLOWED_ROLES),
+      this.adminController.findEventOrganizerPrecondition,
+    );
+    this.router.put(
+      '/admin/event-organizers/:id',
+      this.authMiddleware.userAuth,
+      this.authMiddleware.roleChecker(ADMIN_ALLOWED_ROLES),
+      this.adminController.verifyEventOrganizer,
+    );
+    this.router.put(
+      '/admin/event/:id',
+      this.authMiddleware.userAuth,
+      this.authMiddleware.roleChecker(ADMIN_ALLOWED_ROLES),
+      this.adminController.verifyEvent,
+    );
+    this.router.get(
+      '/admin/event',
+      this.authMiddleware.userAuth,
+      this.authMiddleware.roleChecker(ADMIN_ALLOWED_ROLES),
+      this.adminController.findUnverifiedEvents,
+    );
+    this.router.post(
+      '/admin/report',
+      this.authMiddleware.userAuth,
+      this.authMiddleware.roleChecker(ADMIN_ALLOWED_ROLES),
+      this.adminController.notifyEO,
+    );
+
+    // Participant Route
+    this.router.post(
+      '/participant/register',
+      this.participantController.register,
+    );
+
+    // Event Organizer Route
+    this.router.post(
+      '/eventorganizer/register',
+      this.eventOrganizerController.register,
+    );
+    this.router.post(
+      '/eventorganizer/verify-precondition',
+      this.authMiddleware.userAuth,
+      this.authMiddleware.roleChecker(EO_ALLOWED_ROLES),
+      this.eventOrganizerController.createPrecondition,
     );
 
     // Category Route
@@ -108,24 +179,6 @@ export class Service {
     );
     this.router.get('/eligibility', this.eligibilityController.findAll);
 
-    // Participant Route
-    this.router.post(
-      '/participant/register',
-      this.participantController.register,
-    );
-
-    // Event Organizer Route
-    this.router.post(
-      '/eventorganizer/register',
-      this.eventOrganizerController.register,
-    );
-    this.router.post(
-      '/eventorganizer/verify-precondition',
-      this.authMiddleware.userAuth,
-      this.authMiddleware.roleChecker(EO_ALLOWED_ROLES),
-      this.eventOrganizerController.createPrecondition,
-    );
-
     // Verification Route
     this.router.get(
       '/verification-participant/:token',
@@ -134,15 +187,6 @@ export class Service {
     this.router.get(
       '/verification-eo/:token',
       this.verifyController.verifyEmailEventOrganizer,
-    );
-
-    // Authentication Route
-    this.router.post('/login', this.authController.login);
-    this.router.post('/refresh-token', this.sessionController.refreshToken);
-    this.router.post('/forgot-password', this.authController.forgotPassword);
-    this.router.post(
-      '/reset-password/:token',
-      this.authController.resetPassword,
     );
 
     // Event Route
@@ -184,44 +228,6 @@ export class Service {
       this.eventParticipantController.registerEvent,
     );
 
-    // Admin Route
-    this.router.get(
-      '/admin/event-organizers',
-      this.authMiddleware.userAuth,
-      this.authMiddleware.roleChecker(ADMIN_ALLOWED_ROLES),
-      this.adminController.findNotVerifiedEventOrganizer,
-    );
-    this.router.get(
-      '/admin/event-organizers/:id',
-      this.authMiddleware.userAuth,
-      this.authMiddleware.roleChecker(ADMIN_ALLOWED_ROLES),
-      this.adminController.findEventOrganizerPrecondition,
-    );
-    this.router.put(
-      '/admin/event-organizers/:id',
-      this.authMiddleware.userAuth,
-      this.authMiddleware.roleChecker(ADMIN_ALLOWED_ROLES),
-      this.adminController.verifyEventOrganizer,
-    );
-    this.router.put(
-      '/admin/event/:id',
-      this.authMiddleware.userAuth,
-      this.authMiddleware.roleChecker(ADMIN_ALLOWED_ROLES),
-      this.adminController.verifyEvent,
-    );
-    this.router.get(
-      '/admin/event',
-      this.authMiddleware.userAuth,
-      this.authMiddleware.roleChecker(ADMIN_ALLOWED_ROLES),
-      this.adminController.findUnverifiedEvents,
-    );
-    this.router.post(
-      '/admin/report',
-      this.authMiddleware.userAuth,
-      this.authMiddleware.roleChecker(ADMIN_ALLOWED_ROLES),
-      this.adminController.notifyEO,
-    );
-
     // Feedback Route
     this.router.post(
       '/feedback',
@@ -230,6 +236,14 @@ export class Service {
       this.feedbackController.create,
     );
     this.router.get('/feedback', this.feedbackController.findAll);
+
+    // EventComment Route
+    this.router.post(
+      '/comment',
+      this.authMiddleware.userAuth,
+      this.authMiddleware.roleChecker(DEFAULT_ALLOWED_ROLES),
+      this.eventCommentController.create,
+    );
 
     return this.router;
   }
