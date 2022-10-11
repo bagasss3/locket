@@ -20,6 +20,8 @@ export class EventCommentController {
     this.eventRepository = eventRepository;
     this.userRepository = userRepository;
     this.create = this.create.bind(this);
+    this.findAllParentCommentsByEventID =
+      this.findAllParentCommentsByEventID.bind(this);
   }
 
   async create(req: Request, res: Response) {
@@ -80,6 +82,31 @@ export class EventCommentController {
       }
 
       return Res.success(res, SUCCESS.CreateComment, createComment);
+    } catch (err) {
+      return Res.error(res, err);
+    }
+  }
+
+  async findAllParentCommentsByEventID(req: Request, res: Response) {
+    try {
+      const { event_id } = req.params;
+      const findEvent = await this.eventRepository.find({
+        where: {
+          id: Number(event_id),
+        },
+      });
+      if (!findEvent) {
+        return Res.error(res, ERROR.EventDoesNotExist);
+      }
+
+      const findParentComments =
+        await this.eventCommentRepository.findAllWithCondition({
+          where: {
+            event_id: findEvent.id,
+            parent_id: null,
+          },
+        });
+      return Res.success(res, SUCCESS.GetAllComment, findParentComments);
     } catch (err) {
       return Res.error(res, err);
     }

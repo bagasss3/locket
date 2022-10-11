@@ -244,6 +244,10 @@ export class Service {
       this.authMiddleware.roleChecker(DEFAULT_ALLOWED_ROLES),
       this.eventCommentController.create,
     );
+    this.router.get(
+      '/parent/comment/:event_id',
+      this.eventCommentController.findAllParentCommentsByEventID,
+    );
 
     return this.router;
   }
