@@ -67,6 +67,7 @@ export const SUCCESS = {
   GetAllFeedback: 'Success Get All Feedback',
   CreateComment: 'Success Create Comment',
   GetAllComment: 'Success Get All Comment',
+  GetComment: 'Success Get Comment',
 };
 
 export const ROLE = {
