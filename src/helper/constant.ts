@@ -32,6 +32,7 @@ export const ERROR = {
   EOIsVerified: 'Event Organizer is Already Verified',
   EventIsVerified: 'Event is Already Verified',
   NotFound: 'Error Not Found',
+  IsChildComment: 'Error Comment is Not Parent Comment',
 };
 
 export const SUCCESS = {
