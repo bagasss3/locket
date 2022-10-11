@@ -4,7 +4,7 @@ import { EventRepository } from 'src/repository/event.repository';
 import { UserRepository } from 'src/repository/user.repository';
 import { Res } from '../helper/response';
 import { ERROR, SUCCESS } from '../helper/constant';
-import { valCreateComment } from '../helper/validation';
+import { valCreateComment, valUpdateComment } from '../helper/validation';
 import { generateID } from '../helper/vegenerate';
 
 export class EventCommentController {
@@ -25,6 +25,7 @@ export class EventCommentController {
     this.findAllChildCommentsByParentCommentID =
       this.findAllChildCommentsByParentCommentID.bind(this);
     this.findByID = this.findByID.bind(this);
+    this.updateComment = this.updateComment.bind(this);
   }
 
   async create(req: Request, res: Response) {
@@ -173,6 +174,63 @@ export class EventCommentController {
       }
 
       return Res.success(res, SUCCESS.GetComment, findComment);
+    } catch (err) {
+      return Res.error(res, err);
+    }
+  }
+
+  async updateComment(req: Request, res: Response) {
+    try {
+      const { comment_id, comment, mentioned_user } = req.body;
+      const validate = valUpdateComment.validate(req.body);
+      if (validate.error) {
+        return Res.error(res, validate.error.details[0].message);
+      }
+
+      const findComment = await this.eventCommentRepository.find({
+        where: {
+          id: comment_id,
+          user_id: req.user?.id,
+        },
+      });
+      if (!findComment) {
+        return Res.error(res, ERROR.NotFound);
+      }
+
+      const findEvent = await this.eventRepository.find({
+        where: {
+          id: findComment.event_id,
+        },
+      });
+      if (!findEvent) {
+        return Res.error(res, ERROR.EventDoesNotExist);
+      }
+
+      if (mentioned_user) {
+        const findUser = await this.userRepository.find({
+          where: {
+            id: mentioned_user,
+          },
+        });
+        if (!findUser) {
+          return Res.error(res, ERROR.UserNotFound);
+        }
+      }
+
+      const updateComment = await this.eventCommentRepository.update({
+        where: {
+          id: findComment.id,
+        },
+        data: {
+          comment,
+          mentioned_user,
+        },
+      });
+      if (!updateComment) {
+        return Res.error(res, ERROR.InternalServer);
+      }
+
+      return Res.success(res, SUCCESS.UpdateComment, updateComment);
     } catch (err) {
       return Res.error(res, err);
     }

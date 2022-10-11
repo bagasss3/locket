@@ -256,6 +256,11 @@ export class Service {
       '/comment/:comment_id',
       this.eventCommentController.findByID,
     );
+    this.router.put(
+      '/comment/:comment_id',
+      this.authMiddleware.userAuth,
+      this.eventCommentController.updateComment,
+    );
     return this.router;
   }
 

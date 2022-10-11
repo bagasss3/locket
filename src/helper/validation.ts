@@ -65,3 +65,9 @@ export const valCreateComment = Joi.object({
   parent_id: Joi.number(),
   mentioned_user: Joi.number(),
 });
+
+export const valUpdateComment = Joi.object({
+  comment: Joi.string().min(1).max(255).required(),
+  comment_id: Joi.number().required(),
+  mentioned_user: Joi.number(),
+});
