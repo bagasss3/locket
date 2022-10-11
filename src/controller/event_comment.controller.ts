@@ -1,4 +1,5 @@
 import { Request, Response } from 'express';
+import { PrismaClient } from '@prisma/client';
 import { EventCommentRepository } from 'src/repository/event_comment.repository';
 import { EventRepository } from 'src/repository/event.repository';
 import { UserRepository } from 'src/repository/user.repository';
@@ -8,14 +9,17 @@ import { valCreateComment, valUpdateComment } from '../helper/validation';
 import { generateID } from '../helper/vegenerate';
 
 export class EventCommentController {
+  prisma: PrismaClient;
   eventCommentRepository: EventCommentRepository;
   eventRepository: EventRepository;
   userRepository: UserRepository;
   constructor(
+    prisma: PrismaClient,
     eventCommentRepository: EventCommentRepository,
     eventRepository: EventRepository,
     userRepository: UserRepository,
   ) {
+    this.prisma = prisma;
     this.eventCommentRepository = eventCommentRepository;
     this.eventRepository = eventRepository;
     this.userRepository = userRepository;
@@ -26,6 +30,7 @@ export class EventCommentController {
       this.findAllChildCommentsByParentCommentID.bind(this);
     this.findByID = this.findByID.bind(this);
     this.updateComment = this.updateComment.bind(this);
+    this.deleteComment = this.deleteComment.bind(this);
   }
 
   async create(req: Request, res: Response) {
@@ -231,6 +236,57 @@ export class EventCommentController {
       }
 
       return Res.success(res, SUCCESS.UpdateComment, updateComment);
+    } catch (err) {
+      return Res.error(res, err);
+    }
+  }
+
+  async deleteComment(req: Request, res: Response) {
+    try {
+      const { comment_id } = req.params;
+      const findComment = await this.eventCommentRepository.find({
+        where: {
+          id: Number(comment_id),
+          user_id: req.user?.id,
+        },
+      });
+      if (!findComment) {
+        return Res.error(res, ERROR.NotFound);
+      }
+
+      if (findComment.parent_id) {
+        const deleteByID = await this.eventCommentRepository.delete({
+          where: {
+            id: findComment.id,
+          },
+        });
+        if (!deleteByID) {
+          return Res.error(res, ERROR.InternalServer);
+        }
+      } else {
+        await this.prisma.$transaction(async (tx) => {
+          const deleteAllChildComment =
+            await this.eventCommentRepository.deleteManyWithTransaction(tx, {
+              where: {
+                parent_id: findComment.id,
+              },
+            });
+          if (!deleteAllChildComment) {
+            throw new Error('Transaction failed');
+          }
+
+          const deleteParentComment =
+            await this.eventCommentRepository.deleteWithTransaction(tx, {
+              where: {
+                id: findComment.id,
+              },
+            });
+          if (!deleteParentComment) {
+            throw new Error('Transaction failed');
+          }
+        });
+      }
+      return Res.success(res, SUCCESS.DeleteData, {});
     } catch (err) {
       return Res.error(res, err);
     }

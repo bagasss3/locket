@@ -261,6 +261,11 @@ export class Service {
       this.authMiddleware.userAuth,
       this.eventCommentController.updateComment,
     );
+    this.router.delete(
+      '/comment/:comment_id',
+      this.authMiddleware.userAuth,
+      this.eventCommentController.deleteComment,
+    );
     return this.router;
   }
 
