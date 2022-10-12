@@ -164,11 +164,15 @@ const subscribeEOController = new SubscribeEOController(
 // Middleware
 const authMiddleware = new AuthMiddleware(passport);
 
+// Initiate Router for API and HTML
+const routerApi = express.Router();
+const routerRender = express.Router();
+
 // HTTP Service
-const router = express.Router();
 const httpSvc = new Service(
   app,
-  router,
+  routerApi,
+  routerRender,
   authMiddleware,
   renderController,
   userController,

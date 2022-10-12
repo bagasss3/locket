@@ -27,7 +27,8 @@ import {
 
 export class Service {
   app: Application;
-  router: Router;
+  routerApi: Router;
+  routerRender: Router;
   authMiddleware: AuthMiddleware;
   renderController: RenderController;
   userController: UserController;
@@ -47,7 +48,8 @@ export class Service {
   subscribeEOController: SubscribeEOController;
   constructor(
     app: Application,
-    router: Router,
+    routerApi: Router,
+    routerRender: Router,
     authMiddleware: AuthMiddleware,
     renderController: RenderController,
     userController: UserController,
@@ -67,7 +69,8 @@ export class Service {
     subscribeEOController: SubscribeEOController,
   ) {
     this.app = app;
-    this.router = router;
+    this.routerApi = routerApi;
+    this.routerRender = routerRender;
     this.authMiddleware = authMiddleware;
     this.renderController = renderController;
     this.userController = userController;
@@ -93,53 +96,53 @@ export class Service {
 
   api() {
     // Authentication Route
-    this.router.post('/login', this.authController.login);
-    this.router.post('/refresh-token', this.sessionController.refreshToken);
-    this.router.post('/forgot-password', this.authController.forgotPassword);
-    this.router.post(
+    this.routerApi.post('/login', this.authController.login);
+    this.routerApi.post('/refresh-token', this.sessionController.refreshToken);
+    this.routerApi.post('/forgot-password', this.authController.forgotPassword);
+    this.routerApi.post(
       '/reset-password/:token',
       this.authController.resetPassword,
     );
 
     // User Route
-    this.router.get(
+    this.routerApi.get(
       '/profile',
       this.authMiddleware.userAuth,
       this.userController.profile,
     );
 
     // Admin Route
-    this.router.get(
+    this.routerApi.get(
       '/admin/event-organizers',
       this.authMiddleware.userAuth,
       this.authMiddleware.roleChecker(ADMIN_ALLOWED_ROLES),
       this.adminController.findNotVerifiedEventOrganizer,
     );
-    this.router.get(
+    this.routerApi.get(
       '/admin/event-organizers/:id',
       this.authMiddleware.userAuth,
       this.authMiddleware.roleChecker(ADMIN_ALLOWED_ROLES),
       this.adminController.findEventOrganizerPrecondition,
     );
-    this.router.put(
+    this.routerApi.put(
       '/admin/event-organizers/:id',
       this.authMiddleware.userAuth,
       this.authMiddleware.roleChecker(ADMIN_ALLOWED_ROLES),
       this.adminController.verifyEventOrganizer,
     );
-    this.router.put(
+    this.routerApi.put(
       '/admin/event/:id',
       this.authMiddleware.userAuth,
       this.authMiddleware.roleChecker(ADMIN_ALLOWED_ROLES),
       this.adminController.verifyEvent,
     );
-    this.router.get(
+    this.routerApi.get(
       '/admin/event',
       this.authMiddleware.userAuth,
       this.authMiddleware.roleChecker(ADMIN_ALLOWED_ROLES),
       this.adminController.findUnverifiedEvents,
     );
-    this.router.post(
+    this.routerApi.post(
       '/admin/report',
       this.authMiddleware.userAuth,
       this.authMiddleware.roleChecker(ADMIN_ALLOWED_ROLES),
@@ -147,11 +150,11 @@ export class Service {
     );
 
     // Participant Route
-    this.router.post(
+    this.routerApi.post(
       '/participant/register',
       this.participantController.register,
     );
-    this.router.get(
+    this.routerApi.get(
       '/participant/subscribed',
       this.authMiddleware.userAuth,
       this.authMiddleware.roleChecker(PARTICIPANT_ALLOWED_ROLES),
@@ -159,27 +162,27 @@ export class Service {
     );
 
     // Event Organizer Route
-    this.router.post(
+    this.routerApi.post(
       '/eventorganizer/register',
       this.eventOrganizerController.register,
     );
-    this.router.post(
+    this.routerApi.post(
       '/eventorganizer/verify-precondition',
       this.authMiddleware.userAuth,
       this.authMiddleware.roleChecker(EO_ALLOWED_ROLES),
       this.eventOrganizerController.createPrecondition,
     );
-    this.router.get(
+    this.routerApi.get(
       '/eventorganizer',
       this.eventOrganizerController.findAllVerifiedEO,
     );
-    this.router.get(
+    this.routerApi.get(
       '/eventorganizer/subscriber',
       this.authMiddleware.userAuth,
       this.authMiddleware.roleChecker(EO_ALLOWED_ROLES),
       this.eventOrganizerController.findAllSubscriber,
     );
-    this.router.get(
+    this.routerApi.get(
       '/eventorganizer/count/subscriber',
       this.authMiddleware.userAuth,
       this.authMiddleware.roleChecker(EO_ALLOWED_ROLES),
@@ -187,49 +190,49 @@ export class Service {
     );
 
     // Category Route
-    this.router.post(
+    this.routerApi.post(
       '/admin/category',
       this.authMiddleware.userAuth,
       this.authMiddleware.roleChecker(ADMIN_ALLOWED_ROLES),
       this.categoryController.create,
     );
-    this.router.get('/category', this.categoryController.findAll);
+    this.routerApi.get('/category', this.categoryController.findAll);
 
     // Eligibility Route
-    this.router.post(
+    this.routerApi.post(
       '/admin/eligibility',
       this.authMiddleware.userAuth,
       this.authMiddleware.roleChecker(ADMIN_ALLOWED_ROLES),
       this.eligibilityController.create,
     );
-    this.router.get('/eligibility', this.eligibilityController.findAll);
+    this.routerApi.get('/eligibility', this.eligibilityController.findAll);
 
     // Verification Route
-    this.router.get(
+    this.routerApi.get(
       '/verification-participant/:token',
       this.verifyController.verifyEmailParticipant,
     );
-    this.router.get(
+    this.routerApi.get(
       '/verification-eo/:token',
       this.verifyController.verifyEmailEventOrganizer,
     );
 
     // Event Route
-    this.router.post(
+    this.routerApi.post(
       '/eventorganizer/event',
       this.authMiddleware.userAuth,
       this.authMiddleware.roleChecker(EO_ALLOWED_ROLES),
       this.eventController.create,
     );
-    this.router.get('/event', this.eventController.findAll);
-    this.router.get('/event/:id', this.eventController.findByID);
-    this.router.put(
+    this.routerApi.get('/event', this.eventController.findAll);
+    this.routerApi.get('/event/:id', this.eventController.findByID);
+    this.routerApi.put(
       '/event/:id',
       this.authMiddleware.userAuth,
       this.authMiddleware.roleChecker(EO_ALLOWED_ROLES),
       this.eventController.update,
     );
-    this.router.delete(
+    this.routerApi.delete(
       '/event/:id',
       this.authMiddleware.userAuth,
       this.authMiddleware.roleChecker(EO_ALLOWED_ROLES),
@@ -237,16 +240,16 @@ export class Service {
     );
 
     // Image Route
-    this.router.post(
+    this.routerApi.post(
       '/image',
       multer.single('image'),
       this.imageController.create,
     );
-    this.router.get('/image', this.imageController.findAll);
-    this.router.get('/image/:id', this.imageController.find);
+    this.routerApi.get('/image', this.imageController.findAll);
+    this.routerApi.get('/image/:id', this.imageController.find);
 
     // Event Participant Route
-    this.router.post(
+    this.routerApi.post(
       '/register-event',
       this.authMiddleware.userAuth,
       this.authMiddleware.roleChecker(PARTICIPANT_ALLOWED_ROLES),
@@ -254,63 +257,63 @@ export class Service {
     );
 
     // Feedback Route
-    this.router.post(
+    this.routerApi.post(
       '/feedback',
       this.authMiddleware.userAuth,
       this.authMiddleware.roleChecker(NON_ADMIN_ALLOWED_ROLES),
       this.feedbackController.create,
     );
-    this.router.get('/feedback', this.feedbackController.findAll);
+    this.routerApi.get('/feedback', this.feedbackController.findAll);
 
     // EventComment Route
-    this.router.post(
+    this.routerApi.post(
       '/comment',
       this.authMiddleware.userAuth,
       this.authMiddleware.roleChecker(DEFAULT_ALLOWED_ROLES),
       this.eventCommentController.create,
     );
-    this.router.get(
+    this.routerApi.get(
       '/parent/comment/:event_id',
       this.eventCommentController.findAllParentCommentsByEventID,
     );
-    this.router.get(
+    this.routerApi.get(
       '/child/comment/:parent_comment_id',
       this.eventCommentController.findAllChildCommentsByParentCommentID,
     );
-    this.router.get(
+    this.routerApi.get(
       '/comment/:comment_id',
       this.eventCommentController.findByID,
     );
-    this.router.put(
+    this.routerApi.put(
       '/comment/:comment_id',
       this.authMiddleware.userAuth,
       this.eventCommentController.updateComment,
     );
-    this.router.delete(
+    this.routerApi.delete(
       '/comment/:comment_id',
       this.authMiddleware.userAuth,
       this.eventCommentController.deleteComment,
     );
 
     // Subscribe Route
-    this.router.post(
+    this.routerApi.post(
       '/subscribe',
       this.authMiddleware.userAuth,
       this.authMiddleware.roleChecker(PARTICIPANT_ALLOWED_ROLES),
       this.subscribeEOController.subscribeEO,
     );
-    this.router.delete(
+    this.routerApi.delete(
       '/subscribe',
       this.authMiddleware.userAuth,
       this.authMiddleware.roleChecker(PARTICIPANT_ALLOWED_ROLES),
       this.subscribeEOController.unsubscribeEO,
     );
 
-    return this.router;
+    return this.routerApi;
   }
 
   web() {
-    this.router.get('/home', this.renderController.home);
-    return this.router;
+    this.routerRender.get('/home', this.renderController.home);
+    return this.routerRender;
   }
 }
