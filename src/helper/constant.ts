@@ -33,6 +33,8 @@ export const ERROR = {
   EventIsVerified: 'Event is Already Verified',
   NotFound: 'Error Not Found',
   IsChildComment: 'Error Comment is Not Parent Comment',
+  UserNotParticipant: 'User is Not Participant',
+  AlreadySubscribe: 'Participant Already Subscribe',
 };
 
 export const SUCCESS = {
@@ -69,6 +71,7 @@ export const SUCCESS = {
   GetAllComment: 'Success Get All Comment',
   GetComment: 'Success Get Comment',
   UpdateComment: 'Success Update Comment',
+  Subscribed: 'Success Subscribe',
 };
 
 export const ROLE = {

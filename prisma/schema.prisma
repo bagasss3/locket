@@ -78,6 +78,7 @@ model Event_Organizer {
   Event                        Event[]
   createdAt                    DateTime                      @default(now())
   updatedAt                    DateTime                      @updatedAt
+  SubscribeEO                  SubscribeEO[]
 }
 
 model Event_Organizer_Precondition {
@@ -103,6 +104,7 @@ model Participant {
   EventParticipant EventParticipant[]
   createdAt        DateTime           @default(now())
   updatedAt        DateTime           @updatedAt
+  SubscribeEO      SubscribeEO[]
 }
 
 model Category {
@@ -232,4 +234,14 @@ model Feedback {
   star      Int
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+}
+
+model SubscribeEO {
+  id                 Int             @id
+  participant        Participant     @relation(fields: [participant_id], references: [id])
+  participant_id     Int
+  event_organizer    Event_Organizer @relation(fields: [event_organizer_id], references: [id])
+  event_organizer_id Int
+  createdAt          DateTime        @default(now())
+  updatedAt          DateTime        @updatedAt
 }

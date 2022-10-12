@@ -19,6 +19,7 @@ import { EventParticipantRepository } from 'src/repository/event_participant.rep
 import { EventOrganizerPreconditionRepository } from 'src/repository/event_organizer_precondition.repository';
 import { FeedbackRepository } from 'src/repository/feedback.repository';
 import { EventCommentRepository } from 'src/repository/event_comment.repository';
+import { SubscribeEORepository } from 'src/repository/subscribe_eo.repository';
 
 import { UserController } from './src/controller/user.controller';
 import { ParticipantController } from './src/controller/participant.controller';
@@ -34,6 +35,7 @@ import { EventParticipantController } from 'src/controller/event_participant.con
 import { AdminController } from 'src/controller/admin.controller';
 import { FeedbackController } from 'src/controller/feedback.controller';
 import { EventCommentController } from 'src/controller/event_comment.controller';
+import { SubscribeEOController } from 'src/controller/subscribe_eo.controller';
 import { RenderController } from 'src/views/render.controller';
 
 import { AuthMiddleware } from './src/middleware/auth.middleware';
@@ -80,6 +82,7 @@ const eventOrganizerPreconditionRepository =
   new EventOrganizerPreconditionRepository(prisma);
 const feedbackRepository = new FeedbackRepository(prisma);
 const eventCommentRepository = new EventCommentRepository(prisma);
+const subscribeEORepository = new SubscribeEORepository(prisma);
 
 // Controller
 const renderController = new RenderController();
@@ -148,6 +151,11 @@ const eventCommentController = new EventCommentController(
   eventRepository,
   userRepository,
 );
+const subscribeEOController = new SubscribeEOController(
+  participantRepository,
+  eventOrganizerRepository,
+  subscribeEORepository,
+);
 
 // Middleware
 const authMiddleware = new AuthMiddleware(passport);
@@ -173,6 +181,7 @@ const httpSvc = new Service(
   adminController,
   feedbackController,
   eventCommentController,
+  subscribeEOController,
 );
 passportInit(passport, userRepository);
 httpSvc.init();

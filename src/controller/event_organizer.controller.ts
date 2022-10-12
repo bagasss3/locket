@@ -34,6 +34,7 @@ export class EventOrganizerController {
       eventOrganizerPreconditionRepository;
     this.register = this.register.bind(this);
     this.createPrecondition = this.createPrecondition.bind(this);
+    this.findAllVerifiedEO = this.findAllVerifiedEO.bind(this);
   }
 
   async register(req: Request, res: Response) {
@@ -164,6 +165,20 @@ export class EventOrganizerController {
         SUCCESS.CreateEOPrecondition,
         createEOPrecondition,
       );
+    } catch (err) {
+      return Res.error(res, err);
+    }
+  }
+
+  async findAllVerifiedEO(req: Request, res: Response) {
+    try {
+      const findAllEO =
+        await this.eventOrganizerRepository.findAllWithCondition({
+          where: {
+            is_verified: true,
+          },
+        });
+      return Res.success(res, SUCCESS.GetAllEO, findAllEO);
     } catch (err) {
       return Res.error(res, err);
     }

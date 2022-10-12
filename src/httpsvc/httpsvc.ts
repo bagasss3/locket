@@ -1,4 +1,5 @@
-import { Application, Request, Response, NextFunction, Router } from 'express';
+import { Application, Router } from 'express';
+import multer from 'src/helper/multer';
 import { RenderController } from 'src/views/render.controller';
 import { UserController } from '../controller/user.controller';
 import { ParticipantController } from '../controller/participant.controller';
@@ -12,8 +13,10 @@ import { EligibilityController } from '../controller/eligibility.controller';
 import { AuthMiddleware } from '../middleware/auth.middleware';
 import { ImageController } from 'src/controller/image.controller';
 import { EventParticipantController } from 'src/controller/event_participant.controller';
-import multer from 'src/helper/multer';
 import { AdminController } from 'src/controller/admin.controller';
+import { FeedbackController } from 'src/controller/feedback.controller';
+import { EventCommentController } from 'src/controller/event_comment.controller';
+import { SubscribeEOController } from 'src/controller/subscribe_eo.controller';
 import {
   DEFAULT_ALLOWED_ROLES,
   ADMIN_ALLOWED_ROLES,
@@ -21,8 +24,6 @@ import {
   NON_ADMIN_ALLOWED_ROLES,
   PARTICIPANT_ALLOWED_ROLES,
 } from 'src/helper/constant';
-import { FeedbackController } from 'src/controller/feedback.controller';
-import { EventCommentController } from 'src/controller/event_comment.controller';
 
 export class Service {
   app: Application;
@@ -43,7 +44,7 @@ export class Service {
   adminController: AdminController;
   feedbackController: FeedbackController;
   eventCommentController: EventCommentController;
-
+  subscribeEOController: SubscribeEOController;
   constructor(
     app: Application,
     router: Router,
@@ -63,6 +64,7 @@ export class Service {
     adminController: AdminController,
     feedbackController: FeedbackController,
     eventCommentController: EventCommentController,
+    subscribeEOController: SubscribeEOController,
   ) {
     this.app = app;
     this.router = router;
@@ -82,6 +84,7 @@ export class Service {
     this.adminController = adminController;
     this.feedbackController = feedbackController;
     this.eventCommentController = eventCommentController;
+    this.subscribeEOController = subscribeEOController;
   }
   init() {
     this.app.use('/api', this.authMiddleware.apiAuth, this.api());
@@ -159,6 +162,10 @@ export class Service {
       this.authMiddleware.userAuth,
       this.authMiddleware.roleChecker(EO_ALLOWED_ROLES),
       this.eventOrganizerController.createPrecondition,
+    );
+    this.router.get(
+      '/eventorganizer',
+      this.eventOrganizerController.findAllVerifiedEO,
     );
 
     // Category Route
@@ -266,6 +273,15 @@ export class Service {
       this.authMiddleware.userAuth,
       this.eventCommentController.deleteComment,
     );
+
+    // Subscribe Route
+    this.router.post(
+      '/subscribe',
+      this.authMiddleware.userAuth,
+      this.authMiddleware.roleChecker(PARTICIPANT_ALLOWED_ROLES),
+      this.subscribeEOController.subscribeEO,
+    );
+
     return this.router;
   }
 
