@@ -151,6 +151,12 @@ export class Service {
       '/participant/register',
       this.participantController.register,
     );
+    this.router.get(
+      '/participant/subscribed',
+      this.authMiddleware.userAuth,
+      this.authMiddleware.roleChecker(PARTICIPANT_ALLOWED_ROLES),
+      this.participantController.findSubscribedEO,
+    );
 
     // Event Organizer Route
     this.router.post(
@@ -166,6 +172,18 @@ export class Service {
     this.router.get(
       '/eventorganizer',
       this.eventOrganizerController.findAllVerifiedEO,
+    );
+    this.router.get(
+      '/eventorganizer/subscriber',
+      this.authMiddleware.userAuth,
+      this.authMiddleware.roleChecker(EO_ALLOWED_ROLES),
+      this.eventOrganizerController.findAllSubscriber,
+    );
+    this.router.get(
+      '/eventorganizer/count/subscriber',
+      this.authMiddleware.userAuth,
+      this.authMiddleware.roleChecker(EO_ALLOWED_ROLES),
+      this.eventOrganizerController.countAllSubscriber,
     );
 
     // Category Route
@@ -280,6 +298,12 @@ export class Service {
       this.authMiddleware.userAuth,
       this.authMiddleware.roleChecker(PARTICIPANT_ALLOWED_ROLES),
       this.subscribeEOController.subscribeEO,
+    );
+    this.router.delete(
+      '/subscribe',
+      this.authMiddleware.userAuth,
+      this.authMiddleware.roleChecker(PARTICIPANT_ALLOWED_ROLES),
+      this.subscribeEOController.unsubscribeEO,
     );
 
     return this.router;

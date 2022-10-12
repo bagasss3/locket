@@ -3,38 +3,48 @@ import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import { TokenRepository } from '../repository/token.repository';
 import { UserRepository } from '../repository/user.repository';
+import { ImageRepository } from 'src/repository/image.repository';
+import { EventOrganizerPreconditionRepository } from 'src/repository/event_organizer_precondition.repository';
+import { EventOrganizerRepository } from 'src/repository/event_organizer.repository';
+import { SubscribeEORepository } from 'src/repository/subscribe_eo.repository';
 import { valRegisEventOrganizer } from '../helper/validation';
 import { Res } from '../helper/response';
 import { ERROR, SUCCESS } from '../helper/constant';
 import { createToken } from '../helper/token';
 import { generateID, expiredDate } from '../helper/vegenerate';
 import { sendMail } from '../service/mail';
-import { ImageRepository } from 'src/repository/image.repository';
-import { EventOrganizerPreconditionRepository } from 'src/repository/event_organizer_precondition.repository';
-import { EventOrganizerRepository } from 'src/repository/event_organizer.repository';
+import { ParticipantRepository } from 'src/repository/participant.repository';
 
 export class EventOrganizerController {
   userRepository: UserRepository;
+  participantRepository: ParticipantRepository;
   tokenRepository: TokenRepository;
   imageRepository: ImageRepository;
   eventOrganizerRepository: EventOrganizerRepository;
   eventOrganizerPreconditionRepository: EventOrganizerPreconditionRepository;
+  subscribeEORepository: SubscribeEORepository;
   constructor(
     userRepository: UserRepository,
+    participantRepository: ParticipantRepository,
     tokenRepository: TokenRepository,
     imageRepository: ImageRepository,
     eventOrganizerRepository: EventOrganizerRepository,
     eventOrganizerPreconditionRepository: EventOrganizerPreconditionRepository,
+    subscribeEORepository: SubscribeEORepository,
   ) {
     this.userRepository = userRepository;
+    this.participantRepository = participantRepository;
     this.tokenRepository = tokenRepository;
     this.imageRepository = imageRepository;
     this.eventOrganizerRepository = eventOrganizerRepository;
     this.eventOrganizerPreconditionRepository =
       eventOrganizerPreconditionRepository;
+    this.subscribeEORepository = subscribeEORepository;
     this.register = this.register.bind(this);
     this.createPrecondition = this.createPrecondition.bind(this);
     this.findAllVerifiedEO = this.findAllVerifiedEO.bind(this);
+    this.findAllSubscriber = this.findAllSubscriber.bind(this);
+    this.countAllSubscriber = this.countAllSubscriber.bind(this);
   }
 
   async register(req: Request, res: Response) {
@@ -182,5 +192,61 @@ export class EventOrganizerController {
     } catch (err) {
       return Res.error(res, err);
     }
+  }
+
+  async findAllSubscriber(req: Request, res: Response) {
+    try {
+      const findEO = await this.eventOrganizerRepository.find({
+        where: {
+          user_id: req.user?.id,
+        },
+      });
+      if (!findEO) {
+        return Res.error(res, ERROR.UserNotFound);
+      }
+
+      const findAllSubscriber = await this.subscribeEORepository.findAll({
+        where: {
+          event_organizer_id: findEO.id,
+        },
+      });
+
+      const subscriber = await Promise.all(
+        findAllSubscriber.map(async (participant) => {
+          const getParticipant = await this.participantRepository.find({
+            where: {
+              id: participant.participant_id,
+            },
+          });
+          return getParticipant;
+        }),
+      );
+      return Res.success(res, SUCCESS.GetAllSubscriber, subscriber);
+    } catch (err) {
+      return Res.error(res, err);
+    }
+  }
+
+  async countAllSubscriber(req: Request, res: Response) {
+    try {
+      const findEO = await this.eventOrganizerRepository.find({
+        where: {
+          user_id: req.user?.id,
+        },
+      });
+      if (!findEO) {
+        return Res.error(res, ERROR.UserNotFound);
+      }
+
+      const countAllSubscriber = await this.subscribeEORepository.countAll({
+        where: {
+          event_organizer_id: findEO.id,
+        },
+      });
+
+      return Res.success(res, SUCCESS.GetAllSubscriber, {
+        subscriber: countAllSubscriber,
+      });
+    } catch (err) {}
   }
 }

@@ -72,6 +72,8 @@ export const SUCCESS = {
   GetComment: 'Success Get Comment',
   UpdateComment: 'Success Update Comment',
   Subscribed: 'Success Subscribe',
+  Unsubscribed: 'Success Unsubscribe',
+  GetAllSubscriber: 'Success Get All Subscriber',
 };
 
 export const ROLE = {

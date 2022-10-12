@@ -19,6 +19,7 @@ export class SubscribeEOController {
     this.eventOrganizerRepository = eventOrganizerRepository;
     this.subscribeEORepository = subscribeEORepository;
     this.subscribeEO = this.subscribeEO.bind(this);
+    this.unsubscribeEO = this.unsubscribeEO.bind(this);
   }
 
   async subscribeEO(req: Request, res: Response) {
@@ -68,7 +69,43 @@ export class SubscribeEOController {
 
       return Res.success(res, SUCCESS.Subscribed, doSubscribe);
     } catch (err) {
-      console.log(err);
+      return Res.error(res, err);
+    }
+  }
+
+  async unsubscribeEO(req: Request, res: Response) {
+    try {
+      const { event_organizer_id } = req.body;
+      const findParticipant = await this.participantRepository.find({
+        where: {
+          user_id: req.user?.id,
+        },
+      });
+      if (!findParticipant) {
+        return Res.error(res, ERROR.UserNotParticipant);
+      }
+
+      const findSubscriber = await this.subscribeEORepository.find({
+        where: {
+          event_organizer_id: Number(event_organizer_id),
+          participant_id: findParticipant.id,
+        },
+      });
+      if (!findSubscriber) {
+        return Res.error(res, ERROR.NotFound);
+      }
+
+      const unsubscribe = await this.subscribeEORepository.delete({
+        where: {
+          id: findSubscriber.id,
+        },
+      });
+      if (!unsubscribe) {
+        return Res.error(res, ERROR.InternalServer);
+      }
+
+      return Res.success(res, SUCCESS.Unsubscribed, unsubscribe);
+    } catch (err) {
       return Res.error(res, err);
     }
   }
