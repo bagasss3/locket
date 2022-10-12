@@ -4,26 +4,36 @@ import jwt from 'jsonwebtoken';
 import { ParticipantRepository } from '../repository/participant.repository';
 import { TokenRepository } from '../repository/token.repository';
 import { UserRepository } from '../repository/user.repository';
+import { EventOrganizerRepository } from 'src/repository/event_organizer.repository';
+import { SubscribeEORepository } from 'src/repository/subscribe_eo.repository';
 import { valRegisParticipant } from '../helper/validation';
 import { Res } from '../helper/response';
 import { ERROR, SUCCESS } from '../helper/constant';
 import { createToken } from '../helper/token';
 import { generateID, expiredDate } from '../helper/vegenerate';
 import { sendMail } from '../service/mail';
+import { Event_Organizer } from '@prisma/client';
 
 export class ParticipantController {
   participantRepository: ParticipantRepository;
   userRepository: UserRepository;
   tokenRepository: TokenRepository;
+  eventOrganizerRepository: EventOrganizerRepository;
+  subscribeEORepository: SubscribeEORepository;
   constructor(
     participantRepository: ParticipantRepository,
     userRepository: UserRepository,
     tokenRepository: TokenRepository,
+    eventOrganizerRepository: EventOrganizerRepository,
+    subscribeEORepository: SubscribeEORepository,
   ) {
     this.participantRepository = participantRepository;
     this.userRepository = userRepository;
     this.tokenRepository = tokenRepository;
+    this.eventOrganizerRepository = eventOrganizerRepository;
+    this.subscribeEORepository = subscribeEORepository;
     this.register = this.register.bind(this);
+    this.findSubscribedEO = this.findSubscribedEO.bind(this);
   }
 
   async register(req: Request, res: Response) {
@@ -108,6 +118,40 @@ export class ParticipantController {
         }
       }
       return Res.success(res, SUCCESS.Register, newToken);
+    } catch (err) {
+      return Res.error(res, err);
+    }
+  }
+
+  async findSubscribedEO(req: Request, res: Response) {
+    try {
+      const findParticipant = await this.participantRepository.find({
+        where: {
+          user_id: req.user?.id,
+        },
+      });
+      if (!findParticipant) {
+        return Res.error(res, ERROR.UserNotFound);
+      }
+
+      const findAllSubscribedEO = await this.subscribeEORepository.findAll({
+        where: {
+          participant_id: findParticipant.id,
+        },
+      });
+
+      const eos = await Promise.all(
+        findAllSubscribedEO.map(async (eo) => {
+          const getEO = await this.eventOrganizerRepository.find({
+            where: {
+              id: eo.event_organizer_id,
+            },
+          });
+          return getEO;
+        }),
+      );
+
+      return Res.success(res, SUCCESS.GetAllEO, eos);
     } catch (err) {
       return Res.error(res, err);
     }

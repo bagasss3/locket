@@ -90,13 +90,17 @@ const participantController = new ParticipantController(
   participantRepository,
   userRepository,
   tokenRepository,
+  eventOrganizerRepository,
+  subscribeEORepository,
 );
 const eventOrganizerController = new EventOrganizerController(
   userRepository,
+  participantRepository,
   tokenRepository,
   imageRepository,
   eventOrganizerRepository,
   eventOrganizerPreconditionRepository,
+  subscribeEORepository,
 );
 const userController = new UserController(
   userRepository,
