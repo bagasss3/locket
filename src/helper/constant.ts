@@ -35,6 +35,7 @@ export const ERROR = {
   IsChildComment: 'Error Comment is Not Parent Comment',
   UserNotParticipant: 'User is Not Participant',
   AlreadySubscribe: 'Participant Already Subscribe',
+  MaxEventPrecondition: 'Total Max Event Precondition',
 };
 
 export const SUCCESS = {
@@ -74,6 +75,9 @@ export const SUCCESS = {
   Subscribed: 'Success Subscribe',
   Unsubscribed: 'Success Unsubscribe',
   GetAllSubscriber: 'Success Get All Subscriber',
+  CreateEventPrecondDesc: 'Success Create Event Precondition Description',
+  GetAllEventPrecondDesc: ' Success Get All Event Precondition Description',
+  GetEventPrecondDesc: 'Success Get Event Precondition Description',
 };
 
 export const ROLE = {

@@ -1,4 +1,4 @@
-import { PrismaClient } from '@prisma/client';
+import { Prisma, PrismaClient } from '@prisma/client';
 
 export class EventRepository {
   prisma: PrismaClient;
@@ -33,6 +33,11 @@ export class EventRepository {
 
   delete(condition: any) {
     const deleteEvent = this.prisma.event.delete(condition);
+    return deleteEvent;
+  }
+
+  deleteWithTransaction(tx: Prisma.TransactionClient, condition: any) {
+    const deleteEvent = tx.event.delete(condition);
     return deleteEvent;
   }
 }
