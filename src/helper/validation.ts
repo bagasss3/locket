@@ -32,7 +32,6 @@ export const valResetPassword = Joi.object({
 export const valCreateEvent = Joi.object({
   name: Joi.string().min(3).required(),
   date_time: Joi.date().required(),
-  precondition: Joi.number().min(0).max(3).required(),
   image_id: Joi.number().required(),
   category_id: Joi.number().required(),
   eligibility_id: Joi.number().required(),
@@ -70,4 +69,14 @@ export const valUpdateComment = Joi.object({
   comment: Joi.string().min(1).max(255).required(),
   comment_id: Joi.number().required(),
   mentioned_user: Joi.number(),
+});
+
+export const valCreateEventPrecondDesc = Joi.object({
+  event_id: Joi.number().required(),
+  name: Joi.string().min(3).max(25).required(),
+});
+
+export const valUpdateEventPrecondDesc = Joi.object({
+  id: Joi.number().required(),
+  name: Joi.string().min(3).max(25).required(),
 });

@@ -122,24 +122,33 @@ model Eligibility {
 }
 
 model Event {
-  id                 Int                @id
-  event_organizer    Event_Organizer    @relation(fields: [event_organizer_id], references: [id])
-  event_organizer_id Int
-  name               String
-  date_time          DateTime
-  image              Image?             @relation(fields: [image_id], references: [id])
-  image_id           Int?
-  description        String             @db.Text
-  precondition       Int                @default(0)
-  is_verified        Boolean            @default(false)
-  category           Category           @relation(fields: [category_id], references: [id])
-  category_id        Int
-  eligibility        Eligibility        @relation(fields: [eligibility_id], references: [id])
-  eligibility_id     Int
-  EventParticipant   EventParticipant[]
-  EventComment       EventComment[]
-  createdAt          DateTime           @default(now())
-  updatedAt          DateTime           @updatedAt
+  id                           Int                            @id
+  event_organizer              Event_Organizer                @relation(fields: [event_organizer_id], references: [id])
+  event_organizer_id           Int
+  name                         String
+  date_time                    DateTime
+  image                        Image?                         @relation(fields: [image_id], references: [id])
+  image_id                     Int?
+  description                  String                         @db.Text
+  is_verified                  Boolean                        @default(false)
+  category                     Category                       @relation(fields: [category_id], references: [id])
+  category_id                  Int
+  eligibility                  Eligibility                    @relation(fields: [eligibility_id], references: [id])
+  eligibility_id               Int
+  EventParticipant             EventParticipant[]
+  EventComment                 EventComment[]
+  createdAt                    DateTime                       @default(now())
+  updatedAt                    DateTime                       @updatedAt
+  EventPreconditionDescription EventPreconditionDescription[]
+}
+
+model EventPreconditionDescription {
+  id        Int      @id
+  name      String
+  event     Event    @relation(fields: [event_id], references: [id])
+  event_id  Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model EventParticipant {

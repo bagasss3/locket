@@ -20,6 +20,7 @@ import { EventOrganizerPreconditionRepository } from 'src/repository/event_organ
 import { FeedbackRepository } from 'src/repository/feedback.repository';
 import { EventCommentRepository } from 'src/repository/event_comment.repository';
 import { SubscribeEORepository } from 'src/repository/subscribe_eo.repository';
+import { EventPreconditionDescriptionRepository } from 'src/repository/event_precondition_description.repository';
 
 import { UserController } from './src/controller/user.controller';
 import { ParticipantController } from './src/controller/participant.controller';
@@ -36,6 +37,7 @@ import { AdminController } from 'src/controller/admin.controller';
 import { FeedbackController } from 'src/controller/feedback.controller';
 import { EventCommentController } from 'src/controller/event_comment.controller';
 import { SubscribeEOController } from 'src/controller/subscribe_eo.controller';
+import { EventPreconditionDescriptionController } from 'src/controller/event_precondition_description.controller';
 import { RenderController } from 'src/views/render.controller';
 
 import { AuthMiddleware } from './src/middleware/auth.middleware';
@@ -83,6 +85,8 @@ const eventOrganizerPreconditionRepository =
 const feedbackRepository = new FeedbackRepository(prisma);
 const eventCommentRepository = new EventCommentRepository(prisma);
 const subscribeEORepository = new SubscribeEORepository(prisma);
+const eventPreconditionDescriptionRepository =
+  new EventPreconditionDescriptionRepository(prisma);
 
 // Controller
 const renderController = new RenderController();
@@ -126,11 +130,13 @@ const sessionController = new SessionController(
   sessionRepository,
 );
 const eventController = new EventController(
+  prisma,
   eventRepository,
   eventOrganizerRepository,
   categoryRepository,
   eligibilityRepository,
   imageRepository,
+  eventPreconditionDescriptionRepository,
 );
 const categoryController = new CategoryController(categoryRepository);
 const eligibilityController = new EligibilityController(eligibilityRepository);
@@ -160,6 +166,12 @@ const subscribeEOController = new SubscribeEOController(
   eventOrganizerRepository,
   subscribeEORepository,
 );
+const eventPreconditionDescriptionController =
+  new EventPreconditionDescriptionController(
+    eventOrganizerRepository,
+    eventRepository,
+    eventPreconditionDescriptionRepository,
+  );
 
 // Middleware
 const authMiddleware = new AuthMiddleware(passport);
@@ -190,6 +202,7 @@ const httpSvc = new Service(
   feedbackController,
   eventCommentController,
   subscribeEOController,
+  eventPreconditionDescriptionController,
 );
 passportInit(passport, userRepository);
 httpSvc.init();
