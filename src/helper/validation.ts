@@ -80,3 +80,13 @@ export const valUpdateEventPrecondDesc = Joi.object({
   id: Joi.number().required(),
   name: Joi.string().min(3).max(25).required(),
 });
+
+export const valCreateEventPrecond = Joi.object({
+  image_id: Joi.number().required(),
+  event_precondition_description_id: Joi.number().required(),
+});
+
+export const valUpdateEventPrecond = Joi.object({
+  id: Joi.number().required(),
+  image_id: Joi.number().required(),
+});

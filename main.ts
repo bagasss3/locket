@@ -43,6 +43,8 @@ import { RenderController } from 'src/views/render.controller';
 import { AuthMiddleware } from './src/middleware/auth.middleware';
 import { passportInit } from './src/helper/passport';
 import prisma from './src/database/connection';
+import { EventPreconditionRepository } from 'src/repository/event_precondition.repository';
+import { EventPreconditionController } from 'src/controller/event_precondition.controller';
 
 dotenv.config();
 const port: Number = Number(process.env.PORT) || 3000;
@@ -87,6 +89,7 @@ const eventCommentRepository = new EventCommentRepository(prisma);
 const subscribeEORepository = new SubscribeEORepository(prisma);
 const eventPreconditionDescriptionRepository =
   new EventPreconditionDescriptionRepository(prisma);
+const eventPreconditionRepository = new EventPreconditionRepository(prisma);
 
 // Controller
 const renderController = new RenderController();
@@ -172,6 +175,15 @@ const eventPreconditionDescriptionController =
     eventRepository,
     eventPreconditionDescriptionRepository,
   );
+const eventPreconditionController = new EventPreconditionController(
+  participantRepository,
+  eventOrganizerRepository,
+  eventRepository,
+  eventParticipantRepository,
+  eventPreconditionRepository,
+  eventPreconditionDescriptionRepository,
+  imageRepository,
+);
 
 // Middleware
 const authMiddleware = new AuthMiddleware(passport);
@@ -203,6 +215,7 @@ const httpSvc = new Service(
   eventCommentController,
   subscribeEOController,
   eventPreconditionDescriptionController,
+  eventPreconditionController,
 );
 passportInit(passport, userRepository);
 httpSvc.init();

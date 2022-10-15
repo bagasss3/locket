@@ -25,6 +25,7 @@ import {
   NON_ADMIN_ALLOWED_ROLES,
   PARTICIPANT_ALLOWED_ROLES,
 } from 'src/helper/constant';
+import { EventPreconditionController } from 'src/controller/event_precondition.controller';
 
 export class Service {
   app: Application;
@@ -48,6 +49,7 @@ export class Service {
   eventCommentController: EventCommentController;
   subscribeEOController: SubscribeEOController;
   eventPreconditionDescriptionController: EventPreconditionDescriptionController;
+  eventPreconditionController: EventPreconditionController;
   constructor(
     app: Application,
     routerApi: Router,
@@ -70,6 +72,7 @@ export class Service {
     eventCommentController: EventCommentController,
     subscribeEOController: SubscribeEOController,
     eventPreconditionDescriptionController: EventPreconditionDescriptionController,
+    eventPreconditionController: EventPreconditionController,
   ) {
     this.app = app;
     this.routerApi = routerApi;
@@ -93,6 +96,7 @@ export class Service {
     this.subscribeEOController = subscribeEOController;
     this.eventPreconditionDescriptionController =
       eventPreconditionDescriptionController;
+    this.eventPreconditionController = eventPreconditionController;
   }
   init() {
     this.app.use('/api', this.authMiddleware.apiAuth, this.api());
@@ -261,6 +265,13 @@ export class Service {
       this.eventParticipantController.registerEvent,
     );
 
+    this.routerApi.get(
+      '/participant/event',
+      this.authMiddleware.userAuth,
+      this.authMiddleware.roleChecker(PARTICIPANT_ALLOWED_ROLES),
+      this.eventParticipantController.findAllRegisteredEvent,
+    );
+
     // Feedback Route
     this.routerApi.post(
       '/feedback',
@@ -316,7 +327,7 @@ export class Service {
 
     // Event Precondition Description Route
     this.routerApi.post(
-      '/event/precondition',
+      '/event/precondition/description',
       this.authMiddleware.userAuth,
       this.authMiddleware.roleChecker(EO_ALLOWED_ROLES),
       this.eventPreconditionDescriptionController
@@ -324,28 +335,72 @@ export class Service {
     );
 
     this.routerApi.get(
-      '/event/:event_id/precondition',
+      '/event/:event_id/precondition/description',
       this.eventPreconditionDescriptionController
         .findAllEventPrecondDescByEventID,
     );
 
     this.routerApi.get(
-      '/event/precondition/:id',
+      '/event/precondition/description/:id',
       this.eventPreconditionDescriptionController.findEventPrecondDescByID,
     );
 
     this.routerApi.put(
-      '/event/precondition/:id',
+      '/event/precondition/description/:id',
       this.authMiddleware.userAuth,
       this.authMiddleware.roleChecker(EO_ALLOWED_ROLES),
       this.eventPreconditionDescriptionController.updateEventPreconditionDesc,
     );
 
     this.routerApi.delete(
-      '/event/precondition/:id',
+      '/event/precondition/description/:id',
       this.authMiddleware.userAuth,
       this.authMiddleware.roleChecker(EO_ALLOWED_ROLES),
       this.eventPreconditionDescriptionController.deleteEventPreconditionDesc,
+    );
+
+    // Event Precondition Route
+    this.routerApi.post(
+      '/event/participant/precondition',
+      this.authMiddleware.userAuth,
+      this.authMiddleware.roleChecker(PARTICIPANT_ALLOWED_ROLES),
+      this.eventPreconditionController.storeEventPrecondition,
+    );
+    this.routerApi.get(
+      '/event/:event_id/participant/precondition',
+      this.authMiddleware.userAuth,
+      this.authMiddleware.roleChecker(PARTICIPANT_ALLOWED_ROLES),
+      this.eventPreconditionController.findParticipantEventPreconditions,
+    );
+    this.routerApi.get(
+      '/event/participant/precondition/:id',
+      this.authMiddleware.userAuth,
+      this.authMiddleware.roleChecker(PARTICIPANT_ALLOWED_ROLES),
+      this.eventPreconditionController.findEventPrecondByID,
+    );
+    this.routerApi.put(
+      '/event/participant/precondition',
+      this.authMiddleware.userAuth,
+      this.authMiddleware.roleChecker(PARTICIPANT_ALLOWED_ROLES),
+      this.eventPreconditionController.updateEventPrecondition,
+    );
+    this.routerApi.delete(
+      '/event/participant/precondition/:id',
+      this.authMiddleware.userAuth,
+      this.authMiddleware.roleChecker(PARTICIPANT_ALLOWED_ROLES),
+      this.eventPreconditionController.deleteEventPrecondition,
+    );
+    this.routerApi.get(
+      '/event/:event_id/precondition',
+      this.authMiddleware.userAuth,
+      this.authMiddleware.roleChecker(EO_ALLOWED_ROLES),
+      this.eventPreconditionController.findAllParticipantEventPrecondition,
+    );
+    this.routerApi.get(
+      '/event/precondition/:id',
+      this.authMiddleware.userAuth,
+      this.authMiddleware.roleChecker(EO_ALLOWED_ROLES),
+      this.eventPreconditionController.findParticipantEventPrecondByID,
     );
 
     return this.routerApi;

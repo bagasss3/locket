@@ -20,6 +20,7 @@ export class EventParticipantController {
     this.eventRepository = eventRepository;
     this.eventParticipantRepository = eventParticipantRepository;
     this.registerEvent = this.registerEvent.bind(this);
+    this.findAllRegisteredEvent = this.findAllRegisteredEvent.bind(this);
   }
 
   async registerEvent(req: Request, res: Response) {
@@ -60,6 +61,28 @@ export class EventParticipantController {
       }
 
       return Res.success(res, SUCCESS.RegisterEvent, storeEventParticipant);
+    } catch (err) {
+      return Res.error(res, err);
+    }
+  }
+
+  async findAllRegisteredEvent(req: Request, res: Response) {
+    try {
+      const findParticipant = await this.participantRepository.find({
+        where: {
+          user_id: req.user?.id,
+        },
+      });
+      if (!findParticipant) {
+        return Res.error(res, ERROR.UserNotFound);
+      }
+
+      const findAll = await this.eventParticipantRepository.findAll({
+        where: {
+          participant_id: findParticipant.id,
+        },
+      });
+      return Res.success(res, SUCCESS.GetAllEvents, findAll);
     } catch (err) {
       return Res.error(res, err);
     }
