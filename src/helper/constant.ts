@@ -36,6 +36,7 @@ export const ERROR = {
   UserNotParticipant: 'User is Not Participant',
   AlreadySubscribe: 'Participant Already Subscribe',
   MaxEventPrecondition: 'Total Max Event Precondition',
+  HaveNotRegisterEventYet: 'Error Have Not Register Event',
 };
 
 export const SUCCESS = {
@@ -78,6 +79,8 @@ export const SUCCESS = {
   CreateEventPrecondDesc: 'Success Create Event Precondition Description',
   GetAllEventPrecondDesc: ' Success Get All Event Precondition Description',
   GetEventPrecondDesc: 'Success Get Event Precondition Description',
+  GetAllPrecond: 'Success Get All Participant Event Precondition',
+  GetParticipantPrecond: 'Success Get Participant Precondition',
 };
 
 export const ROLE = {

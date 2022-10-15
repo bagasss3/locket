@@ -143,12 +143,13 @@ model Event {
 }
 
 model EventPreconditionDescription {
-  id        Int      @id
-  name      String
-  event     Event    @relation(fields: [event_id], references: [id])
-  event_id  Int
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id                Int                 @id
+  name              String
+  event             Event               @relation(fields: [event_id], references: [id])
+  event_id          Int
+  createdAt         DateTime            @default(now())
+  updatedAt         DateTime            @updatedAt
+  EventPrecondition EventPrecondition[]
 }
 
 model EventParticipant {
@@ -163,13 +164,15 @@ model EventParticipant {
 }
 
 model EventPrecondition {
-  id                   Int              @id
-  event_participant    EventParticipant @relation(fields: [event_participant_id], references: [id])
-  event_participant_id Int
-  image                Image            @relation(fields: [image_id], references: [id])
-  image_id             Int
-  createdAt            DateTime         @default(now())
-  updatedAt            DateTime         @updatedAt
+  id                                Int                          @id
+  event_participant                 EventParticipant             @relation(fields: [event_participant_id], references: [id])
+  event_participant_id              Int
+  event_precondition_description    EventPreconditionDescription @relation(fields: [event_precondition_description_id], references: [id])
+  event_precondition_description_id Int
+  image                             Image                        @relation(fields: [image_id], references: [id])
+  image_id                          Int
+  createdAt                         DateTime                     @default(now())
+  updatedAt                         DateTime                     @updatedAt
 }
 
 model EventComment {
