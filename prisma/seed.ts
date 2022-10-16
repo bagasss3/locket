@@ -4,51 +4,51 @@ import { generateID } from 'src/helper/vegenerate';
 const prisma = new PrismaClient();
 
 async function main() {
-  // const admin = await prisma.role.upsert({
-  //   where: { id: 1 },
-  //   update: {},
-  //   create: {
-  //     id: 1,
-  //     name: 'Admin',
-  //   },
-  // });
+  const admin = await prisma.role.upsert({
+    where: { id: 1 },
+    update: {},
+    create: {
+      id: 1,
+      name: 'Admin',
+    },
+  });
 
-  // const event_organizer = await prisma.role.upsert({
-  //   where: { id: 2 },
-  //   update: {},
-  //   create: {
-  //     id: 2,
-  //     name: 'Event_Organizer',
-  //   },
-  // });
+  const event_organizer = await prisma.role.upsert({
+    where: { id: 2 },
+    update: {},
+    create: {
+      id: 2,
+      name: 'Event_Organizer',
+    },
+  });
 
-  // const participant = await prisma.role.upsert({
-  //   where: { id: 3 },
-  //   update: {},
-  //   create: {
-  //     id: 3,
-  //     name: 'Participant',
-  //   },
-  // });
+  const participant = await prisma.role.upsert({
+    where: { id: 3 },
+    update: {},
+    create: {
+      id: 3,
+      name: 'Participant',
+    },
+  });
   const unix = Math.floor(Date.now() / 1000);
   const random = Math.floor(Math.random() * 100);
   const ID = unix + random;
-  // const hashPassword = await bcrypt.hash(
-  //   'akusuperadmin',
-  //   Number(process.env.SALT),
-  // );
-  // const user_admin = await prisma.user.upsert({
-  //   where: { id: ID },
-  //   update: {},
-  //   create: {
-  //     id: ID,
-  //     email: 'superadmin@gmail.com',
-  //     name: 'SuperAdmin',
-  //     password: hashPassword,
-  //     role_id: 1,
-  //   },
-  // });
   const hashPassword = await bcrypt.hash(
+    'akusuperadmin',
+    Number(process.env.SALT),
+  );
+  const user_admin = await prisma.user.upsert({
+    where: { id: ID },
+    update: {},
+    create: {
+      id: ID,
+      email: 'superadmin@gmail.com',
+      name: 'SuperAdmin',
+      password: hashPassword,
+      role_id: 1,
+    },
+  });
+  const hashPassword2 = await bcrypt.hash(
     'vimaveja123',
     Number(process.env.SALT),
   );
@@ -59,7 +59,7 @@ async function main() {
       id: ID,
       email: 'vimaveja@gmail.com',
       name: 'Vimaveja',
-      password: hashPassword,
+      password: hashPassword2,
       role_id: 2,
     },
   });

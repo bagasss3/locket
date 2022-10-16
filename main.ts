@@ -45,6 +45,7 @@ import { passportInit } from './src/helper/passport';
 import prisma from './src/database/connection';
 import { EventPreconditionRepository } from 'src/repository/event_precondition.repository';
 import { EventPreconditionController } from 'src/controller/event_precondition.controller';
+import path from 'path';
 
 dotenv.config();
 const port: Number = Number(process.env.PORT) || 3000;
@@ -52,20 +53,26 @@ const port: Number = Number(process.env.PORT) || 3000;
 // Express Init
 const app: Application = express();
 
+app.get('/xyz', function (req, res) {
+  res.send(path.resolve(__dirname, "dist", "js"));
+});
+
 // Express Middleware
 app.use(cors());
-app.use(helmet());
+// app.use(helmet());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(passport.initialize());
 
 // Static Files
-app.use(express.static('./src/public'));
-app.use('/css', express.static(__dirname + 'public/css'));
-app.use('/js', express.static(__dirname + 'public/js'));
-app.use('/img', express.static(__dirname + 'public/img'));
-app.use('/icon', express.static(__dirname + 'public/icon'));
-app.use('/plugin', express.static(__dirname + 'public/plugin'));
+// app.use(express.static('./src/public'));
+app.use('/css', express.static(__dirname + '/dist/css'));
+// app.use('/zyd', express.static(__dirname + '/dist/css'));
+app.use('/js', express.static(__dirname + '/dist/js'));
+// app.use('/dan', express.static(__dirname + '/dist/js'));
+app.use('/img', express.static(__dirname + '/src/public/img'));
+app.use('/icon', express.static(__dirname + '/src/public/icon'));
+app.use('/plugin', express.static(__dirname + '/public/plugin'));
 
 // Set Views
 app.set('views', './src/views');

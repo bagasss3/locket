@@ -407,7 +407,23 @@ export class Service {
   }
 
   web() {
-    this.routerRender.get('/home', this.renderController.home);
+   
+    this.routerRender.get('/', this.renderController.index);
+    this.routerRender.get('/event', this.renderController.event);
+    this.routerRender.get('/event-detail', this.renderController.detail_event);
+    this.routerRender.get('/event-saya', this.renderController.my_event);
+    this.routerRender.get('/login', this.renderController.login);
+    this.routerRender.get('/lupa-pass-1', this.renderController.lupa_pass_1);
+    this.routerRender.get('/lupa-pass-2', this.renderController.lupa_pass_2);
+    this.routerRender.get('/buat-sandi-baru', this.renderController.new_pass_1);
+    this.routerRender.get('/sandi-diubah', this.renderController.new_pass_2);
+    this.routerRender.get('/register', this.renderController.register);
+    this.routerRender.get('/register-participant', this.renderController.register_participant);
+    this.routerRender.get('/register-event-organizer', this.renderController.register_eo);
+    this.routerRender.get('/register-verifikasi', this.renderController.register_verifikasi);
+    this.routerRender.get('/verifikasi-ulang', this.renderController.verifikasi_ulang);
+    this.routerRender.get('/verifikasi-sukses', this.renderController.verifikasi_sukses);
+
     return this.routerRender;
   }
 }
