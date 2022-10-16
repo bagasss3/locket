@@ -265,6 +265,7 @@ export class EventController {
 
       return Res.success(res, SUCCESS.DeleteData, {});
     } catch (err) {
+      console.log(err);
       return Res.error(res, err);
     }
   }

@@ -16,7 +16,7 @@ model Session {
   access_token             String   @db.Text
   refresh_token            String   @db.Text
   refresh_token_expired_at DateTime
-  user                     User     @relation(fields: [user_id], references: [id])
+  user                     User     @relation(fields: [user_id], references: [id], onUpdate: Cascade, onDelete: Cascade)
   user_id                  Int
   createdAt                DateTime @default(now())
   updatedAt                DateTime @updatedAt
@@ -27,7 +27,7 @@ model User {
   email              String               @unique
   name               String
   password           String
-  role               Role                 @relation(fields: [role_id], references: [id])
+  role               Role                 @relation(fields: [role_id], references: [id], onUpdate: Cascade, onDelete: Cascade)
   role_id            Int
   Session            Session[]
   Event_Organizer    Event_Organizer?
@@ -68,9 +68,9 @@ model Image {
 
 model Event_Organizer {
   id                           Int                           @id
-  user                         User                          @relation(fields: [user_id], references: [id])
+  user                         User                          @relation(fields: [user_id], references: [id], onUpdate: Cascade, onDelete: Cascade)
   user_id                      Int                           @unique
-  image                        Image?                        @relation(fields: [image_id], references: [id])
+  image                        Image?                        @relation(fields: [image_id], references: [id], onUpdate: Cascade, onDelete: Cascade)
   image_id                     Int?
   description                  String?                       @db.Text
   is_verified                  Boolean                       @default(false)
@@ -83,9 +83,9 @@ model Event_Organizer {
 
 model Event_Organizer_Precondition {
   id                 Int             @id
-  event_organizer    Event_Organizer @relation(fields: [event_organizer_id], references: [id])
+  event_organizer    Event_Organizer @relation(fields: [event_organizer_id], references: [id], onUpdate: Cascade, onDelete: Cascade)
   event_organizer_id Int             @unique
-  image              Image           @relation(fields: [image_id], references: [id])
+  image              Image           @relation(fields: [image_id], references: [id], onUpdate: Cascade, onDelete: Cascade)
   image_id           Int             @unique
   createdAt          DateTime        @default(now())
   updatedAt          DateTime        @updatedAt
@@ -93,12 +93,12 @@ model Event_Organizer_Precondition {
 
 model Participant {
   id               Int                @id
-  user             User               @relation(fields: [user_id], references: [id])
+  user             User               @relation(fields: [user_id], references: [id], onUpdate: Cascade, onDelete: Cascade)
   user_id          Int                @unique
   phone_number     String             @unique
   gender           String?
   birth_date       DateTime?
-  image            Image?             @relation(fields: [image_id], references: [id])
+  image            Image?             @relation(fields: [image_id], references: [id], onUpdate: Cascade, onDelete: Cascade)
   image_id         Int?
   status           String?
   EventParticipant EventParticipant[]
@@ -123,17 +123,17 @@ model Eligibility {
 
 model Event {
   id                           Int                            @id
-  event_organizer              Event_Organizer                @relation(fields: [event_organizer_id], references: [id])
+  event_organizer              Event_Organizer                @relation(fields: [event_organizer_id], references: [id], onUpdate: Cascade, onDelete: Cascade)
   event_organizer_id           Int
   name                         String
   date_time                    DateTime
-  image                        Image?                         @relation(fields: [image_id], references: [id])
+  image                        Image?                         @relation(fields: [image_id], references: [id], onUpdate: Cascade, onDelete: Cascade)
   image_id                     Int?
   description                  String                         @db.Text
   is_verified                  Boolean                        @default(false)
-  category                     Category                       @relation(fields: [category_id], references: [id])
+  category                     Category                       @relation(fields: [category_id], references: [id], onUpdate: Cascade, onDelete: Cascade)
   category_id                  Int
-  eligibility                  Eligibility                    @relation(fields: [eligibility_id], references: [id])
+  eligibility                  Eligibility                    @relation(fields: [eligibility_id], references: [id], onUpdate: Cascade, onDelete: Cascade)
   eligibility_id               Int
   EventParticipant             EventParticipant[]
   EventComment                 EventComment[]
@@ -145,7 +145,7 @@ model Event {
 model EventPreconditionDescription {
   id                Int                 @id
   name              String
-  event             Event               @relation(fields: [event_id], references: [id])
+  event             Event               @relation(fields: [event_id], references: [id], onUpdate: Cascade, onDelete: Cascade)
   event_id          Int
   createdAt         DateTime            @default(now())
   updatedAt         DateTime            @updatedAt
@@ -154,9 +154,9 @@ model EventPreconditionDescription {
 
 model EventParticipant {
   id                Int                 @id
-  participant       Participant         @relation(fields: [participant_id], references: [id])
+  participant       Participant         @relation(fields: [participant_id], references: [id], onUpdate: Cascade, onDelete: Cascade)
   participant_id    Int
-  event             Event               @relation(fields: [event_id], references: [id])
+  event             Event               @relation(fields: [event_id], references: [id], onUpdate: Cascade, onDelete: Cascade)
   event_id          Int
   EventPrecondition EventPrecondition[]
   createdAt         DateTime            @default(now())
@@ -165,11 +165,11 @@ model EventParticipant {
 
 model EventPrecondition {
   id                                Int                          @id
-  event_participant                 EventParticipant             @relation(fields: [event_participant_id], references: [id])
+  event_participant                 EventParticipant             @relation(fields: [event_participant_id], references: [id], onUpdate: Cascade, onDelete: Cascade)
   event_participant_id              Int
-  event_precondition_description    EventPreconditionDescription @relation(fields: [event_precondition_description_id], references: [id])
+  event_precondition_description    EventPreconditionDescription @relation(fields: [event_precondition_description_id], references: [id], onUpdate: Cascade, onDelete: Cascade)
   event_precondition_description_id Int
-  image                             Image                        @relation(fields: [image_id], references: [id])
+  image                             Image                        @relation(fields: [image_id], references: [id], onUpdate: Cascade, onDelete: Cascade)
   image_id                          Int
   createdAt                         DateTime                     @default(now())
   updatedAt                         DateTime                     @updatedAt
@@ -177,9 +177,9 @@ model EventPrecondition {
 
 model EventComment {
   id             Int      @id
-  user           User     @relation(fields: [user_id], references: [id])
+  user           User     @relation(fields: [user_id], references: [id], onUpdate: Cascade, onDelete: Cascade)
   user_id        Int
-  event          Event    @relation(fields: [event_id], references: [id])
+  event          Event    @relation(fields: [event_id], references: [id], onUpdate: Cascade, onDelete: Cascade)
   event_id       Int
   comment        String   @db.VarChar(255)
   parent_id      Int?
@@ -240,7 +240,7 @@ model Token {
 
 model Feedback {
   id        Int      @id
-  user      User     @relation(fields: [user_id], references: [id])
+  user      User     @relation(fields: [user_id], references: [id], onUpdate: Cascade, onDelete: Cascade)
   user_id   Int
   review    String   @db.Text
   star      Int
@@ -250,9 +250,9 @@ model Feedback {
 
 model SubscribeEO {
   id                 Int             @id
-  participant        Participant     @relation(fields: [participant_id], references: [id])
+  participant        Participant     @relation(fields: [participant_id], references: [id], onUpdate: Cascade, onDelete: Cascade)
   participant_id     Int
-  event_organizer    Event_Organizer @relation(fields: [event_organizer_id], references: [id])
+  event_organizer    Event_Organizer @relation(fields: [event_organizer_id], references: [id], onUpdate: Cascade, onDelete: Cascade)
   event_organizer_id Int
   createdAt          DateTime        @default(now())
   updatedAt          DateTime        @updatedAt
