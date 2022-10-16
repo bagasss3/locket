@@ -8,9 +8,9 @@ import { ERROR, SUCCESS } from '../helper/constant';
 import { Res } from '../helper/response';
 import { valCreateEvent } from '../helper/validation';
 import { generateID } from '../helper/vegenerate';
+import { pagination } from '../helper/pagination';
 import { ImageRepository } from 'src/repository/image.repository';
 import { EventPreconditionDescriptionRepository } from 'src/repository/event_precondition_description.repository';
-
 export class EventController {
   prisma: PrismaClient;
   eventRepository: EventRepository;
@@ -105,9 +105,14 @@ export class EventController {
 
   async findAll(req: Request, res: Response) {
     try {
+      const { per_page, page } = req.body;
       const events = await this.eventRepository.findAll({
+        ...pagination({ per_page, page }),
         where: {
           is_verified: true,
+        },
+        orderBy: {
+          createdAt: 'desc',
         },
       });
       return Res.success(res, SUCCESS.GetAllEvents, events);

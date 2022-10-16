@@ -9,6 +9,7 @@ import { Res } from 'src/helper/response';
 import { SUCCESS, ERROR } from 'src/helper/constant';
 import { sendMail } from 'src/service/mail';
 import { valNotifyEO } from 'src/helper/validation';
+import { pagination } from 'src/helper/pagination';
 
 export class AdminController {
   prisma: PrismaClient;
@@ -147,9 +148,14 @@ export class AdminController {
 
   async findUnverifiedEvents(req: Request, res: Response) {
     try {
+      const { per_page, page } = req.body;
       const findEvents = await this.eventRepository.findAll({
         where: {
           is_verified: false,
+        },
+        ...pagination({ per_page, page }),
+        orderBy: {
+          createdAt: 'desc',
         },
       });
       return Res.success(res, SUCCESS.GetAllEvents, findEvents);
