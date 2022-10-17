@@ -11,6 +11,13 @@ import { generateID } from '../helper/vegenerate';
 import { pagination } from '../helper/pagination';
 import { ImageRepository } from 'src/repository/image.repository';
 import { EventPreconditionDescriptionRepository } from 'src/repository/event_precondition_description.repository';
+import { integrations_v1alpha } from 'googleapis';
+
+interface Foo {
+  per_page: number;
+  page: number;
+}
+
 export class EventController {
   prisma: PrismaClient;
   eventRepository: EventRepository;
@@ -105,11 +112,16 @@ export class EventController {
 
   async findAll(req: Request, res: Response) {
     try {
-      const { per_page, page } = req.body;
+      const { per_page, page, eligibility_id, category_id, search } = req.body;
       const events = await this.eventRepository.findAll({
         ...pagination({ per_page, page }),
         where: {
           is_verified: true,
+          eligibility_id,
+          category_id,
+          name: {
+            contains: search,
+          },
         },
         orderBy: {
           createdAt: 'desc',
