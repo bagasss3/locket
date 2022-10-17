@@ -148,17 +148,24 @@ export class AdminController {
 
   async findUnverifiedEvents(req: Request, res: Response) {
     try {
-      const { per_page, page } = req.body;
-      const findEvents = await this.eventRepository.findAll({
+      const { per_page, page, eligibility_id, category_id, search } = req.query;
+      let eligibility = Number(eligibility_id) || undefined;
+      let category = Number(category_id) || undefined;
+      const events = await this.eventRepository.findAll({
+        ...pagination({ per_page, page }),
         where: {
           is_verified: false,
+          eligibility_id: eligibility,
+          category_id: category,
+          name: {
+            contains: search,
+          },
         },
-        ...pagination({ per_page, page }),
         orderBy: {
           createdAt: 'desc',
         },
       });
-      return Res.success(res, SUCCESS.GetAllEvents, findEvents);
+      return Res.success(res, SUCCESS.GetAllEvents, events);
     } catch (err) {
       return Res.error(res, err);
     }
