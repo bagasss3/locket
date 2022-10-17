@@ -112,13 +112,15 @@ export class EventController {
 
   async findAll(req: Request, res: Response) {
     try {
-      const { per_page, page, eligibility_id, category_id, search } = req.body;
+      const { per_page, page, eligibility_id, category_id, search } = req.query;
+      let eligibility = Number(eligibility_id) || undefined;
+      let category = Number(category_id) || undefined;
       const events = await this.eventRepository.findAll({
         ...pagination({ per_page, page }),
         where: {
           is_verified: true,
-          eligibility_id,
-          category_id,
+          eligibility_id: eligibility,
+          category_id: category,
           name: {
             contains: search,
           },
@@ -129,6 +131,7 @@ export class EventController {
       });
       return Res.success(res, SUCCESS.GetAllEvents, events);
     } catch (err) {
+      console.log(err);
       return Res.error(res, err);
     }
   }
