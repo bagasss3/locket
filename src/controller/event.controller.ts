@@ -129,6 +129,7 @@ export class EventController {
           createdAt: 'desc',
         },
       });
+      console.log('setelah fetch');
       return Res.success(res, SUCCESS.GetAllEvents, events);
     } catch (err) {
       console.log(err);

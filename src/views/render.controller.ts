@@ -16,6 +16,17 @@ export class RenderController {
     this.register_verifikasi = this.register_verifikasi.bind(this);
     this.verifikasi_ulang = this.verifikasi_ulang.bind(this);
     this.verifikasi_sukses = this.verifikasi_sukses.bind(this);
+    
+    this.dashboard_eo = this.dashboard_eo.bind(this);
+    this.event_eo = this.event_eo.bind(this);
+    this.create_event_eo = this.create_event_eo.bind(this);
+    this.edit_event_eo = this.edit_event_eo.bind(this);
+    this.detail_event_eo = this.detail_event_eo.bind(this);
+    this.subscribers = this.subscribers.bind(this);
+    this.komentar = this.komentar.bind(this);
+    this.detail_komentar = this.detail_komentar.bind(this);
+    this.pengaturan = this.pengaturan.bind(this);
+
   }
 
   async index(req: Request, res: Response) {
@@ -62,5 +73,32 @@ export class RenderController {
   }
   async verifikasi_sukses(req: Request, res: Response) {
     return res.render('verifikasi-sukses');
+  }
+  async dashboard_eo(req: Request, res: Response) {
+    return res.render('eo-views/dashboard');
+  }
+  async event_eo(req: Request, res: Response) {
+    return res.render('eo-views/event');
+  }
+  async create_event_eo(req: Request, res: Response) {
+    return res.render('eo-views/create-event');
+  }
+  async edit_event_eo(req: Request, res: Response) {
+    return res.render('eo-views/edit-event');
+  }
+  async detail_event_eo(req: Request, res: Response) {
+    return res.render('eo-views/detail-event');
+  }
+  async subscribers(req: Request, res: Response) {
+    return res.render('eo-views/subscribers');
+  }
+  async komentar(req: Request, res: Response) {
+    return res.render('eo-views/komentar');
+  }
+  async detail_komentar(req: Request, res: Response) {
+    return res.render('eo-views/detail-komentar');
+  }
+  async pengaturan(req: Request, res: Response) {
+    return res.render('eo-views/pengaturan');
   }
 }
