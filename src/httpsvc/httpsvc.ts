@@ -454,6 +454,14 @@ export class Service {
     this.routerRender.get('/detail-komentar', this.renderController.detail_komentar);
     this.routerRender.get('/pengaturan-akun', this.renderController.pengaturan);
 
+    this.routerRender.get('/login-admin', this.renderController.login_admin);
+    this.routerRender.get('/dashboard-admin', this.renderController.dashboard_admin);
+    this.routerRender.get('/event-manajement', this.renderController.event_manajement);
+    this.routerRender.get('/detail-event-terkonfirmasi', this.renderController.detail_event_manajement);
+    this.routerRender.get('/konfirmasi-event', this.renderController.detail_event_konfirmasi);
+    this.routerRender.get('/daftar-participants', this.renderController.daftar_participants);
+    this.routerRender.get('/daftar-event-organizer', this.renderController.daftar_eo);
+
     return this.routerRender;
   }
 }
