@@ -26,7 +26,14 @@ export class RenderController {
     this.komentar = this.komentar.bind(this);
     this.detail_komentar = this.detail_komentar.bind(this);
     this.pengaturan = this.pengaturan.bind(this);
-
+    
+    this.dashboard_admin = this.dashboard_admin.bind(this);
+    this.event_manajement = this.event_manajement.bind(this);
+    this.detail_event_manajement = this.detail_event_manajement.bind(this);
+    this.detail_event_konfirmasi = this.detail_event_konfirmasi.bind(this);
+    this.daftar_participants = this.daftar_participants.bind(this);
+    this.daftar_eo = this.daftar_eo.bind(this);
+    this.login_admin = this.login_admin.bind(this);
   }
 
   async index(req: Request, res: Response) {
@@ -100,5 +107,27 @@ export class RenderController {
   }
   async pengaturan(req: Request, res: Response) {
     return res.render('eo-views/pengaturan');
+  }
+
+  async login_admin(req: Request, res: Response) {
+    return res.render('admin-views/login');
+  }
+  async dashboard_admin(req: Request, res: Response) {
+    return res.render('admin-views/dashboard');
+  }
+  async event_manajement(req: Request, res: Response) {
+    return res.render('admin-views/event-manajement');
+  }
+  async detail_event_manajement(req: Request, res: Response) {
+    return res.render('admin-views/detail-event');
+  }
+  async detail_event_konfirmasi(req: Request, res: Response) {
+    return res.render('admin-views/detail-konfirmasi');
+  }
+  async daftar_participants(req: Request, res: Response) {
+    return res.render('admin-views/participants');
+  }
+  async daftar_eo(req: Request, res: Response) {
+    return res.render('admin-views/event-organizer');
   }
 }

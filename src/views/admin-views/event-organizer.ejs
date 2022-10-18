@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <%- include('../layout/admin-layout/header') %>
+
+    <title>Daftar Event Organizers</title>
+  </head>
+  <body>
+    <div class="wrapper">
+      <%- include('../layout/admin-layout/sidebar') %>
+
+      <!-- Content Wrapper. Contains page content -->
+      <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <div class="content-header">
+          <div class="container-fluid">
+            <div class="row mb-2">
+              <div class="col-sm-6">
+                <h1 class="m-0">Daftar Event Organizers</h1>
+              </div>
+              <!-- /.col -->
+              <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                  <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
+                  <li class="breadcrumb-item active">
+                    Daftar Event Organizers
+                  </li>
+                </ol>
+              </div>
+              <!-- /.col -->
+            </div>
+            <!-- /.row -->
+          </div>
+          <!-- /.container-fluid -->
+        </div>
+        <!-- /.content-header -->
+
+        <!-- Main content -->
+        <section class="content">
+          <!-- /.container-fluid -->
+          <div class="container-fluid">
+            <div class="card card-outline card-primary">
+              <div class="card-header border-0">
+                <h3 class="card-title">
+                  <i class="fa-solid fa-users"></i>
+                  Daftar Event Organizers
+                </h3>
+              </div>
+              <!-- /.card-header -->
+              <div class="card-body">
+                <table class="table-bordered table-striped table" id="example1">
+                  <thead>
+                    <tr>
+                      <th>Nama EO</th>
+                      <th>Email</th>
+                      <th>No. Handphone</th>
+                      <th style="width: 40%">Deskripsi</th>
+                      <th>Aksi</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td
+                        class="align-items-center d-flex justify-content-start user-block border-0"
+                      >
+                        <img
+                          class="img-circle img-bordered-sm"
+                          src="/img/logo EO.png"
+                          alt="user image"
+                        />
+                        <span class="username">Ufo Veteran Jakarta</span>
+                      </td>
+                      <td>ufo@gmail.com</td>
+                      <td>80808080</td>
+                      <td>
+                        Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                        Odit voluptas similique et debitis in quod consequuntur
+                        sed itaque mollitia ipsa?
+                      </td>
+                      <td>
+                        <a
+                          class="btn-danger btn-sm btn text-white"
+                          data-toggle="modal"
+                          data-target="#deletemodal-eo"
+                        >
+                          <i class="fas fa-trash"> </i>
+                          Hapus
+                        </a>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+                <!-- Modal Delete-->
+                <div
+                  class="fade modal"
+                  id="deletemodal-eo"
+                  tabindex="-1"
+                  role="dialog"
+                  aria-labelledby="deletemodal-eoTitle"
+                  aria-hidden="true"
+                >
+                  <div
+                    class="modal-dialog modal-dialog-centered"
+                    role="document"
+                  >
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLongTitle">
+                          Hapus Event Organizers
+                        </h5>
+                        <button
+                          type="button"
+                          class="close"
+                          data-dismiss="modal"
+                          aria-label="Close"
+                        >
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                      </div>
+                      <div class="modal-body">
+                        Apakah Kamu Yakin ingin Menghapus Event Organizers ini?
+                      </div>
+                      <div class="modal-footer">
+                        <button
+                          type="button"
+                          class="btn-secondary btn"
+                          data-dismiss="modal"
+                        >
+                          Batal
+                        </button>
+                        <button type="button" class="btn-danger btn">
+                          Hapus
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- /.card-body -->
+            </div>
+            <!-- /.card -->
+          </div>
+          <!-- /.container-fluid -->
+        </section>
+        <!-- /.content -->
+      </div>
+
+      <%- include('../layout/admin-layout/footer') %>
+    </div>
+    <%- include('../layout/admin-layout/script') %>
+  </body>
+</html>
