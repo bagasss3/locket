@@ -11,12 +11,6 @@ import { generateID } from '../helper/vegenerate';
 import { pagination } from '../helper/pagination';
 import { ImageRepository } from 'src/repository/image.repository';
 import { EventPreconditionDescriptionRepository } from 'src/repository/event_precondition_description.repository';
-import { integrations_v1alpha } from 'googleapis';
-
-interface Foo {
-  per_page: number;
-  page: number;
-}
 
 export class EventController {
   prisma: PrismaClient;
