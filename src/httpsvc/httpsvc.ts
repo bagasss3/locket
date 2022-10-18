@@ -437,6 +437,22 @@ export class Service {
       '/verifikasi-sukses',
       this.renderController.verifikasi_sukses,
     );
+    this.routerRender.get('/register-participant', this.renderController.register_participant);
+    this.routerRender.get('/register-event-organizer', this.renderController.register_eo);
+    this.routerRender.get('/register-verifikasi', this.renderController.register_verifikasi);
+    this.routerRender.get('/verifikasi-ulang', this.renderController.verifikasi_ulang);
+    this.routerRender.get('/verifikasi-sukses', this.renderController.verifikasi_sukses);
+    
+    
+    this.routerRender.get('/dashboard-event-organizer', this.renderController.dashboard_eo);
+    this.routerRender.get('/event-eo', this.renderController.event_eo);
+    this.routerRender.get('/create-event', this.renderController.create_event_eo);
+    this.routerRender.get('/edit-event', this.renderController.edit_event_eo);
+    this.routerRender.get('/detail-event', this.renderController.detail_event_eo);
+    this.routerRender.get('/subscribers', this.renderController.subscribers);
+    this.routerRender.get('/komentar', this.renderController.komentar);
+    this.routerRender.get('/detail-komentar', this.renderController.detail_komentar);
+    this.routerRender.get('/pengaturan-akun', this.renderController.pengaturan);
 
     return this.routerRender;
   }

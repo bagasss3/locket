@@ -53,6 +53,10 @@ const port: Number = Number(process.env.PORT) || 3000;
 // Express Init
 const app: Application = express();
 
+app.get('/xyz', function (req, res) {
+  res.send(path.resolve(__dirname, "dist", "js"));
+});
+
 // Express Middleware
 app.use(cors());
 // app.use(helmet());
@@ -65,7 +69,7 @@ app.use('/css', express.static(__dirname + '/dist/css'));
 app.use('/js', express.static(__dirname + '/dist/js'));
 app.use('/img', express.static(__dirname + '/src/public/img'));
 app.use('/icon', express.static(__dirname + '/src/public/icon'));
-app.use('/plugin', express.static(__dirname + '/public/plugin'));
+app.use('/plugin', express.static(__dirname + '/dist/plugin'));
 
 // Set Views
 app.set('views', './src/views');

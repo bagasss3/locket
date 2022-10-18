@@ -20,7 +20,7 @@ module.exports = {
   output: {
     path: path.resolve(__dirname, 'dist/'),
     filename: './js/[name].min.js',
-    clean: true,
+    // clean: true,
   },
   plugins: [
     new MiniCssExtractPlugin({
