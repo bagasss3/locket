@@ -54,7 +54,7 @@ const port: Number = Number(process.env.PORT) || 3000;
 const app: Application = express();
 
 app.get('/xyz', function (req, res) {
-  res.send(path.resolve(__dirname, "dist", "js"));
+  res.send(path.resolve(__dirname, 'dist', 'js'));
 });
 
 // Express Middleware

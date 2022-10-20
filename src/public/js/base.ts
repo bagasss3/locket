@@ -1,4 +1,3 @@
-
 // Get the button
 let backToTopbtn = document.getElementById('btn-back-to-top')!;
 const scrollFunction = () => {
@@ -14,29 +13,32 @@ const backToTop = () => {
 };
 
 // When the user scrolls down 20px from the top of the document, show the button
-document.addEventListener('scroll', scrollFunction)
+document.addEventListener('scroll', scrollFunction);
 
 // When the user clicks on the button, scroll to the top of the document
 backToTopbtn?.addEventListener('click', backToTop);
 
-
 // menu active
 const locationUser = location.href;
-const navbar: NodeListOf<HTMLAnchorElement> = document.querySelectorAll(".nav__link")  ;
+const navbar: NodeListOf<HTMLAnchorElement> =
+  document.querySelectorAll('.nav__link');
 const navbarLength = navbar.length;
 for (let i = 0; i < navbarLength; i++) {
-  
-    if (navbar[i].href === locationUser) {
-        navbar[i].className = "nav-link nav__link active-nav";
-    }
+  if (navbar[i].href === locationUser) {
+    navbar[i].className = 'nav-link nav__link active-nav';
+  }
 }
 
 // change Photo
 //declearing html elements
-const imgContainerDiv = document.querySelector('.profile-pict-container') as HTMLDivElement;
+const imgContainerDiv = document.querySelector(
+  '.profile-pict-container',
+) as HTMLDivElement;
 const imgProfile = document.querySelector('#photo-profile') as HTMLImageElement;
 const fileUpload = document.querySelector('#file') as HTMLInputElement;
-const uploadBtnImg = document.querySelector('.upload-foto-profile') as HTMLElement;
+const uploadBtnImg = document.querySelector(
+  '.upload-foto-profile',
+) as HTMLElement;
 
 //if user hover on img div
 // imgContainerDiv?.addEventListener('mouseenter', function () {
@@ -54,17 +56,17 @@ const uploadBtnImg = document.querySelector('.upload-foto-profile') as HTMLEleme
 
 fileUpload?.addEventListener('change', function () {
   //this refers to file
-  let choosedFile
+  let choosedFile;
   if (fileUpload.files !== null) {
-    choosedFile  = fileUpload.files[0];
+    choosedFile = fileUpload.files[0];
   }
 
   if (choosedFile) {
     const reader = new FileReader(); //FileReader is a predefined function of JS
 
     reader.addEventListener('load', function () {
-      if (typeof reader.result === "string") {
-        imgProfile.setAttribute('src', reader.result );
+      if (typeof reader.result === 'string') {
+        imgProfile.setAttribute('src', reader.result);
       }
     });
 
@@ -75,37 +77,32 @@ fileUpload?.addEventListener('change', function () {
 // subscribe EO
 const btnSubs = document.querySelector('#subscribeEo') as HTMLButtonElement;
 
-btnSubs?.addEventListener('click', (e) =>{
-  
-    btnSubs.classList.toggle("btn-light-2")
-    btnSubs.classList.toggle("transition-btn-light")
-    btnSubs.classList.toggle("btn-primary")
-    btnSubs.classList.toggle("btn-primary-transition")
+btnSubs?.addEventListener('click', (e) => {
+  btnSubs.classList.toggle('btn-light-2');
+  btnSubs.classList.toggle('transition-btn-light');
+  btnSubs.classList.toggle('btn-primary');
+  btnSubs.classList.toggle('btn-primary-transition');
 
-    if (btnSubs.classList.contains("btn-light-2")) {
-      btnSubs.innerText = "Subscribed"
-      
-    } else{
-      btnSubs.innerText = "Subscribe"
-    }
-  
-})
-
-const btnSubsLg = document.querySelector("#subscribeEoLg") as HTMLDivElement
-const textSubscribe = document.querySelector("#btn_Subscribe") as HTMLButtonElement
-btnSubsLg?.addEventListener('click', (e) =>{
-  
-  btnSubsLg.classList.toggle("btn-light-lg")
-  btnSubsLg.classList.toggle("transition-btn-light")
-  btnSubsLg.classList.toggle("btn-primary-lg")
-  btnSubsLg.classList.toggle("btn-primary-transition")
-
-  if (btnSubsLg.classList.contains("btn-light-lg")) {
-    textSubscribe.innerText = "Subscribed"
-    
-  } else{
-    textSubscribe.innerText = "Subscribe"
+  if (btnSubs.classList.contains('btn-light-2')) {
+    btnSubs.innerText = 'Subscribed';
+  } else {
+    btnSubs.innerText = 'Subscribe';
   }
+});
 
-})
+const btnSubsLg = document.querySelector('#subscribeEoLg') as HTMLDivElement;
+const textSubscribe = document.querySelector(
+  '#btn_Subscribe',
+) as HTMLButtonElement;
+btnSubsLg?.addEventListener('click', (e) => {
+  btnSubsLg.classList.toggle('btn-light-lg');
+  btnSubsLg.classList.toggle('transition-btn-light');
+  btnSubsLg.classList.toggle('btn-primary-lg');
+  btnSubsLg.classList.toggle('btn-primary-transition');
 
+  if (btnSubsLg.classList.contains('btn-light-lg')) {
+    textSubscribe.innerText = 'Subscribed';
+  } else {
+    textSubscribe.innerText = 'Subscribe';
+  }
+});
