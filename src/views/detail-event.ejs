@@ -2,14 +2,14 @@
 <html lang="en">
   <head>
     <%- include('layout/header') %>
-    <title>Homepage</title>
+    <title>Detail Event</title>
   </head>
   <body class="debug-screens">
     <%- include('layout/navbar') %>
 
     <!-- poster lomba -->
     <div
-      class="sizing-content mt-20 rounded-b-3xl bg-light-200 text-black shadow-sm shadow-secondary-100"
+      class="sizing-content mt-14 rounded-b-3xl bg-light-200 text-black shadow-sm shadow-secondary-100"
     >
       <div class="justify-center sm:flex">
         <div class="poster-event mb-8 sm:w-80 md:h-96 md:w-96">
@@ -35,7 +35,7 @@
           </div>
         </div>
         <div
-          class="eo-title mb-4 md:justify-center lg:col-span-2 lg:justify-start"
+          class="eo-title mb-4 justify-center md:justify-center lg:col-span-2 lg:justify-start"
         >
           <img
             src="img/logo EO.png"
@@ -46,14 +46,18 @@
             <h5 class="text-lg font-bold capitalize">ufo veteran jakarta</h5>
             <a
               class="cursor-pointer text-sm tracking-wider text-secondary-100 hover:font-bold"
+              href="/semua-event"
               >Lihat Semua event</a
             >
           </div>
         </div>
         <div
           class="btn-primary-lg subscribe btn-primary-transition col-span-2 lg:col-span-1"
+          id="subscribeEoLg"
         >
-          <button type="submit" class="tracking-widest">Subscribe</button>
+          <button type="submit" class="tracking-widest" id="btn_Subscribe">
+            Subscribe
+          </button>
         </div>
       </div>
     </div>

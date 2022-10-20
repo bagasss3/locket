@@ -21,33 +21,91 @@ backToTopbtn?.addEventListener('click', backToTop);
 
 
 // menu active
-let menu = document?.querySelector(".menu");
-let btnMenu = menu!.querySelectorAll(".nav-hover")
-
-let activeMenu = () => {
-  console.log("xxx");
-  var current = document.querySelectorAll(".active-nav");
-  current[0].classList.remove("active-nav")
-  current[0].classList.add("active-nav")
+const locationUser = location.href;
+const navbar: NodeListOf<HTMLAnchorElement> = document.querySelectorAll(".nav__link")  ;
+const navbarLength = navbar.length;
+for (let i = 0; i < navbarLength; i++) {
+  
+    if (navbar[i].href === locationUser) {
+        navbar[i].className = "nav-link nav__link active-nav";
+    }
 }
 
-for (var i = 0; i < btnMenu.length; i++) {
-  btnMenu[i].addEventListener("click", activeMenu)
-};
+// change Photo
+//declearing html elements
+const imgContainerDiv = document.querySelector('.profile-pict-container') as HTMLDivElement;
+const imgProfile = document.querySelector('#photo-profile') as HTMLImageElement;
+const fileUpload = document.querySelector('#file') as HTMLInputElement;
+const uploadBtnImg = document.querySelector('.upload-foto-profile') as HTMLElement;
 
+//if user hover on img div
+// imgContainerDiv?.addEventListener('mouseenter', function () {
+//   uploadBtnImg!.style.display = 'block';
+// });
 
-// get semua event
-let urlEvent = "/api/event"
-const getAllEvent = async (urlEvent:any) => {
-    const data = await fetch(urlEvent, {
-      headers: {
-        'x-api-key': 'joemama'
-      },
+// //if we hover out from img div
+// imgContainerDiv?.addEventListener('mouseleave', function () {
+//   uploadBtnImg!.style.display = 'block';
+// });
+
+//lets work for image showing functionality when we choose an image to upload
+
+//when we choose a foto to upload
+
+fileUpload?.addEventListener('change', function () {
+  //this refers to file
+  let choosedFile
+  if (fileUpload.files !== null) {
+    choosedFile  = fileUpload.files[0];
+  }
+
+  if (choosedFile) {
+    const reader = new FileReader(); //FileReader is a predefined function of JS
+
+    reader.addEventListener('load', function () {
+      if (typeof reader.result === "string") {
+        imgProfile.setAttribute('src', reader.result );
+      }
+    });
+
+    reader.readAsDataURL(choosedFile);
+  }
+});
+
+// subscribe EO
+const btnSubs = document.querySelector('#subscribeEo') as HTMLButtonElement;
+
+btnSubs?.addEventListener('click', (e) =>{
+  
+    btnSubs.classList.toggle("btn-light-2")
+    btnSubs.classList.toggle("transition-btn-light")
+    btnSubs.classList.toggle("btn-primary")
+    btnSubs.classList.toggle("btn-primary-transition")
+
+    if (btnSubs.classList.contains("btn-light-2")) {
+      btnSubs.innerText = "Subscribed"
       
-    }).then((response) =>
-    response.json()
-    );
-    console.log(data);
+    } else{
+      btnSubs.innerText = "Subscribe"
+    }
+  
+})
+
+const btnSubsLg = document.querySelector("#subscribeEoLg") as HTMLDivElement
+const textSubscribe = document.querySelector("#btn_Subscribe") as HTMLButtonElement
+btnSubsLg?.addEventListener('click', (e) =>{
+  
+  btnSubsLg.classList.toggle("btn-light-lg")
+  btnSubsLg.classList.toggle("transition-btn-light")
+  btnSubsLg.classList.toggle("btn-primary-lg")
+  btnSubsLg.classList.toggle("btn-primary-transition")
+
+  if (btnSubsLg.classList.contains("btn-light-lg")) {
+    textSubscribe.innerText = "Subscribed"
     
-};
-getAllEvent(urlEvent)
+  } else{
+    textSubscribe.innerText = "Subscribe"
+  }
+
+})
+

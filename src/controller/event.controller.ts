@@ -124,6 +124,8 @@ export class EventController {
         },
       });
       console.log('setelah fetch');
+      console.log(events);
+      
       return Res.success(res, SUCCESS.GetAllEvents, events);
     } catch (err) {
       console.log(err);

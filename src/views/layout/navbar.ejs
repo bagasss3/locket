@@ -1,6 +1,6 @@
 <nav
-  class="navbar navbar-expand-lg top-0 right-0 left-0 z-[100] h-20 py-0"
-  style="padding-top: 0; padding-bottom: 0; position: fixed"
+  class="navbar navbar-expand-lg py- top-0 right-0 left-0 z-[100]"
+  style="padding-top: 10px; padding-bottom: 10px; position: fixed"
 >
   <div
     class="container-fluid flex w-full flex-wrap items-center justify-between px-8 lg:px-14"
@@ -41,17 +41,31 @@
       <ul
         class="list-style-none font-montserrat menu navbar-nav mr-auto mb-2 flex flex-col pl-0 md:mb-0"
       >
-        <li class="active-nav nav-hover nav-item py-3 md:mx-2">
-          <a class="nav-link p-0 text-light-100" href="/">Beranda</a>
+        <li class="nav-item py-3 text-light-100 md:mx-2">
+          <a class="nav-hover nav__link nav-link p-0 text-light-100" href="/"
+            >Beranda</a
+          >
         </li>
-        <li class="nav-hover nav-item py-3 md:mx-2">
-          <a class="nav-link p-0 text-light-100" href="/event">Event & lomba</a>
+        <li class="nav-item py-3 text-light-100 md:mx-2">
+          <a
+            class="nav-hover nav__link nav-link p-0 text-light-100"
+            href="/event"
+            >Event & lomba</a
+          >
         </li>
-        <li class="nav-hover nav-item py-3 md:mx-2">
-          <a class="nav-link p-0 text-light-100" href="#">Tentang Lockét</a>
+        <li class="nav-item py-3 text-light-100 md:mx-2">
+          <a
+            class="nav-hover nav__link nav-link p-0 text-light-100"
+            href="/tentang-locket"
+            >Tentang Lockét</a
+          >
         </li>
-        <li class="nav-hover nav-item py-3 md:mx-2">
-          <a class="nav-link p-0 text-light-100" href="#">Hubungi Kami</a>
+        <li class="nav-item py-3 text-light-100 md:mx-2">
+          <a
+            class="nav-hover nav__link nav-link p-0 text-light-100"
+            href="/hubungi-kami"
+            >Hubungi Kami</a
+          >
         </li>
       </ul>
       <!-- Left links -->
@@ -143,7 +157,7 @@
           <li>
             <a
               class="dropdown-item block w-full whitespace-nowrap bg-transparent py-2 px-4 text-sm font-normal text-gray-700 hover:bg-gray-100"
-              href="#"
+              href="/profile-saya"
               >Profile</a
             >
           </li>
@@ -157,7 +171,7 @@
           <li>
             <a
               class="dropdown-item block w-full whitespace-nowrap bg-transparent py-2 px-4 text-sm font-normal text-gray-700 hover:bg-gray-100"
-              href="#"
+              href="/login"
               >Keluar</a
             >
           </li>
