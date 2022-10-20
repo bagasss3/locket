@@ -1,8 +1,7 @@
 import { Request, Response } from 'express';
-import { ParticipantRepository } from 'src/repository/participant.repository';
-import { EventRepository } from 'src/repository/event.repository';
-import { ImageRepository } from 'src/repository/image.repository';
-import { EventParticipantRepository } from 'src/repository/event_participant.repository';
+import { ParticipantRepository } from '../repository/participant.repository';
+import { EventRepository } from '../repository/event.repository';
+import { EventParticipantRepository } from '../repository/event_participant.repository';
 import { Res } from '../helper/response';
 import { generateID } from '../helper/vegenerate';
 import { ERROR, SUCCESS, ROLE } from '../helper/constant';

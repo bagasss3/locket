@@ -1,15 +1,15 @@
 import { Request, Response } from 'express';
 import { PrismaClient } from '@prisma/client';
-import { EventRepository } from 'src/repository/event.repository';
-import { ParticipantRepository } from 'src/repository/participant.repository';
-import { UserRepository } from 'src/repository/user.repository';
-import { EventOrganizerRepository } from 'src/repository/event_organizer.repository';
-import { EventOrganizerPreconditionRepository } from 'src/repository/event_organizer_precondition.repository';
-import { Res } from 'src/helper/response';
-import { SUCCESS, ERROR } from 'src/helper/constant';
-import { sendMail } from 'src/service/mail';
-import { valNotifyEO } from 'src/helper/validation';
-import { pagination } from 'src/helper/pagination';
+import { EventRepository } from '../repository/event.repository';
+import { ParticipantRepository } from '../repository/participant.repository';
+import { UserRepository } from '../repository/user.repository';
+import { EventOrganizerRepository } from '../repository/event_organizer.repository';
+import { EventOrganizerPreconditionRepository } from '../repository/event_organizer_precondition.repository';
+import { Res } from '../helper/response';
+import { SUCCESS, ERROR } from '../helper/constant';
+import { sendMail } from '../service/mail';
+import { valNotifyEO } from '../helper/validation';
+import { pagination } from '../helper/pagination';
 
 export class AdminController {
   prisma: PrismaClient;

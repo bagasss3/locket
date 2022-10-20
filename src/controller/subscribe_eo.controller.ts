@@ -1,10 +1,10 @@
 import { Request, Response } from 'express';
-import { ParticipantRepository } from 'src/repository/participant.repository';
-import { SubscribeEORepository } from 'src/repository/subscribe_eo.repository';
-import { EventOrganizerRepository } from 'src/repository/event_organizer.repository';
+import { ParticipantRepository } from '../repository/participant.repository';
+import { SubscribeEORepository } from '../repository/subscribe_eo.repository';
+import { EventOrganizerRepository } from '../repository/event_organizer.repository';
 import { Res } from '../helper/response';
 import { ERROR, SUCCESS } from '../helper/constant';
-import { generateID } from 'src/helper/vegenerate';
+import { generateID } from '../helper/vegenerate';
 
 export class SubscribeEOController {
   participantRepository: ParticipantRepository;

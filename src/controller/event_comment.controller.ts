@@ -1,8 +1,8 @@
 import { Request, Response } from 'express';
 import { PrismaClient } from '@prisma/client';
-import { EventCommentRepository } from 'src/repository/event_comment.repository';
-import { EventRepository } from 'src/repository/event.repository';
-import { UserRepository } from 'src/repository/user.repository';
+import { EventCommentRepository } from '../repository/event_comment.repository';
+import { EventRepository } from '../repository/event.repository';
+import { UserRepository } from '../repository/user.repository';
 import { Res } from '../helper/response';
 import { ERROR, SUCCESS } from '../helper/constant';
 import { valCreateComment, valUpdateComment } from '../helper/validation';

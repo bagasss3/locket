@@ -3,17 +3,17 @@ import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import { TokenRepository } from '../repository/token.repository';
 import { UserRepository } from '../repository/user.repository';
-import { ImageRepository } from 'src/repository/image.repository';
-import { EventOrganizerPreconditionRepository } from 'src/repository/event_organizer_precondition.repository';
-import { EventOrganizerRepository } from 'src/repository/event_organizer.repository';
-import { SubscribeEORepository } from 'src/repository/subscribe_eo.repository';
+import { ImageRepository } from '../repository/image.repository';
+import { EventOrganizerPreconditionRepository } from '../repository/event_organizer_precondition.repository';
+import { EventOrganizerRepository } from '../repository/event_organizer.repository';
+import { SubscribeEORepository } from '../repository/subscribe_eo.repository';
 import { valRegisEventOrganizer } from '../helper/validation';
 import { Res } from '../helper/response';
 import { ERROR, SUCCESS } from '../helper/constant';
 import { createToken } from '../helper/token';
 import { generateID, expiredDate } from '../helper/vegenerate';
 import { sendMail } from '../service/mail';
-import { ParticipantRepository } from 'src/repository/participant.repository';
+import { ParticipantRepository } from '../repository/participant.repository';
 
 export class EventOrganizerController {
   userRepository: UserRepository;

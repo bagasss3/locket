@@ -1,18 +1,18 @@
 import { Request, Response } from 'express';
-import { ERROR, SUCCESS } from 'src/helper/constant';
-import { Res } from 'src/helper/response';
+import { ERROR, SUCCESS } from '../helper/constant';
+import { Res } from '../helper/response';
 import {
   valCreateEventPrecond,
   valUpdateEventPrecond,
-} from 'src/helper/validation';
-import { generateID } from 'src/helper/vegenerate';
-import { EventRepository } from 'src/repository/event.repository';
-import { EventOrganizerRepository } from 'src/repository/event_organizer.repository';
-import { EventParticipantRepository } from 'src/repository/event_participant.repository';
-import { EventPreconditionRepository } from 'src/repository/event_precondition.repository';
-import { EventPreconditionDescriptionRepository } from 'src/repository/event_precondition_description.repository';
-import { ImageRepository } from 'src/repository/image.repository';
-import { ParticipantRepository } from 'src/repository/participant.repository';
+} from '../helper/validation';
+import { generateID } from '../helper/vegenerate';
+import { EventRepository } from '../repository/event.repository';
+import { EventOrganizerRepository } from '../repository/event_organizer.repository';
+import { EventParticipantRepository } from '../repository/event_participant.repository';
+import { EventPreconditionRepository } from '../repository/event_precondition.repository';
+import { EventPreconditionDescriptionRepository } from '../repository/event_precondition_description.repository';
+import { ImageRepository } from '../repository/image.repository';
+import { ParticipantRepository } from '../repository/participant.repository';
 
 export class EventPreconditionController {
   participantRepository: ParticipantRepository;

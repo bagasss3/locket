@@ -9,8 +9,8 @@ import { Res } from '../helper/response';
 import { valCreateEvent } from '../helper/validation';
 import { generateID } from '../helper/vegenerate';
 import { pagination } from '../helper/pagination';
-import { ImageRepository } from 'src/repository/image.repository';
-import { EventPreconditionDescriptionRepository } from 'src/repository/event_precondition_description.repository';
+import { ImageRepository } from '../repository/image.repository';
+import { EventPreconditionDescriptionRepository } from '../repository/event_precondition_description.repository';
 
 export class EventController {
   prisma: PrismaClient;
@@ -163,7 +163,7 @@ export class EventController {
       if (!event) {
         return Res.error(res, ERROR.EventDoesNotExist);
       }
-      
+
       return Res.success(res, SUCCESS.GetEvent, event);
     } catch (err) {
       return Res.error(res, err);

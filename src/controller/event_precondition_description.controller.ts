@@ -1,14 +1,14 @@
 import { Request, Response } from 'express';
-import { ERROR, SUCCESS } from 'src/helper/constant';
-import { Res } from 'src/helper/response';
+import { ERROR, SUCCESS } from '../helper/constant';
+import { Res } from '../helper/response';
 import {
   valCreateEventPrecondDesc,
   valUpdateEventPrecondDesc,
-} from 'src/helper/validation';
-import { generateID } from 'src/helper/vegenerate';
-import { EventRepository } from 'src/repository/event.repository';
-import { EventOrganizerRepository } from 'src/repository/event_organizer.repository';
-import { EventPreconditionDescriptionRepository } from 'src/repository/event_precondition_description.repository';
+} from '../helper/validation';
+import { generateID } from '../helper/vegenerate';
+import { EventRepository } from '../repository/event.repository';
+import { EventOrganizerRepository } from '../repository/event_organizer.repository';
+import { EventPreconditionDescriptionRepository } from '../repository/event_precondition_description.repository';
 
 export class EventPreconditionDescriptionController {
   eventOrganizerRepository: EventOrganizerRepository;
