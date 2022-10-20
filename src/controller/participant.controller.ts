@@ -4,15 +4,14 @@ import jwt from 'jsonwebtoken';
 import { ParticipantRepository } from '../repository/participant.repository';
 import { TokenRepository } from '../repository/token.repository';
 import { UserRepository } from '../repository/user.repository';
-import { EventOrganizerRepository } from 'src/repository/event_organizer.repository';
-import { SubscribeEORepository } from 'src/repository/subscribe_eo.repository';
+import { EventOrganizerRepository } from '../repository/event_organizer.repository';
+import { SubscribeEORepository } from '../repository/subscribe_eo.repository';
 import { valRegisParticipant } from '../helper/validation';
 import { Res } from '../helper/response';
 import { ERROR, SUCCESS } from '../helper/constant';
 import { createToken } from '../helper/token';
 import { generateID, expiredDate } from '../helper/vegenerate';
 import { sendMail } from '../service/mail';
-import { Event_Organizer } from '@prisma/client';
 
 export class ParticipantController {
   participantRepository: ParticipantRepository;

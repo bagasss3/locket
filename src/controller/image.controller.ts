@@ -1,9 +1,9 @@
 import { Request, Response } from 'express';
-import { ImageRepository } from 'src/repository/image.repository';
-import Cloudinary from 'src/helper/cloudinary';
+import { ImageRepository } from '../repository/image.repository';
+import Cloudinary from '../helper/cloudinary';
 import { ERROR, SUCCESS, CLOUDINARY_FOLDER } from '../helper/constant';
 import { Res } from '../helper/response';
-import { generateID } from 'src/helper/vegenerate';
+import { generateID } from '../helper/vegenerate';
 
 export class ImageController {
   imageRepository: ImageRepository;

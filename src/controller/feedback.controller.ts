@@ -1,9 +1,9 @@
 import { Request, response, Response } from 'express';
-import { FeedbackRepository } from 'src/repository/feedback.repository';
+import { FeedbackRepository } from '../repository/feedback.repository';
 import { Res } from '../helper/response';
 import { ERROR, SUCCESS } from '../helper/constant';
 import { generateID } from '../helper/vegenerate';
-import { valFeedbackMsg } from 'src/helper/validation';
+import { valFeedbackMsg } from '../helper/validation';
 
 export class FeedbackController {
   feedbackRepository: FeedbackRepository;

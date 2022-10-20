@@ -1,6 +1,6 @@
 import { Application, Router } from 'express';
-import multer from 'src/helper/multer';
-import { RenderController } from 'src/views/render.controller';
+import multer from '../helper/multer';
+import { RenderController } from '../views/render.controller';
 import { UserController } from '../controller/user.controller';
 import { ParticipantController } from '../controller/participant.controller';
 import { EventOrganizerController } from '../controller/event_organizer.controller';
@@ -11,21 +11,21 @@ import { EventController } from '../controller/event.controller';
 import { CategoryController } from '../controller/category.controller';
 import { EligibilityController } from '../controller/eligibility.controller';
 import { AuthMiddleware } from '../middleware/auth.middleware';
-import { ImageController } from 'src/controller/image.controller';
-import { EventParticipantController } from 'src/controller/event_participant.controller';
-import { AdminController } from 'src/controller/admin.controller';
-import { FeedbackController } from 'src/controller/feedback.controller';
-import { EventCommentController } from 'src/controller/event_comment.controller';
-import { SubscribeEOController } from 'src/controller/subscribe_eo.controller';
-import { EventPreconditionDescriptionController } from 'src/controller/event_precondition_description.controller';
+import { ImageController } from '../controller/image.controller';
+import { EventParticipantController } from '../controller/event_participant.controller';
+import { AdminController } from '../controller/admin.controller';
+import { FeedbackController } from '../controller/feedback.controller';
+import { EventCommentController } from '../controller/event_comment.controller';
+import { SubscribeEOController } from '../controller/subscribe_eo.controller';
+import { EventPreconditionDescriptionController } from '../controller/event_precondition_description.controller';
 import {
   DEFAULT_ALLOWED_ROLES,
   ADMIN_ALLOWED_ROLES,
   EO_ALLOWED_ROLES,
   NON_ADMIN_ALLOWED_ROLES,
   PARTICIPANT_ALLOWED_ROLES,
-} from 'src/helper/constant';
-import { EventPreconditionController } from 'src/controller/event_precondition.controller';
+} from '../helper/constant';
+import { EventPreconditionController } from '../controller/event_precondition.controller';
 
 export class Service {
   app: Application;

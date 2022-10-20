@@ -1,9 +1,9 @@
 import { Request, Response } from 'express';
-import { UserRepository } from 'src/repository/user.repository';
-import { ParticipantRepository } from 'src/repository/participant.repository';
-import { EventOrganizerRepository } from 'src/repository/event_organizer.repository';
-import { Res } from 'src/helper/response';
-import { ERROR, ROLE, SUCCESS } from 'src/helper/constant';
+import { UserRepository } from '../repository/user.repository';
+import { ParticipantRepository } from '../repository/participant.repository';
+import { EventOrganizerRepository } from '../repository/event_organizer.repository';
+import { Res } from '../helper/response';
+import { ERROR, ROLE, SUCCESS } from '../helper/constant';
 
 export class UserController {
   userRepository: UserRepository;
