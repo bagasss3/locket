@@ -416,7 +416,7 @@ export class Service {
   web() {
     this.routerRender.get('/', this.renderController.index);
     this.routerRender.get('/event', this.renderController.event);
-    this.routerRender.get('/event-detail', this.renderController.detail_event);
+    this.routerRender.get('/event/:id', this.renderController.detail_event);
     this.routerRender.get('/event-saya', this.renderController.my_event);
     this.routerRender.get('/login', this.renderController.login);
     this.routerRender.get('/lupa-pass-1', this.renderController.lupa_pass_1);

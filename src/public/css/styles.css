@@ -124,7 +124,7 @@
   @apply w-full rounded-xl bg-light-200 text-black;
 }
 .btn-light-2 {
-  @apply cursor-pointer  rounded-xl border border border-primary-100 bg-light-200 px-4 py-2 text-black;
+  @apply cursor-pointer  rounded-xl border  border-primary-100 bg-light-200 px-4 py-2 text-black;
 }
 .btn-light-lg {
   @apply cursor-pointer rounded-xl border border-primary-100 bg-light-200 px-8 py-4 text-black;

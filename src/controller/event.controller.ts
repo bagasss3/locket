@@ -155,6 +155,7 @@ export class EventController {
           id: Number(id),
         },
         include: {
+          image: true,
           eligibility: true,
           category: true,
         },
@@ -162,6 +163,7 @@ export class EventController {
       if (!event) {
         return Res.error(res, ERROR.EventDoesNotExist);
       }
+      
       return Res.success(res, SUCCESS.GetEvent, event);
     } catch (err) {
       return Res.error(res, err);

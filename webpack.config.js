@@ -13,7 +13,7 @@ module.exports = {
     tailwind: './src/public/js/tailwind.ts',
     tw_elements: './src/public/js/tw_elements.ts',
     base: './src/public/js/base.ts',
-    event: './src/public/js/event.ts',
+    detail_event: './src/public/js/detail_event.ts',
     login: './src/public/js/login.ts',
     // index: {
     //     import: "./src/js/index.ts",
