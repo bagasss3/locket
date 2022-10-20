@@ -66,50 +66,6 @@
             </div>
           </div>
 
-          <!-- tanggal lahir -->
-          <div class="mb-6">
-            <div
-              class="font-montserrat datepicker form-floating relative w-full"
-              data-mdb-toggle-button="false"
-            >
-              <input
-                type="text"
-                class="transition-form form-control w-full rounded-xl border bg-green-50 text-black"
-                placeholder="Masukkan Tanggal Lahir"
-                id="tanggal-lahir"
-                data-mdb-toggle="datepicker"
-              />
-              <label for="floatingInput" class="text-gray-400"
-                >Masukkan Tanggal Lahir</label
-              >
-            </div>
-          </div>
-
-          <!-- gender -->
-          <div class="mb-6">
-            <select
-              id="gender"
-              class="font-montserrat transition-form form-select w-full appearance-none rounded-xl border bg-green-50 bg-clip-padding bg-no-repeat py-4 px-3 text-black"
-            >
-              <option selected>Jenis Kelamin</option>
-              <option value="lk">Laki-Laki</option>
-              <option value="pr">Perempuan</option>
-            </select>
-          </div>
-
-          <!-- status -->
-          <div class="mb-6">
-            <select
-              id="status"
-              class="font-montserrat transition-form form-select w-full appearance-none rounded-xl border bg-green-50 bg-clip-padding bg-no-repeat py-4 px-3 text-black"
-            >
-              <option selected>Status</option>
-              <option value="pelajar">Pelajar</option>
-              <option value="mahasiswa">Mahasiswa</option>
-              <option value="umum">Umum</option>
-            </select>
-          </div>
-
           <!-- Password input -->
           <div class="mb-8">
             <div class="font-montserrat form-floating relative w-full">
@@ -144,7 +100,6 @@
             data-mdb-ripple="true"
             data-mdb-ripple-color="light"
             class="bg-gradient-2 btn-login btn-login-transition mb-2"
-            href="/register-verifikasi"
             id="registerParticipantBtn"
           >
             Daftar
@@ -153,6 +108,7 @@
       </div>
       <%- include('layout/login-side') %>
     </div>
+    <script src="/js/register.min.js" type="module"></script>
     <%- include('layout/login-footer') %>
   </body>
 </html>

@@ -1,3 +1,5 @@
+import { setCookie } from './cookies';
+
 var link = <HTMLInputElement>document.getElementById('loginBtn');
 link.addEventListener('click', login);
 
@@ -16,13 +18,14 @@ async function login() {
       body: JSON.stringify({ email, password }),
     });
     const data = await res.json();
-    console.log(data.data);
-    if (data.data.access_token) {
+    if (!data.success) {
+      console.log(data.message);
+    } else {
       console.log('Setting up Cookies');
-      document.cookie = 'access_token=' + data.data.access_token + '; Secure';
-      document.cookie = 'refresh_token=' + data.data.refresh_token + '; Secure';
+      setCookie('access_token', data.data.access_token, 1);
+      setCookie('refresh_token', data.data.refresh_token, 3);
+      window.location.href = '/';
     }
-    console.log(document.cookie);
   } catch (err) {
     console.log(err);
   }

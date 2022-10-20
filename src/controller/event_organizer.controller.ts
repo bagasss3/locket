@@ -43,6 +43,7 @@ export class EventOrganizerController {
     this.register = this.register.bind(this);
     this.createPrecondition = this.createPrecondition.bind(this);
     this.findAllVerifiedEO = this.findAllVerifiedEO.bind(this);
+    this.findEOByID = this.findEOByID.bind(this);
     this.findAllSubscriber = this.findAllSubscriber.bind(this);
     this.countAllSubscriber = this.countAllSubscriber.bind(this);
   }
@@ -189,6 +190,27 @@ export class EventOrganizerController {
           },
         });
       return Res.success(res, SUCCESS.GetAllEO, findAllEO);
+    } catch (err) {
+      return Res.error(res, err);
+    }
+  }
+
+  async findEOByID(req: Request, res: Response) {
+    try {
+      const { id } = req.params;
+      const findEO = await this.eventOrganizerRepository.find({
+        where: {
+          id: Number(id),
+        },
+      });
+      if (!findEO) {
+        return Res.error(res, ERROR.UserNotFound);
+      }
+      if (!findEO.is_verified) {
+        return Res.error(res, ERROR.EONotVerified);
+      }
+
+      return Res.success(res, SUCCESS.GetAllEO, findEO);
     } catch (err) {
       return Res.error(res, err);
     }

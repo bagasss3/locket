@@ -11,28 +11,29 @@
       <div class="grid-cols-3 gap-6 lg:grid">
         <!-- foto profile -->
         <div class="container-profile mb-4 lg:mb-0">
-          <div class="flex justify-center">
-            <div class="profile-pict-container relative overflow-hidden">
-              <img
-                src="/img/Poto PP.png"
-                alt="Foto Profil"
-                class="h-36 object-cover"
-                id="photo-profile"
-              />
-              <input type="file" id="file" class="hidden" />
-              <label
-                for="file"
-                id="upload-foto-profile"
-                class="btn-change-pict delay-15 cursor-pointer transition ease-in-out hover:opacity-100"
-              >
-                Pilih Poto
-              </label>
+          <form action="">
+            <div class="flex justify-center">
+              <div class="profile-pict-container relative overflow-hidden">
+                <img
+                  src="/img/Poto PP.png"
+                  alt="Foto Profil"
+                  class="h-36 object-cover"
+                  id="photo-profile"
+                />
+                <input type="file" id="file" class="hidden" />
+                <label
+                  for="file"
+                  id="upload-foto-profile"
+                  class="btn-change-pict delay-15 cursor-pointer transition ease-in-out hover:opacity-100"
+                >
+                  Pilih Poto
+                </label>
+              </div>
             </div>
-          </div>
-
+          </form>
           <div class="mt-2 text-center text-black">
-            <h1 class="text-lg font-bold">Muhammad Zydane</h1>
-            <h5>Mahasiswa</h5>
+            <h1 class="text-lg font-bold"><%= data.data.name %></h1>
+            <h5><%= data.data.status %></h5>
           </div>
         </div>
         <!-- foto profile -->
@@ -48,21 +49,23 @@
               <div class="grid grid-cols-2">
                 <div class="px-2 py-2 font-semibold lg:py-1">Email</div>
                 <div class="px-2 py-2 lg:py-1">
-                  <a href="mailto:zydane@gmal.com"> zydane@gmal.com </a>
+                  <a href="mailto:zydane@gmal.com"><%= data.data.email %> </a>
                 </div>
               </div>
               <div class="grid grid-cols-2">
                 <div class="px-2 py-2 font-semibold lg:py-1">No. Handphone</div>
-                <div class="px-2 py-2 lg:py-1">0808080808</div>
+                <div class="px-2 py-2 lg:py-1">
+                  <%= data.data.phone_number %>
+                </div>
               </div>
 
               <div class="grid grid-cols-2">
                 <div class="px-2 py-2 font-semibold lg:py-1">Nama</div>
-                <div class="px-2 py-2 lg:py-1">Muhamad Zydane</div>
+                <div class="px-2 py-2 lg:py-1"><%= data.data.name %></div>
               </div>
               <div class="grid grid-cols-2">
                 <div class="px-2 py-2 font-semibold lg:py-1">Jenis Kelamin</div>
-                <div class="px-2 py-2 lg:py-1">Laki - Laki</div>
+                <div class="px-2 py-2 lg:py-1"><%= data.data.gender %></div>
               </div>
               <div class="grid grid-cols-2">
                 <div class="px-2 py-2 font-semibold lg:py-1">Kata Sandi</div>
@@ -70,7 +73,7 @@
               </div>
               <div class="grid grid-cols-2">
                 <div class="px-2 py-2 font-semibold lg:py-1">Tanggal Lahir</div>
-                <div class="px-2 py-2 lg:py-1">2022/08/12</div>
+                <div class="px-2 py-2 lg:py-1"><%= data.data.birth_date %></div>
               </div>
             </div>
             <button
@@ -90,6 +93,7 @@
             <i class="fa-solid fa-users mr-2 inline-block text-2xl"></i>
             <span class="text-xl font-bold">EO Diikuti</span>
           </div>
+          <% subscribedEO.data.forEach(eo => { %>
           <div class="eo-title mb-2 justify-between text-black sm:mb-4">
             <div class="flex items-start gap-2">
               <img
@@ -99,7 +103,7 @@
               />
               <div>
                 <h5 class="text-base font-bold capitalize">
-                  ufo veteran jakarta
+                  <%= eo.user.name %>
                 </h5>
                 <a
                   class="cursor-pointer text-sm tracking-wider text-secondary-100 hover:font-bold"
@@ -117,33 +121,7 @@
               </button>
             </div>
           </div>
-          <div class="eo-title mb-2 justify-between text-black sm:mb-4">
-            <div class="flex items-start gap-2">
-              <img
-                src="img/logo EO.png"
-                alt="Logo EO"
-                class="h-12 rounded-full border-2 border-primary-100"
-              />
-              <div>
-                <h5 class="text-base font-bold capitalize">
-                  ufo veteran jakarta
-                </h5>
-                <a
-                  class="cursor-pointer text-sm tracking-wider text-secondary-100 hover:font-bold"
-                  >Lihat Semua event</a
-                >
-              </div>
-            </div>
-            <div>
-              <button
-                type="submit"
-                id="subscribeEo"
-                class="btn-light-2 subscribe transition-btn-light text-xs tracking-widest"
-              >
-                Subscribed
-              </button>
-            </div>
-          </div>
+          <% }) %>
         </div>
         <!-- akun di subscribe -->
       </div>
@@ -184,7 +162,7 @@
                       class="transition-form form-control w-full rounded-xl border bg-green-50 text-black"
                       placeholder="Masukkan Email"
                       id="email"
-                      value="zydane@gmail.com"
+                      value="<%= data.data.email  %>"
                     />
                     <label for="floatingInput" class="text-gray-400"
                       >Masukkan Email</label
@@ -200,7 +178,7 @@
                       class="transition-form form-control w-full rounded-xl border bg-green-50 text-black"
                       placeholder="Masukkan Nama"
                       id="name"
-                      value="Muhammad Zydane"
+                      value="<%= data.data.name  %>"
                     />
                     <label for="floatingInput" class="text-gray-400"
                       >Masukkan Nama</label
@@ -216,7 +194,7 @@
                   >
                     <option>Status</option>
                     <option value="pelajar">Pelajar</option>
-                    <option value="mahasiswa" selected>Mahasiswa</option>
+                    <option value="mahasiswa">Mahasiswa</option>
                     <option value="umum">Umum</option>
                   </select>
                 </div>
@@ -245,7 +223,7 @@
                       class="transition-form form-control w-full rounded-xl border bg-green-50 text-black"
                       placeholder="Masukkan No. Telepon"
                       id="no-phone"
-                      value="0808080808"
+                      value="<%= data.data.phone_number %> "
                     />
                     <label for="floatingInput" class="text-gray-400"
                       >Masukkan No. Telepon</label
@@ -260,7 +238,7 @@
                     class="font-montserrat transition-form form-select w-full appearance-none rounded-xl border bg-green-50 bg-clip-padding bg-no-repeat py-4 px-3 text-black"
                   >
                     <option>Jenis Kelamin</option>
-                    <option value="lk" selected>Laki-Laki</option>
+                    <option value="lk">Laki-Laki</option>
                     <option value="pr">Perempuan</option>
                   </select>
                 </div>
@@ -277,7 +255,7 @@
                       placeholder="Masukkan Tanggal Lahir"
                       id="tanggal-lahir"
                       data-mdb-toggle="datepicker"
-                      value="2022/04/08"
+                      value="<%= data.data.birth_date %> "
                     />
                     <label for="floatingInput" class="text-gray-400"
                       >Masukkan Tanggal Lahir</label
@@ -308,5 +286,6 @@
       </div>
     </div>
     <%- include('layout/footer') %>
+    <script src="/js/profile.min.js" type="module"></script>
   </body>
 </html>

@@ -34,7 +34,7 @@ export class VerifyController {
 
   async verifyEmailParticipant(req: Request, res: Response) {
     try {
-      const { token } = req.params;
+      const { token } = req.body;
       const findToken = await this.tokenRepository.find({
         where: {
           token,
@@ -82,6 +82,7 @@ export class VerifyController {
               id: generateID(),
               user_id: newUser.id,
               phone_number: decode.phoneNumber,
+              image_id: 1,
             },
           });
 
@@ -110,7 +111,7 @@ export class VerifyController {
 
   async verifyEmailEventOrganizer(req: Request, res: Response) {
     try {
-      const { token } = req.params;
+      const { token } = req.body;
       const findToken = await this.tokenRepository.find({
         where: {
           token,
@@ -159,6 +160,7 @@ export class VerifyController {
               id: generateID(),
               user_id: newUser.id,
               is_verified: false,
+              image_id: 1,
             },
           });
 
