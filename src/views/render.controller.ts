@@ -45,7 +45,7 @@ export class RenderController {
 
   async index(req: Request, res: Response) {
     const fetchDataWebinar = await axios.get(
-      `${process.env.BASE_URL}api/event?category_id=1665979642&per_page=3&page=1`,
+      `${process.env.BASE_URL}api/event?category_id=2&per_page=3&page=1`,
       {
         headers: {
           'x-api-key': process.env.API_KEY,
@@ -53,7 +53,7 @@ export class RenderController {
       },
     );
     const fetchDataLomba = await axios.get(
-      `${process.env.BASE_URL}api/event?category_id=1666244822&per_page=3&page=1`,
+      `${process.env.BASE_URL}api/event?category_id=1&per_page=3&page=1`,
       {
         headers: {
           'x-api-key': process.env.API_KEY,
