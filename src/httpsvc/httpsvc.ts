@@ -199,6 +199,7 @@ export class Service {
     );
 
     // Category Route
+    // zydane
     this.routerApi.post(
       '/admin/category',
       this.authMiddleware.userAuth,
@@ -208,6 +209,7 @@ export class Service {
     this.routerApi.get('/category', this.categoryController.findAll);
 
     // Eligibility Route
+    // zydane
     this.routerApi.post(
       '/admin/eligibility',
       this.authMiddleware.userAuth,
@@ -227,6 +229,7 @@ export class Service {
     );
 
     // Event Route
+    // zydane
     this.routerApi.post(
       '/eventorganizer/event',
       this.authMiddleware.userAuth,
@@ -258,6 +261,7 @@ export class Service {
     this.routerApi.get('/image/:id', this.imageController.find);
 
     // Event Participant Route
+    // zydane
     this.routerApi.post(
       '/register-event',
       this.authMiddleware.userAuth,
@@ -273,6 +277,7 @@ export class Service {
     );
 
     // Feedback Route
+    // zydane
     this.routerApi.post(
       '/feedback',
       this.authMiddleware.userAuth,
@@ -326,6 +331,7 @@ export class Service {
     );
 
     // Event Precondition Description Route
+    // zydane
     this.routerApi.post(
       '/event/precondition/description',
       this.authMiddleware.userAuth,
@@ -360,6 +366,7 @@ export class Service {
     );
 
     // Event Precondition Route
+    // zydane
     this.routerApi.post(
       '/event/participant/precondition',
       this.authMiddleware.userAuth,
@@ -461,6 +468,11 @@ export class Service {
     this.routerRender.get('/konfirmasi-event', this.renderController.detail_event_konfirmasi);
     this.routerRender.get('/daftar-participants', this.renderController.daftar_participants);
     this.routerRender.get('/daftar-event-organizer', this.renderController.daftar_eo);
+    
+    this.routerRender.get('/profile-saya', this.renderController.profile_participant);
+    this.routerRender.get('/hubungi-kami', this.renderController.hubungi_kami);
+    this.routerRender.get('/tentang-locket', this.renderController.tentang_locket);
+    this.routerRender.get('/semua-event', this.renderController.semua_event_eo);
 
     return this.routerRender;
   }

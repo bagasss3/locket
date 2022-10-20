@@ -34,6 +34,12 @@ export class RenderController {
     this.daftar_participants = this.daftar_participants.bind(this);
     this.daftar_eo = this.daftar_eo.bind(this);
     this.login_admin = this.login_admin.bind(this);
+    
+    this.profile_participant = this.profile_participant.bind(this);
+    this.hubungi_kami = this.hubungi_kami.bind(this);
+    this.tentang_locket = this.tentang_locket.bind(this);
+    this.semua_event_eo = this.semua_event_eo.bind(this);
+
   }
 
   async index(req: Request, res: Response) {
@@ -129,5 +135,19 @@ export class RenderController {
   }
   async daftar_eo(req: Request, res: Response) {
     return res.render('admin-views/event-organizer');
+  }
+
+
+  async profile_participant(req: Request, res: Response) {
+    return res.render('profile');
+  }
+  async hubungi_kami(req: Request, res: Response) {
+    return res.render('hubungi-kami');
+  }
+  async tentang_locket(req: Request, res: Response) {
+    return res.render('tentang-locket');
+  }
+  async semua_event_eo(req: Request, res: Response) {
+    return res.render('event-eo');
   }
 }

@@ -27,6 +27,9 @@
 .carousel-show-text {
   @apply font-montserrat absolute right-0 left-0 top-0 bottom-0 w-full px-10 py-8 text-center md:px-24 md:py-20 lg:py-28 lg:px-28 xl:px-36;
 }
+.carousel-show-text-2 {
+  @apply font-montserrat absolute right-0 left-0 top-0 bottom-0 w-full px-10 py-12 text-center sm:py-20 sm:px-16 md:px-24 md:py-28 lg:py-28 lg:px-28 xl:px-36;
+}
 
 .text-style-header {
   @apply font-montserrat text-black;
@@ -55,16 +58,12 @@
   @apply font-bold uppercase md:text-3xl;
 }
 
-.btn-primary {
-  @apply rounded-xl bg-primary-100 px-8 py-4 text-light-100;
-}
-
 .btn-primary-lg {
   @apply cursor-pointer rounded-xl bg-primary-100 px-8 py-4 text-light-100;
 }
 
 .btn-primary-transition {
-  @apply transition delay-150 duration-300 ease-in-out hover:scale-110 hover:bg-secondary-100 hover:shadow-md;
+  @apply transition delay-150 duration-300 ease-in-out  hover:bg-secondary-100 hover:shadow-md;
 }
 
 .badge {
@@ -95,7 +94,7 @@
 }
 
 .btn-primary {
-  @apply rounded-xl border border-primary-100 bg-primary-100 px-4 py-2;
+  @apply cursor-pointer  rounded-xl border border-primary-100 bg-primary-100 px-4 py-2 text-light-100;
 }
 
 .btn-outline-primary {
@@ -124,9 +123,14 @@
 .btn-light {
   @apply w-full rounded-xl bg-light-200 text-black;
 }
-
+.btn-light-2 {
+  @apply cursor-pointer  rounded-xl border border border-primary-100 bg-light-200 px-4 py-2 text-black;
+}
+.btn-light-lg {
+  @apply cursor-pointer rounded-xl border border-primary-100 bg-light-200 px-8 py-4 text-black;
+}
 .transition-btn-light {
-  @apply transition duration-150 ease-in-out hover:bg-neutral-200 hover:shadow-lg focus:bg-neutral-200 focus:shadow-lg focus:outline-none focus:ring-0;
+  @apply transition duration-150 ease-in-out hover:bg-neutral-200 hover:shadow-sm focus:bg-neutral-200 focus:shadow-lg focus:outline-none focus:ring-0;
 }
 
 .poster-event {
@@ -134,11 +138,11 @@
 }
 
 .eo-title {
-  @apply font-montserrat flex items-center justify-center gap-2;
+  @apply font-montserrat flex items-center  gap-2;
 }
 
 .subscribe {
-  @apply font-montserrat w-full text-center;
+  @apply font-montserrat text-center;
 }
 
 .caption-detail-event {
@@ -191,4 +195,16 @@
   .register-container-2 {
     height: 100vh;
   }
+}
+
+.profile-pict-container {
+  @apply block h-36 w-36 rounded-full border border-primary-100;
+}
+
+.btn-change-pict {
+  @apply absolute bottom-0 right-0 left-0 bg-secondary-100 py-2 text-center text-light-100 opacity-80;
+}
+
+.container-profile {
+  @apply rounded-md border-t-4 border-primary-100 bg-white py-4 px-6 shadow-md;
 }
