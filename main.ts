@@ -3,6 +3,7 @@ import dotenv from 'dotenv-safe';
 import cors from 'cors';
 import helmet from 'helmet';
 import passport from 'passport';
+import cookieParser from 'cookie-parser';
 
 import { Service } from './src/httpsvc/httpsvc';
 
@@ -62,6 +63,7 @@ app.use(cors());
 // app.use(helmet());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+app.use(cookieParser());
 app.use(passport.initialize());
 
 // Static Files

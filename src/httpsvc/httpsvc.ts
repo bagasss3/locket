@@ -186,6 +186,10 @@ export class Service {
       this.eventOrganizerController.findAllVerifiedEO,
     );
     this.routerApi.get(
+      '/eventorganizer/:id',
+      this.eventOrganizerController.findEOByID,
+    );
+    this.routerApi.get(
       '/eventorganizer/subscriber',
       this.authMiddleware.userAuth,
       this.authMiddleware.roleChecker(EO_ALLOWED_ROLES),
@@ -219,12 +223,12 @@ export class Service {
     this.routerApi.get('/eligibility', this.eligibilityController.findAll);
 
     // Verification Route
-    this.routerApi.get(
-      '/verification-participant/:token',
+    this.routerApi.post(
+      '/verification-participant',
       this.verifyController.verifyEmailParticipant,
     );
-    this.routerApi.get(
-      '/verification-eo/:token',
+    this.routerApi.post(
+      '/verification-eo',
       this.verifyController.verifyEmailEventOrganizer,
     );
 
@@ -444,34 +448,91 @@ export class Service {
       '/verifikasi-sukses',
       this.renderController.verifikasi_sukses,
     );
-    this.routerRender.get('/register-participant', this.renderController.register_participant);
-    this.routerRender.get('/register-event-organizer', this.renderController.register_eo);
-    this.routerRender.get('/register-verifikasi', this.renderController.register_verifikasi);
-    this.routerRender.get('/verifikasi-ulang', this.renderController.verifikasi_ulang);
-    this.routerRender.get('/verifikasi-sukses', this.renderController.verifikasi_sukses);
-    
-    
-    this.routerRender.get('/dashboard-event-organizer', this.renderController.dashboard_eo);
+    this.routerRender.get(
+      '/register-participant',
+      this.renderController.register_participant,
+    );
+    this.routerRender.get(
+      '/register-event-organizer',
+      this.renderController.register_eo,
+    );
+    this.routerRender.get(
+      '/register-verifikasi',
+      this.renderController.register_verifikasi,
+    );
+    this.routerRender.get(
+      '/verifikasi-ulang',
+      this.renderController.verifikasi_ulang,
+    );
+    this.routerRender.get(
+      '/verifikasi-sukses',
+      this.renderController.verifikasi_sukses,
+    );
+    this.routerRender.get(
+      '/verifikasi/participant/:token',
+      this.renderController.verifikasi,
+    );
+    this.routerRender.get(
+      '/verifikasi/eo/:token',
+      this.renderController.verifikasiEO,
+    );
+    this.routerRender.get(
+      '/dashboard-event-organizer',
+      this.renderController.dashboard_eo,
+    );
     this.routerRender.get('/event-eo', this.renderController.event_eo);
-    this.routerRender.get('/create-event', this.renderController.create_event_eo);
+    this.routerRender.get(
+      '/create-event',
+      this.renderController.create_event_eo,
+    );
     this.routerRender.get('/edit-event', this.renderController.edit_event_eo);
-    this.routerRender.get('/detail-event', this.renderController.detail_event_eo);
+    this.routerRender.get(
+      '/detail-event',
+      this.renderController.detail_event_eo,
+    );
     this.routerRender.get('/subscribers', this.renderController.subscribers);
     this.routerRender.get('/komentar', this.renderController.komentar);
-    this.routerRender.get('/detail-komentar', this.renderController.detail_komentar);
+    this.routerRender.get(
+      '/detail-komentar',
+      this.renderController.detail_komentar,
+    );
     this.routerRender.get('/pengaturan-akun', this.renderController.pengaturan);
 
     this.routerRender.get('/login-admin', this.renderController.login_admin);
-    this.routerRender.get('/dashboard-admin', this.renderController.dashboard_admin);
-    this.routerRender.get('/event-manajement', this.renderController.event_manajement);
-    this.routerRender.get('/detail-event-terkonfirmasi', this.renderController.detail_event_manajement);
-    this.routerRender.get('/konfirmasi-event', this.renderController.detail_event_konfirmasi);
-    this.routerRender.get('/daftar-participants', this.renderController.daftar_participants);
-    this.routerRender.get('/daftar-event-organizer', this.renderController.daftar_eo);
-    
-    this.routerRender.get('/profile-saya', this.renderController.profile_participant);
+    this.routerRender.get(
+      '/dashboard-admin',
+      this.renderController.dashboard_admin,
+    );
+    this.routerRender.get(
+      '/event-manajement',
+      this.renderController.event_manajement,
+    );
+    this.routerRender.get(
+      '/detail-event-terkonfirmasi',
+      this.renderController.detail_event_manajement,
+    );
+    this.routerRender.get(
+      '/konfirmasi-event',
+      this.renderController.detail_event_konfirmasi,
+    );
+    this.routerRender.get(
+      '/daftar-participants',
+      this.renderController.daftar_participants,
+    );
+    this.routerRender.get(
+      '/daftar-event-organizer',
+      this.renderController.daftar_eo,
+    );
+
+    this.routerRender.get(
+      '/profile-saya',
+      this.renderController.profile_participant,
+    );
     this.routerRender.get('/hubungi-kami', this.renderController.hubungi_kami);
-    this.routerRender.get('/tentang-locket', this.renderController.tentang_locket);
+    this.routerRender.get(
+      '/tentang-locket',
+      this.renderController.tentang_locket,
+    );
     this.routerRender.get('/semua-event', this.renderController.semua_event_eo);
 
     return this.routerRender;

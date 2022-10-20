@@ -15,6 +15,8 @@ module.exports = {
     base: './src/public/js/base.ts',
     detail_event: './src/public/js/detail_event.ts',
     login: './src/public/js/login.ts',
+    register: './src/public/js/register.ts',
+    profile: './src/public/js/profile.ts',
     // index: {
     //     import: "./src/js/index.ts",
     // },

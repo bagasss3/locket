@@ -106,3 +106,15 @@ btnSubsLg?.addEventListener('click', (e) => {
     textSubscribe.innerText = 'Subscribe';
   }
 });
+
+var link = <HTMLInputElement>document.getElementById('logoutBtn');
+link.addEventListener('click', logout);
+
+async function logout() {
+  try {
+    document.cookie = 'access_token=; expires = Thu, 01 Jan 1970 00:00:00 GMT';
+    document.cookie = 'refresh_token=; expires = Thu, 01 Jan 1970 00:00:00 GMT';
+  } catch (err) {
+    console.log(err);
+  }
+}

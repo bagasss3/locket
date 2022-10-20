@@ -30,6 +30,44 @@ async function main() {
       name: 'Participant',
     },
   });
+
+  const defaultImage = await prisma.image.upsert({
+    where: { id: 1 },
+    update: {},
+    create: {
+      id: 1,
+      public_id: 'locket/participant/apo0k9fwnqsxvoymvjcv',
+      width: 360,
+      height: 360,
+      version: 1666263623,
+      format: 'jpg',
+      etag: '11f4fe67def047f169d89e91be3fac62',
+      url: 'http://res.cloudinary.com/dz1q2dbty/image/upload/v1666263623/locket/participant/apo0k9fwnqsxvoymvjcv.jpg',
+      secure_url:
+        'https://res.cloudinary.com/dz1q2dbty/image/upload/v1666263623/locket/participant/apo0k9fwnqsxvoymvjcv.jpg',
+      signature: '2a930900b63ca3f9f6efbd3aba99eba89a7d01e6',
+    },
+  });
+
+  const categoryLomba = await prisma.category.upsert({
+    where: { id: 1 },
+    update: {},
+    create: {
+      id: 1,
+      name: 'Lomba',
+      description: 'Ini Lomba',
+    },
+  });
+
+  const categoryEvent = await prisma.category.upsert({
+    where: { id: 2 },
+    update: {},
+    create: {
+      id: 1,
+      name: 'Event',
+      description: 'Ini Event',
+    },
+  });
   const unix = Math.floor(Date.now() / 1000);
   const random = Math.floor(Math.random() * 100);
   const ID = unix + random;
@@ -53,10 +91,10 @@ async function main() {
     Number(process.env.SALT),
   );
   const user_eo = await prisma.user.upsert({
-    where: { id: ID },
+    where: { id: ID + 10 },
     update: {},
     create: {
-      id: ID,
+      id: ID + 10,
       email: 'vimaveja@gmail.com',
       name: 'Vimaveja',
       password: hashPassword2,

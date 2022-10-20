@@ -146,6 +146,18 @@ export class ParticipantController {
             where: {
               id: eo.event_organizer_id,
             },
+            include: {
+              user: {
+                select: {
+                  name: true,
+                },
+              },
+              image: {
+                select: {
+                  secure_url: true,
+                },
+              },
+            },
           });
           return getEO;
         }),

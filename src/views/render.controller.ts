@@ -17,7 +17,8 @@ export class RenderController {
     this.register_verifikasi = this.register_verifikasi.bind(this);
     this.verifikasi_ulang = this.verifikasi_ulang.bind(this);
     this.verifikasi_sukses = this.verifikasi_sukses.bind(this);
-
+    this.verifikasi = this.verifikasi.bind(this);
+    this.verifikasiEO = this.verifikasiEO.bind(this);
     this.dashboard_eo = this.dashboard_eo.bind(this);
     this.event_eo = this.event_eo.bind(this);
     this.create_event_eo = this.create_event_eo.bind(this);
@@ -61,30 +62,27 @@ export class RenderController {
     );
     const events = fetchDataWebinar.data.data;
     const lomba = fetchDataLomba.data.data;
-    
+
     return res.render('index', {
       events,
       lomba,
     });
   }
   async event(req: Request, res: Response) {
-    const fetchAllEvents = await axios.get(
-      `${process.env.BASE_URL}api/event`,
-      {
-        headers: {
-          'x-api-key': process.env.API_KEY,
-        },
+    const fetchAllEvents = await axios.get(`${process.env.BASE_URL}api/event`, {
+      headers: {
+        'x-api-key': process.env.API_KEY,
       },
-    );
+    });
     const allEvents = fetchAllEvents.data.data;
-console.log(allEvents);
-    
+    console.log(allEvents);
+
     return res.render('event', {
-      allEvents
+      allEvents,
     });
   }
   async detail_event(req: Request, res: Response) {
-    const {id} = req.params
+    const { id } = req.params;
     const fetchDetailEvents = await axios.get(
       `${process.env.BASE_URL}api/event/${id}`,
       {
@@ -93,11 +91,11 @@ console.log(allEvents);
         },
       },
     );
-    
+
     const detailEvents = fetchDetailEvents.data.data;
     console.log(detailEvents);
-    return res.render('detail-event',{
-      detailEvents
+    return res.render('detail-event', {
+      detailEvents,
     });
   }
   async my_event(req: Request, res: Response) {
@@ -136,6 +134,46 @@ console.log(allEvents);
   async verifikasi_sukses(req: Request, res: Response) {
     return res.render('verifikasi-sukses');
   }
+  async verifikasi(req: Request, res: Response) {
+    try {
+      const { token } = req.params;
+      const verification = await axios.post(
+        `${process.env.BASE_URL}/api/verification-participant`,
+        {
+          token,
+        },
+        {
+          headers: {
+            'x-api-key': process.env.API_KEY,
+          },
+        },
+      );
+      return res.redirect('/verifikasi-sukses');
+    } catch (err) {
+      return res.redirect('/verifikasi-ulang');
+    }
+  }
+
+  async verifikasiEO(req: Request, res: Response) {
+    try {
+      const { token } = req.params;
+      const verification = await axios.post(
+        `${process.env.BASE_URL}/api/verification-eo`,
+        {
+          token,
+        },
+        {
+          headers: {
+            'x-api-key': process.env.API_KEY,
+          },
+        },
+      );
+      return res.redirect('/verifikasi-sukses');
+    } catch (err) {
+      return res.redirect('/verifikasi-ulang');
+    }
+  }
+
   async dashboard_eo(req: Request, res: Response) {
     return res.render('eo-views/dashboard');
   }
@@ -187,7 +225,30 @@ console.log(allEvents);
   }
 
   async profile_participant(req: Request, res: Response) {
-    return res.render('profile');
+    const fetchProfile = await axios.get(
+      `${process.env.BASE_URL}/api/profile`,
+      {
+        headers: {
+          'x-api-key': process.env.API_KEY,
+          Authorization: `Bearer ${req.cookies.access_token}`,
+        },
+      },
+    );
+
+    const fetchSubscribedEO = await axios.get(
+      `${process.env.BASE_URL}/api/participant/subscribed`,
+      {
+        headers: {
+          'x-api-key': process.env.API_KEY,
+          Authorization: `Bearer ${req.cookies.access_token}`,
+        },
+      },
+    );
+    console.log(fetchSubscribedEO.data.data);
+    return res.render('profile', {
+      data: fetchProfile.data,
+      subscribedEO: fetchSubscribedEO.data,
+    });
   }
   async hubungi_kami(req: Request, res: Response) {
     return res.render('hubungi-kami');
