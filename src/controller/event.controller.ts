@@ -122,10 +122,24 @@ export class EventController {
         orderBy: {
           createdAt: 'desc',
         },
+        include: {
+          image: {
+            select: {
+              secure_url: true,
+            },
+          },
+          category: {
+            select: {
+              name: true,
+            },
+          },
+          eligibility: {
+            select: {
+              name: true,
+            },
+          },
+        },
       });
-      console.log('setelah fetch');
-      console.log(events);
-      
       return Res.success(res, SUCCESS.GetAllEvents, events);
     } catch (err) {
       console.log(err);

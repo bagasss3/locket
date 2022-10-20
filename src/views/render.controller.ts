@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
-
+import fetch from 'node-fetch';
+import axios from 'axios';
 export class RenderController {
   constructor() {
     this.index = this.index.bind(this);
@@ -16,7 +17,7 @@ export class RenderController {
     this.register_verifikasi = this.register_verifikasi.bind(this);
     this.verifikasi_ulang = this.verifikasi_ulang.bind(this);
     this.verifikasi_sukses = this.verifikasi_sukses.bind(this);
-    
+
     this.dashboard_eo = this.dashboard_eo.bind(this);
     this.event_eo = this.event_eo.bind(this);
     this.create_event_eo = this.create_event_eo.bind(this);
@@ -26,7 +27,7 @@ export class RenderController {
     this.komentar = this.komentar.bind(this);
     this.detail_komentar = this.detail_komentar.bind(this);
     this.pengaturan = this.pengaturan.bind(this);
-    
+
     this.dashboard_admin = this.dashboard_admin.bind(this);
     this.event_manajement = this.event_manajement.bind(this);
     this.detail_event_manajement = this.detail_event_manajement.bind(this);
@@ -34,16 +35,36 @@ export class RenderController {
     this.daftar_participants = this.daftar_participants.bind(this);
     this.daftar_eo = this.daftar_eo.bind(this);
     this.login_admin = this.login_admin.bind(this);
-    
+
     this.profile_participant = this.profile_participant.bind(this);
     this.hubungi_kami = this.hubungi_kami.bind(this);
     this.tentang_locket = this.tentang_locket.bind(this);
     this.semua_event_eo = this.semua_event_eo.bind(this);
-
   }
 
   async index(req: Request, res: Response) {
-    return res.render('index');
+    const fetchDataWebinar = await axios.get(
+      `${process.env.BASE_URL}/api/event?category=1664605879&per_page=3&page=1`,
+      {
+        headers: {
+          'x-api-key': process.env.API_KEY,
+        },
+      },
+    );
+    const fetchDataLomba = await axios.get(
+      `${process.env.BASE_URL}/api/event?category=1665968158&per_page=3&page=1`,
+      {
+        headers: {
+          'x-api-key': process.env.API_KEY,
+        },
+      },
+    );
+    const events = fetchDataWebinar.data.data;
+    const lomba = fetchDataLomba.data.data;
+    return res.render('index', {
+      events,
+      lomba,
+    });
   }
   async event(req: Request, res: Response) {
     return res.render('event');
@@ -136,7 +157,6 @@ export class RenderController {
   async daftar_eo(req: Request, res: Response) {
     return res.render('admin-views/event-organizer');
   }
-
 
   async profile_participant(req: Request, res: Response) {
     return res.render('profile');
