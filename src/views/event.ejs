@@ -74,15 +74,20 @@
       <div
         class="mt-6 grid-cols-3 items-center justify-center gap-6 md:mt-12 lg:grid"
       >
+        <% if (allEvents.length > 0) { %> <% allEvents.forEach(events =>{ %>
         <div class="card-event transition-card-event relative mb-6">
-          <a href="/event-detail" class="">
-            <img src="img/poster.png" alt="event 1" class="img-event" />
+          <a href="/event/<%= events.id %> " class="">
+            <img
+              src="<%= events.image.secure_url %>"
+              alt="event 1"
+              class="img-event"
+            />
             <div class="px-4 py-6 text-black">
-              <h1 class="text-lg font-bold uppercase">GENBI MENGAJAR</h1>
+              <h1 class="text-lg font-bold uppercase"><%= events.name %></h1>
               <div class="flex gap-3 text-xs">
                 <div>
                   <i class="fa-solid fa-calendar mr-1 inline-block"></i>
-                  <span>22 Oktober 2022</span>
+                  <span><%= events.date_time %> </span>
                 </div>
                 <div class="">
                   <i class="fa-solid fa-location-dot mr-1 inline-block"></i>
@@ -90,23 +95,32 @@
                 </div>
               </div>
               <div class="mt-2 text-justify text-xs">
-                <p>
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                  Maxime ipsam porro quos quia officia
-                </p>
+                <p><%= events.description %></p>
               </div>
               <div class="badge absolute top-0 mt-2">
                 <i class="fa-solid fa-bullseye mr-1 inline-block"></i>
-                <span class="">Event</span>
+                <span class=""><%= events.category.name %></span>
               </div>
             </div>
           </a>
         </div>
+
+        <% }) } %> <% if (allEvents.length == 0) { %>
+        <div class="mb-6 flex justify-center">
+          <img
+            src="/icon/empty.svg"
+            alt="Lomba Kosong"
+            class="h-64 object-cover"
+          />
+        </div>
+        <p class="mb-6 text-center text-xl font-bold text-black">
+          Belum ada Event/Lomba
+        </p>
+        <% } %>
       </div>
     </div>
     <!-- event terbaru -->
 
     <%- include('layout/footer') %>
-    <script src="js/event.min.js" type="module"></script>
   </body>
 </html>

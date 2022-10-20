@@ -13,7 +13,11 @@
     >
       <div class="justify-center sm:flex">
         <div class="poster-event mb-8 sm:w-80 md:h-96 md:w-96">
-          <img src="img/poster.png" alt="Poster Event" class="" />
+          <img
+            src="<%= detailEvents.image.secure_url %>"
+            alt="Poster Event"
+            class=""
+          />
         </div>
       </div>
       <div
@@ -21,11 +25,11 @@
       >
         <div class="mb-4 text-center lg:col-span-2">
           <div class="text-style-header">
-            <h2 class="text-header mb-2 text-2xl">GENBI MENGAJAR</h2>
+            <h2 class="text-header mb-2 text-2xl"><%= detailEvents.name %></h2>
             <div class="flex justify-center gap-3 text-sm text-gray-500">
               <div>
                 <i class="fa-solid fa-calendar mr-1 inline-block"></i>
-                <span>22 Oktober 2022</span>
+                <span><%= detailEvents.date_time %></span>
               </div>
               <div class="">
                 <i class="fa-solid fa-location-dot mr-1 inline-block"></i>
@@ -38,7 +42,7 @@
           class="eo-title mb-4 justify-center md:justify-center lg:col-span-2 lg:justify-start"
         >
           <img
-            src="img/logo EO.png"
+            src="/img/logo EO.png"
             alt="Logo EO"
             class="h-16 rounded-full border-2 border-primary-100"
           />
@@ -70,31 +74,7 @@
           <h1 class="text-header text-xl">Deskripsi Event</h1>
         </div>
         <div>
-          <p class="caption-detail-event">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestias
-            adipisci quo minus, beatae assumenda, sed rem labore vel fuga
-            maiores sunt sit ut et fugit aliquam accusantium est! Sed esse animi
-            neque quidem magni suscipit, maxime corporis, dolore quia magnam
-            iusto beatae officiis, ex accusamus incidunt et cum hic earum
-            voluptatum fugit similique debitis! Adipisci quia fuga iure unde
-            maxime accusamus nisi est vero, enim ipsa natus culpa, aperiam
-            commodi sunt repellat reiciendis quaerat at cumque corrupti. Dolore
-            molestiae quasi eos harum voluptates similique eum non hic
-            laudantium necessitatibus debitis pariatur totam et ratione nesciunt
-            commodi sit error, quibusdam impedit quaerat deleniti. Libero
-            aliquid, aliquam dicta hic iusto similique at laudantium reiciendis
-            repudiandae praesentium incidunt? Laboriosam minus sint enim labore
-            libero quo similique nemo repudiandae eligendi dolore at, voluptatum
-            quod, harum et facere incidunt aliquam voluptates, aperiam
-            consequatur veritatis molestiae reprehenderit deleniti! Animi
-            consequuntur, nulla repudiandae, mollitia hic sequi nostrum maiores
-            architecto aliquid excepturi voluptate. Assumenda eos vel quia non
-            voluptas veritatis repellat esse dolorum, veniam quam numquam eius
-            molestiae fugit magni dolor similique velit. Delectus iure
-            praesentium tenetur fugit laboriosam iusto suscipit nesciunt natus
-            nemo blanditiis mollitia provident id, eaque voluptatem earum
-            aliquid rerum quibusdam quod ullam nisi voluptas.
-          </p>
+          <p class="caption-detail-event"><%= detailEvents.description %></p>
         </div>
       </div>
       <div class="">
@@ -197,7 +177,7 @@
         <div class="font-montserrat rounded-xl bg-white p-2 pt-4 shadow-lg">
           <div class="ml-3 flex">
             <div class="mr-3">
-              <img src="img/Poto PP.png" alt="" class="h-16 rounded-full" />
+              <img src="/img/Poto PP.png" alt="" class="h-16 rounded-full" />
             </div>
             <div>
               <h1 class="font-semibold">Muhammad Zydane</h1>
@@ -334,5 +314,6 @@
     </div>
     <!-- comment section -->
     <%- include('layout/footer') %>
+    <script src="/js/detail_event.min.js" type="module"></script>
   </body>
 </html>

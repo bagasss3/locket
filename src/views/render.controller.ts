@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
-import fetch from 'node-fetch';
 import axios from 'axios';
+import { request } from 'http';
 export class RenderController {
   constructor() {
     this.index = this.index.bind(this);
@@ -44,7 +44,7 @@ export class RenderController {
 
   async index(req: Request, res: Response) {
     const fetchDataWebinar = await axios.get(
-      `${process.env.BASE_URL}/api/event?category=1664605879&per_page=3&page=1`,
+      `${process.env.BASE_URL}api/event?category_id=1665979642&per_page=3&page=1`,
       {
         headers: {
           'x-api-key': process.env.API_KEY,
@@ -52,7 +52,7 @@ export class RenderController {
       },
     );
     const fetchDataLomba = await axios.get(
-      `${process.env.BASE_URL}/api/event?category=1665968158&per_page=3&page=1`,
+      `${process.env.BASE_URL}api/event?category_id=1666244822&per_page=3&page=1`,
       {
         headers: {
           'x-api-key': process.env.API_KEY,
@@ -61,16 +61,44 @@ export class RenderController {
     );
     const events = fetchDataWebinar.data.data;
     const lomba = fetchDataLomba.data.data;
+    
     return res.render('index', {
       events,
       lomba,
     });
   }
   async event(req: Request, res: Response) {
-    return res.render('event');
+    const fetchAllEvents = await axios.get(
+      `${process.env.BASE_URL}api/event`,
+      {
+        headers: {
+          'x-api-key': process.env.API_KEY,
+        },
+      },
+    );
+    const allEvents = fetchAllEvents.data.data;
+console.log(allEvents);
+    
+    return res.render('event', {
+      allEvents
+    });
   }
   async detail_event(req: Request, res: Response) {
-    return res.render('detail-event');
+    const {id} = req.params
+    const fetchDetailEvents = await axios.get(
+      `${process.env.BASE_URL}api/event/${id}`,
+      {
+        headers: {
+          'x-api-key': process.env.API_KEY,
+        },
+      },
+    );
+    
+    const detailEvents = fetchDetailEvents.data.data;
+    console.log(detailEvents);
+    return res.render('detail-event',{
+      detailEvents
+    });
   }
   async my_event(req: Request, res: Response) {
     return res.render('my-event');

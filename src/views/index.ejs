@@ -112,7 +112,7 @@
         <p>Yuk ikuti event terbaru sesuai passionmu disini!</p>
       </div>
       <div class="mt-6 grid-cols-3 gap-6 md:mt-12 lg:grid">
-        <% events.forEach(event=> { %>
+        <% if (events.length > 0) { %> <% events.forEach(event =>{ %>
         <div class="card-event transition-card-event relative mb-6">
           <a href="" class="">
             <img
@@ -142,8 +142,21 @@
             </div>
           </a>
         </div>
-        <% }) %>
+
+        <% }) } %>
       </div>
+      <% if (events.length == 0) { %>
+      <div class="mb-6 flex justify-center">
+        <img
+          src="/icon/empty.svg"
+          alt="Lomba Kosong"
+          class="h-64 object-cover"
+        />
+      </div>
+      <p class="mb-6 text-center text-xl font-bold text-black">
+        Belum ada Event/Lomba
+      </p>
+      <% } %>
       <div class="mt-10 text-center lg:mt-4">
         <a href="#" class="btn-primary btn-primary-transition">Semua Event</a>
       </div>
@@ -159,15 +172,20 @@
         </p>
       </div>
       <div class="mt-6 grid-cols-3 gap-6 md:mt-12 lg:grid">
+        <% if (lomba.length > 0) { %> <% lomba.forEach(lombas =>{ %>
         <div class="card-event transition-card-event relative mb-6">
           <a href="" class="">
-            <img src="img/poster.png" alt="event 1" class="img-event" />
+            <img
+              src="<%= lombas.image.secure_url %>"
+              alt="event 1"
+              class="img-event"
+            />
             <div class="px-4 py-6 text-black">
-              <h1 class="text-lg font-bold uppercase">GENBI MENGAJAR</h1>
+              <h1 class="text-lg font-bold uppercase"><%= lombas.name %></h1>
               <div class="flex gap-3 text-xs">
                 <div>
                   <i class="fa-solid fa-calendar mr-1 inline-block"></i>
-                  <span>22 Oktober 2022</span>
+                  <span><%= lombas.date_time %> </span>
                 </div>
                 <div class="">
                   <i class="fa-solid fa-location-dot mr-1 inline-block"></i>
@@ -175,75 +193,29 @@
                 </div>
               </div>
               <div class="mt-2 text-justify text-xs">
-                <p>
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                  Maxime ipsam porro quos quia officia
-                </p>
+                <p><%= lombas.description %></p>
               </div>
               <div class="badge absolute top-0 mt-2">
                 <i class="fa-solid fa-bullseye mr-1 inline-block"></i>
-                <span class="">Lomba</span>
+                <span class=""><%= lombas.category.name %></span>
               </div>
             </div>
           </a>
         </div>
-        <div class="card-event transition-card-event relative mb-6">
-          <a href="" class="">
-            <img src="img/poster.png" alt="event 1" class="img-event" />
-            <div class="px-4 py-6 text-black">
-              <h1 class="text-lg font-bold uppercase">GENBI MENGAJAR</h1>
-              <div class="flex gap-3 text-xs">
-                <div>
-                  <i class="fa-solid fa-calendar mr-1 inline-block"></i>
-                  <span>22 Oktober 2022</span>
-                </div>
-                <div class="">
-                  <i class="fa-solid fa-location-dot mr-1 inline-block"></i>
-                  <span>Zoom Meeting</span>
-                </div>
-              </div>
-              <div class="mt-2 text-justify text-xs">
-                <p>
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                  Maxime ipsam porro quos quia officia
-                </p>
-              </div>
-              <div class="badge absolute top-0 mt-2">
-                <i class="fa-solid fa-bullseye mr-1 inline-block"></i>
-                <span class="">Lomba</span>
-              </div>
-            </div>
-          </a>
-        </div>
-        <div class="card-event transition-card-event relative mb-6">
-          <a href="" class="">
-            <img src="img/poster.png" alt="event 1" class="img-event" />
-            <div class="px-4 py-6 text-black">
-              <h1 class="text-lg font-bold uppercase">GENBI MENGAJAR</h1>
-              <div class="flex gap-3 text-xs">
-                <div>
-                  <i class="fa-solid fa-calendar mr-1 inline-block"></i>
-                  <span>22 Oktober 2022</span>
-                </div>
-                <div class="">
-                  <i class="fa-solid fa-location-dot mr-1 inline-block"></i>
-                  <span>Zoom Meeting</span>
-                </div>
-              </div>
-              <div class="mt-2 text-justify text-xs">
-                <p>
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                  Maxime ipsam porro quos quia officia
-                </p>
-              </div>
-              <div class="badge absolute top-0 mt-2">
-                <i class="fa-solid fa-bullseye mr-1 inline-block"></i>
-                <span class="">Lomba</span>
-              </div>
-            </div>
-          </a>
-        </div>
+        <% }) } %>
       </div>
+      <% if (lomba.length == 0) { %>
+      <div class="mb-6 flex justify-center">
+        <img
+          src="/icon/empty.svg"
+          alt="Lomba Kosong"
+          class="h-64 object-cover"
+        />
+      </div>
+      <p class="mb-6 text-center text-xl font-bold text-black">
+        Belum ada Event/Lomba
+      </p>
+      <% } %>
       <div class="mt-10 text-center lg:mt-4">
         <a href="#" class="btn-primary btn-primary-transition">Semua Lomba</a>
       </div>
