@@ -4,7 +4,7 @@
   "description": "",
   "main": "main.js",
   "scripts": {
-    "start": "npm i && npx prisma migrate dev --name init && npx prisma db seed && node -r ts-node/register/transpile-only -r tsconfig-paths/register ./dist/main.js",
+    "start": "npm i && npx prisma migrate deploy && npx prisma db seed && node -r ts-node/register/transpile-only -r tsconfig-paths/register ./dist/main.js",
     "start:dev": "nodemon",
     "start:prod": "npm i && npx prisma migrate dev --name init && npx prisma db seed && node -r ts-node/register/transpile-only -r tsconfig-paths/register ./dist/main.js",
     "build-css": "npx tailwindcss -i ./src/public/css/styles.css -o ./dist/css/tailwind.css --watch",
