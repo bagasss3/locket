@@ -19,8 +19,8 @@ model Session {
   refresh_token_expired_at DateTime
   user                     User     @relation(fields: [user_id], references: [id], onUpdate: Cascade, onDelete: Cascade)
   user_id                  Int
-  createdAt                DateTime @default(now()) @db.DateTime(3)
-  updatedAt                DateTime @updatedAt @db.DateTime(3)
+  createdAt                DateTime @default(now()) @db.DateTime(0)
+  updatedAt                DateTime @updatedAt @db.DateTime(0)
 }
 
 model User {
@@ -36,8 +36,8 @@ model User {
   EventComment       EventComment[]
   Notification       Notification[]
   NotificationChange NotificationChange[]
-  createdAt          DateTime             @default(now()) @db.DateTime(3)
-  updatedAt          DateTime             @updatedAt @db.DateTime(3)
+  createdAt          DateTime             @default(now()) @db.DateTime(0)
+  updatedAt          DateTime             @updatedAt @db.DateTime(0)
   Feedback           Feedback[]
 }
 
@@ -58,8 +58,8 @@ model Image {
   url                          String
   secure_url                   String
   signature                    String
-  createdAt                    DateTime                       @default(now()) @db.DateTime(3)
-  updatedAt                    DateTime                       @updatedAt @db.DateTime(3)
+  createdAt                    DateTime                       @default(now()) @db.DateTime(0)
+  updatedAt                    DateTime                       @updatedAt @db.DateTime(0)
   Event_Organizer              Event_Organizer[]
   Participant                  Participant[]
   Event                        Event[]
@@ -77,8 +77,8 @@ model Event_Organizer {
   is_verified                  Boolean                       @default(false)
   Event_Organizer_Precondition Event_Organizer_Precondition?
   Event                        Event[]
-  createdAt                    DateTime                      @default(now()) @db.DateTime(3)
-  updatedAt                    DateTime                      @updatedAt @db.DateTime(3)
+  createdAt                    DateTime                      @default(now()) @db.DateTime(0)
+  updatedAt                    DateTime                      @updatedAt @db.DateTime(0)
   SubscribeEO                  SubscribeEO[]
 }
 
@@ -88,8 +88,8 @@ model Event_Organizer_Precondition {
   event_organizer_id Int             @unique
   image              Image           @relation(fields: [image_id], references: [id], onUpdate: Cascade, onDelete: Cascade)
   image_id           Int             @unique
-  createdAt          DateTime        @default(now()) @db.DateTime(3)
-  updatedAt          DateTime        @updatedAt @db.DateTime(3)
+  createdAt          DateTime        @default(now()) @db.DateTime(0)
+  updatedAt          DateTime        @updatedAt @db.DateTime(0)
 }
 
 model Participant {
@@ -103,8 +103,8 @@ model Participant {
   image_id         Int?
   status           String?
   EventParticipant EventParticipant[]
-  createdAt        DateTime           @default(now()) @db.DateTime(3)
-  updatedAt        DateTime           @updatedAt @db.DateTime(3)
+  createdAt        DateTime           @default(now()) @db.DateTime(0)
+  updatedAt        DateTime           @updatedAt @db.DateTime(0)
   SubscribeEO      SubscribeEO[]
 }
 
@@ -138,8 +138,8 @@ model Event {
   eligibility_id               Int
   EventParticipant             EventParticipant[]
   EventComment                 EventComment[]
-  createdAt                    DateTime                       @default(now()) @db.DateTime(3)
-  updatedAt                    DateTime                       @updatedAt @db.DateTime(3)
+  createdAt                    DateTime                       @default(now()) @db.DateTime(0)
+  updatedAt                    DateTime                       @updatedAt @db.DateTime(0)
   EventPreconditionDescription EventPreconditionDescription[]
 }
 
@@ -148,8 +148,8 @@ model EventPreconditionDescription {
   name              String
   event             Event               @relation(fields: [event_id], references: [id], onUpdate: Cascade, onDelete: Cascade)
   event_id          Int
-  createdAt         DateTime            @default(now())
-  updatedAt         DateTime            @updatedAt
+  createdAt         DateTime            @default(now()) @db.DateTime(0)
+  updatedAt         DateTime            @updatedAt @db.DateTime(0)
   EventPrecondition EventPrecondition[]
 }
 
@@ -160,8 +160,8 @@ model EventParticipant {
   event             Event               @relation(fields: [event_id], references: [id], onUpdate: Cascade, onDelete: Cascade)
   event_id          Int
   EventPrecondition EventPrecondition[]
-  createdAt         DateTime            @default(now()) @db.DateTime(3)
-  updatedAt         DateTime            @updatedAt @db.DateTime(3)
+  createdAt         DateTime            @default(now()) @db.DateTime(0)
+  updatedAt         DateTime            @updatedAt @db.DateTime(0)
 }
 
 model EventPrecondition {
@@ -172,8 +172,8 @@ model EventPrecondition {
   event_precondition_description_id Int
   image                             Image                        @relation(fields: [image_id], references: [id], onUpdate: Cascade, onDelete: Cascade)
   image_id                          Int
-  createdAt                         DateTime                     @default(now()) @db.DateTime(3)
-  updatedAt                         DateTime                     @updatedAt @db.DateTime(3)
+  createdAt                         DateTime                     @default(now()) @db.DateTime(0)
+  updatedAt                         DateTime                     @updatedAt @db.DateTime(0)
 }
 
 model EventComment {
@@ -185,8 +185,8 @@ model EventComment {
   comment        String   @db.VarChar(255)
   parent_id      Int?
   mentioned_user String?
-  createdAt      DateTime @default(now())
-  updatedAt      DateTime @updatedAt
+  createdAt      DateTime @default(now()) @db.DateTime(0)
+  updatedAt      DateTime @updatedAt @db.DateTime(0)
 }
 
 model EntityType {
@@ -195,8 +195,8 @@ model EntityType {
   description        String
   status             String
   NotificationObject NotificationObject[]
-  createdAt          DateTime             @default(now()) @db.DateTime(3)
-  updatedAt          DateTime             @updatedAt @db.DateTime(3)
+  createdAt          DateTime             @default(now()) @db.DateTime(0)
+  updatedAt          DateTime             @updatedAt @db.DateTime(0)
 }
 
 model NotificationObject {
@@ -205,8 +205,8 @@ model NotificationObject {
   entity_type_id     Int
   Notification       Notification[]
   NotificationChange NotificationChange[]
-  createdAt          DateTime             @default(now()) @db.DateTime(3)
-  updatedAt          DateTime             @updatedAt @db.DateTime(3)
+  createdAt          DateTime             @default(now()) @db.DateTime(0)
+  updatedAt          DateTime             @updatedAt @db.DateTime(0)
 }
 
 model Notification {
@@ -216,8 +216,8 @@ model Notification {
   notifier               User               @relation(fields: [notifier_id], references: [id])
   notifier_id            Int
   is_read                Boolean            @default(false)
-  createdAt              DateTime           @default(now()) @db.DateTime(3)
-  updatedAt              DateTime           @updatedAt @db.DateTime(3)
+  createdAt              DateTime           @default(now()) @db.DateTime(0)
+  updatedAt              DateTime           @updatedAt @db.DateTime(0)
 }
 
 model NotificationChange {
@@ -226,8 +226,8 @@ model NotificationChange {
   notification_object_id Int
   actor                  User               @relation(fields: [actor_id], references: [id])
   actor_id               Int
-  createdAt              DateTime           @default(now()) @db.DateTime(3)
-  updatedAt              DateTime           @updatedAt @db.DateTime(3)
+  createdAt              DateTime           @default(now()) @db.DateTime(0)
+  updatedAt              DateTime           @updatedAt @db.DateTime(0)
 }
 
 model Token {
@@ -235,8 +235,8 @@ model Token {
   email      String
   token      String   @db.Text
   expired_at DateTime
-  createdAt  DateTime @default(now()) @db.DateTime(3)
-  updatedAt  DateTime @updatedAt @db.DateTime(3)
+  createdAt  DateTime @default(now()) @db.DateTime(0)
+  updatedAt  DateTime @updatedAt @db.DateTime(0)
 }
 
 model Feedback {
@@ -245,8 +245,8 @@ model Feedback {
   user_id   Int
   review    String   @db.Text
   star      Int
-  createdAt DateTime @default(now()) @db.DateTime(3)
-  updatedAt DateTime @updatedAt @db.DateTime(3)
+  createdAt DateTime @default(now()) @db.DateTime(0)
+  updatedAt DateTime @updatedAt @db.DateTime(0)
 }
 
 model SubscribeEO {
@@ -255,6 +255,6 @@ model SubscribeEO {
   participant_id     Int
   event_organizer    Event_Organizer @relation(fields: [event_organizer_id], references: [id], onUpdate: Cascade, onDelete: Cascade)
   event_organizer_id Int
-  createdAt          DateTime        @default(now()) @db.DateTime(3)
-  updatedAt          DateTime        @updatedAt @db.DateTime(3)
+  createdAt          DateTime        @default(now()) @db.DateTime(0)
+  updatedAt          DateTime        @updatedAt @db.DateTime(0)
 }
