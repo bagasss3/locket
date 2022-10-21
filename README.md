@@ -39,6 +39,10 @@ sebelum memulai, pastikan laptop memiliki
 1. Node.Js minimal versi v16.15.0
 2. MySql
 
+Pastikan project memiliki
+
+1. File .env yang sudah terisi
+
 ### Installation
 
 Untuk menjalankan program, dapat menggunakan syntax:
