@@ -49,7 +49,7 @@ import { EventPreconditionController } from './src/controller/event_precondition
 import path from 'path';
 
 dotenv.config();
-const port: Number = Number(process.env.PORT) || 3000;
+const port: Number = Number(process.env.PORT) || 5000;
 
 // Express Init
 const app: Application = express();
